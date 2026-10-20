@@ -1,0 +1,103 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# LinkedIn Jobs Monitor — GitHub Actions Workflow
+# ──────────────────────────────────────────────────────────────────────────────
+#
+# Runs every 30 minutes, 24/7, on GitHub's servers.
+# Your laptop doesn't need to be on.
+#
+# SETUP (one-time — do this before pushing to GitHub):
+#   1. Push this repo to: https://github.com/VaranasiRahul/LinkedInJobs
+#   2. Go to: Settings → Secrets and variables → Actions → New repository secret
+#   3. Add secret:
+#        Name:  DISCORD_WEBHOOK_URL
+#        Value: https://discord.com/api/webhooks/1562185394882093080/5G7VD6b...
+#   4. Push/merge to the main branch → workflow starts automatically
+#
+# STATE PERSISTENCE:
+#   seen_jobs.json is saved as a GitHub Actions cache between runs.
+#   This ensures no duplicate notifications across runs.
+#
+# NOTE: GitHub Actions scheduled workflows require the workflow file to be
+#       on the DEFAULT BRANCH (main/master) to be active.
+# ──────────────────────────────────────────────────────────────────────────────
+
+name: LinkedIn Jobs Monitor
+
+on:
+  schedule:
+    # Every 30 minutes — GitHub Actions uses UTC, so adjust if needed.
+    # This fires at :00 and :30 of every hour, every day.
+    - cron: '0,30 * * * *'
+
+  # Allow manual trigger from GitHub Actions tab (useful for testing)
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    name: Scrape & Notify
+    runs-on: ubuntu-latest
+    timeout-minutes: 20    # Kill if Chrome hangs
+
+    steps:
+
+      # ── 1. Checkout code ─────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Restore seen_jobs.json from cache ─────────────────────────────────
+      #    Cache key = unique per run, restore-keys = prefix match picks latest.
+      #    This keeps deduplication state between runs without a database.
+      - name: Restore seen jobs cache
+        uses: actions/cache/restore@v4
+        with:
+          path: data/seen_jobs.json
+          key: seen-jobs-${{ github.run_id }}
+          restore-keys: seen-jobs-
+
+      # ── 3. Create data/ directory if it doesn't exist (first run) ────────────
+      - name: Ensure data directory exists
+        run: mkdir -p data && [ -f data/seen_jobs.json ] || echo '{}' > data/seen_jobs.json
+
+      # ── 4. Set up Python ─────────────────────────────────────────────────────
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # ── 5. Install Chrome (Selenium needs a real browser) ─────────────────────
+      - name: Install Google Chrome
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y google-chrome-stable
+          google-chrome --version
+
+      # ── 6. Install Python dependencies ───────────────────────────────────────
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      # ── 7. Run the monitor ───────────────────────────────────────────────────
+      #    DISCORD_WEBHOOK_URL comes from GitHub Secrets (never hardcoded).
+      #    The script reads it via os.environ.get("DISCORD_WEBHOOK_URL", fallback).
+      - name: Run LinkedIn Jobs Monitor
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python linkedin_jobs.py
+
+      # ── 8. Save updated seen_jobs.json to cache ───────────────────────────────
+      #    Runs even if the monitor step fails (if: always()) so state is never lost.
+      - name: Save seen jobs cache
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: data/seen_jobs.json
+          key: seen-jobs-${{ github.run_id }}
+
+      # ── 9. Upload log as artifact (for debugging) ─────────────────────────────
+      - name: Upload run log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: linkedin-jobs-log-${{ github.run_number }}
+          path: linkedin_jobs.log
+          retention-days: 7

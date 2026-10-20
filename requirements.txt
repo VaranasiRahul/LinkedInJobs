@@ -1,0 +1,4 @@
+selenium>=4.20.0
+requests>=2.31.0
+schedule>=1.2.0
+feedparser>=6.0.10

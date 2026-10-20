@@ -1,0 +1,43 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+wheels/
+
+# Virtual environment
+.venv/
+venv/
+env/
+ENV/
+
+# Logs (keep pattern, not actual files)
+*.log
+
+# ── Project-specific secrets & state ─────────────────────────────────────────
+# NEVER commit constants.py — it contains your Telegram bot token & chat ID
+constants.py
+**/constants.py
+
+# Local state — no need to version this
+data/seen_jobs.json
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# WebDriver cache
+.wdm/
+.wdm

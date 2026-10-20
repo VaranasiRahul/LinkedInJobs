@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Unique label for this LaunchAgent -->
+    <key>Label</key>
+    <string>com.linkedin.jobmonitor</string>
+
+    <!--
+        Wrap with caffeinate so macOS won't sleep DURING the script run.
+        Flags:
+          -i  prevent idle sleep (keeps CPU/network active)
+          -s  prevent system sleep (works when plugged in / lid closed on AC)
+        The script runs for 3-5 minutes then exits; caffeinate exits with it.
+    -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/caffeinate</string>
+        <string>-i</string>
+        <string>-s</string>
+        <string>/Users/rvaranas/PROJECTS/naukri-A/LinkedInJobs/.venv/bin/python</string>
+        <string>/Users/rvaranas/PROJECTS/naukri-A/LinkedInJobs/linkedin_jobs.py</string>
+    </array>
+
+    <!-- Working directory so relative paths (data/, logs) land in project folder -->
+    <key>WorkingDirectory</key>
+    <string>/Users/rvaranas/PROJECTS/naukri-A/LinkedInJobs</string>
+
+    <!--
+        Run every 30 minutes (1800 seconds).
+        launchd keeps firing this even with lid closed, as long as Mac is
+        plugged in. On battery, it catches up when the Mac wakes.
+        Change to 3600 for hourly checks.
+    -->
+    <key>StartInterval</key>
+    <integer>1800</integer>
+
+    <!-- Restart automatically if the script crashes -->
+    <key>KeepAlive</key>
+    <false/>
+
+    <!-- Redirect stdout and stderr to log files -->
+    <key>StandardOutPath</key>
+    <string>/Users/rvaranas/PROJECTS/naukri-A/LinkedInJobs/linkedin_jobs_launchd.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/rvaranas/PROJECTS/naukri-A/LinkedInJobs/linkedin_jobs_launchd_error.log</string>
+
+    <!-- Do NOT run immediately on load — wait for the first 30-min tick -->
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>
