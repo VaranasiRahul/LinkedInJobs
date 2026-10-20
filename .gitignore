@@ -21,9 +21,11 @@ ENV/
 *.log
 
 # ── Project-specific secrets & state ─────────────────────────────────────────
-# NEVER commit constants.py — it contains your Telegram bot token & chat ID
-constants.py
-**/constants.py
+# Local secrets (never commit)
+constants_local.py
+**/constants_local.py
+.env
+*.env
 
 # Local state — no need to version this
 data/seen_jobs.json

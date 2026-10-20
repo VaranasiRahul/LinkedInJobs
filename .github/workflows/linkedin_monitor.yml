@@ -101,3 +101,4 @@ jobs:
           name: linkedin-jobs-log-${{ github.run_number }}
           path: linkedin_jobs.log
           retention-days: 7
+          if-no-files-found: ignore

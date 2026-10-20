@@ -29,12 +29,16 @@ import constants
 
 logger = logging.getLogger(__name__)
 
-_WEBHOOK_URL    = constants.DISCORD_WEBHOOK_URL
+def _get_webhook_url() -> str:
+    import os
+    return os.environ.get("DISCORD_WEBHOOK_URL") or getattr(constants, "DISCORD_WEBHOOK_URL", "")
+
 _COLOR_LINKEDIN = 0x0A66C2   # LinkedIn brand blue
 _COLOR_PRIORITY = 0x2ECC71   # Green for priority/MNC companies
 _COLOR_WARN     = 0xE74C3C   # Red for errors
 
 _MSG_DELAY = 0.9   # seconds between messages (Discord rate limit safety)
+
 
 
 # ── Public API ─────────────────────────────────────────────────────────────────
@@ -119,8 +123,12 @@ def _send_job_embed(job: dict) -> bool:
 
 def _post(payload: dict) -> bool:
     """POST payload to Discord webhook. Returns True on success."""
+    url = _get_webhook_url()
+    if not url:
+        logger.error("Discord send failed: DISCORD_WEBHOOK_URL is not configured.")
+        return False
     try:
-        resp = requests.post(_WEBHOOK_URL, json=payload, timeout=15)
+        resp = requests.post(url, json=payload, timeout=15)
         resp.raise_for_status()
         logger.info("Discord message sent (HTTP %d).", resp.status_code)
         return True

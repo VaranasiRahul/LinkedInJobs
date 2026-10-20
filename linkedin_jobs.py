@@ -211,7 +211,7 @@ def launch_chrome(headless: bool = True) -> webdriver.Chrome:
         "Page.addScriptToEvaluateOnNewDocument",
         {"source": "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"},
     )
-    driver.implicitly_wait(3)
+    driver.implicitly_wait(0)
     logger.info("Chrome launched (headless=%s).", headless)
     return driver
 
@@ -232,11 +232,12 @@ def _dismiss_modals(driver: webdriver.Chrome) -> None:
     ]
     for sel in selectors:
         try:
-            btn = driver.find_element(By.CSS_SELECTOR, sel)
-            if btn.is_displayed():
-                driver.execute_script("arguments[0].click();", btn)
-                time.sleep(0.3)
-                break
+            btns = driver.find_elements(By.CSS_SELECTOR, sel)
+            for btn in btns:
+                if btn.is_displayed():
+                    driver.execute_script("arguments[0].click();", btn)
+                    time.sleep(0.2)
+                    break
         except Exception:
             continue
     try:
@@ -278,15 +279,25 @@ def scroll_to_load_jobs(driver: webdriver.Chrome, scrolls: int = 5) -> None:
 
 def _safe_text(el, css: str, default: str = "") -> str:
     try:
-        return el.find_element(By.CSS_SELECTOR, css).text.strip()
-    except NoSuchElementException:
+        found = el.find_elements(By.CSS_SELECTOR, css)
+        if found:
+            t = found[0].text.strip()
+            if t:
+                return t
+        return default
+    except Exception:
         return default
 
 
 def _safe_attr(el, css: str, attr: str, default: str = "") -> str:
     try:
-        return el.find_element(By.CSS_SELECTOR, css).get_attribute(attr) or default
-    except NoSuchElementException:
+        found = el.find_elements(By.CSS_SELECTOR, css)
+        if found:
+            val = found[0].get_attribute(attr)
+            if val:
+                return val.strip()
+        return default
+    except Exception:
         return default
 
 
@@ -357,8 +368,10 @@ def parse_job_cards(driver: webdriver.Chrome) -> List[dict]:
     """Parse all visible job cards. Returns list of job dicts."""
     _dismiss_modals(driver)
     cards = []
-    for sel in ["ul.jobs-search__results-list li",
-                "li.jobs-search__results-list__list-item", "div.base-card"]:
+    for sel in ["ul.jobs-search__results-list > li",
+                "li.jobs-search__results-list__list-item",
+                "div.base-card",
+                "ul.jobs-search__results-list li"]:
         try:
             found    = driver.find_elements(By.CSS_SELECTOR, sel)
             filtered = [c for c in found if _looks_like_job_card(c)]
@@ -564,12 +577,12 @@ def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: int) -> 
             "button.show-more-less-html__button",
         ]:
             try:
-                btn = driver.find_element(By.CSS_SELECTOR, sel)
-                if btn.is_displayed():
-                    driver.execute_script("arguments[0].click();", btn)
-                    time.sleep(0.4)
+                btns = driver.find_elements(By.CSS_SELECTOR, sel)
+                if btns and btns[0].is_displayed():
+                    driver.execute_script("arguments[0].click();", btns[0])
+                    time.sleep(0.3)
                     break
-            except NoSuchElementException:
+            except Exception:
                 continue
 
         # Extract description
@@ -578,12 +591,13 @@ def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: int) -> 
                     "#job-details", ".jobs-description-content__text",
                     ".jobs-description__content", "div.description"]:
             try:
-                el = driver.find_element(By.CSS_SELECTOR, sel)
-                t  = el.text.strip()
-                if t and len(t) > 50:
-                    desc = t
-                    break
-            except NoSuchElementException:
+                els = driver.find_elements(By.CSS_SELECTOR, sel)
+                if els:
+                    t = els[0].text.strip()
+                    if t and len(t) > 50:
+                        desc = t
+                        break
+            except Exception:
                 continue
 
         if not desc:
@@ -606,9 +620,15 @@ def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: int) -> 
                             "PASS" if result else "SKIP", yrs, min_yrs, title)
                 return result
             else:
+                if _title_is_skip(title):
+                    logger.info("DEEP_SCAN SKIP (fresher/intern title, no YOE in desc): %s", title)
+                    return False
                 logger.info("DEEP_SCAN INCLUDE (no YOE in desc): %s", title)
                 return True
         else:
+            if _title_is_skip(title):
+                logger.info("DEEP_SCAN SKIP (fresher/intern title, couldn't read desc): %s", title)
+                return False
             logger.warning("DEEP_SCAN: Couldn't read desc — INCLUDE: %s", title)
             return True
 
@@ -617,10 +637,10 @@ def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: int) -> 
         try:
             if len(driver.window_handles) > 1:
                 driver.close()
-                driver.switch_to.window(driver.window_handles[0])
+            driver.switch_to.window(driver.window_handles[0])
         except Exception:
             pass
-        return True
+        return not _title_is_skip(title)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
