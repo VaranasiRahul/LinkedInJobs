@@ -89,9 +89,13 @@ USER_AGENTS = [
 _BLOCKLIST_LOWER  = [c.lower() for c in constants.COMPANY_BLOCKLIST]
 _PRIORITY_LOWER   = [c.lower() for c in constants.PRIORITY_COMPANIES]
 _SKIP_TITLE_LOWER = [kw.lower() for kw in constants.SKIP_TITLE_KEYWORDS]
+_EXECUTIVE_LOWER  = [
+    "principal", "director", "vp ", "vice president", "head of",
+    "staff architect", "chief architect", "enterprise architect",
+]
 _SENIOR_KEYWORDS  = [
-    "senior", "sr.", "sr ", "lead", "principal", "staff", "architect",
-    "head of", "manager", "director", "vp ", "vice president", "l3", "l4", "l5",
+    "senior", "sr.", "sr ", "lead", "staff", "architect",
+    "manager", "l3", "l4", "l5",
 ]
 
 
@@ -442,64 +446,78 @@ def tag_duplicates(jobs: List[dict]) -> None:
 # EXPERIENCE FILTERING  ← BUG FIX: now extracts MINIMUM of range, not maximum
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def _extract_min_years_required(text: str) -> Optional[int]:
+def _extract_min_years_required(text: str) -> Optional[float]:
     """
     Extract the MINIMUM years of experience the job REQUIRES.
 
-    Key fix over the previous version:
-      - "1-3 years" → extracts 1 (lower bound), not 3.
-        So a job requiring 1+ years is correctly skipped when threshold is 2.
-      - "2-5 years" → extracts 2 → PASS (2 >= 2)
-      - "3+ years"  → extracts 3 → PASS
-      - "5 years"   → extracts 5 → PASS
+    Supports decimals (e.g. 2.5 yrs, 1.5 yrs) and ranges (1-3 yrs -> 1).
+    Excludes company age phrases (e.g. '15+ years in business', 'founded 20 years ago').
 
-    Returns the minimum of all year values found.
+    Returns the minimum of all year values found (as int if whole number, else float).
     Returns None if no year mentions found.
     """
+    num = r'(\d+(?:\.\d+)?)'
     found = []
 
-    # "X+ years [of] [experience]"
+    # 'X+ years' (excluding company age phrases like '15+ years in business')
     for m in re.finditer(
-        r'(\d+)\s*\+\s*(?:years?|yrs?)(?:\s+of)?\s*(?:experience|exp)?',
+        rf'{num}\s*\+\s*(?:years?|yrs?)(?!\s+(?:in\s+business|old|ago|history))\b',
         text, re.IGNORECASE
     ):
-        found.append(int(m.group(1)))
+        found.append(float(m.group(1)))
 
-    # "X-Y years" or "X–Y years" → take X (lower bound = minimum required)
-    for m in re.finditer(r'(\d+)\s*[-–]\s*\d+\s*(?:years?|yrs?)', text, re.IGNORECASE):
-        found.append(int(m.group(1)))
+    # 'X-Y years' or 'X–Y years' -> take X (lower bound = minimum required)
+    for m in re.finditer(rf'{num}\s*[-–]\s*\d+(?:\.\d+)?\s*(?:years?|yrs?)', text, re.IGNORECASE):
+        found.append(float(m.group(1)))
 
-    # "X to Y years" → take X
-    for m in re.finditer(r'(\d+)\s+to\s+\d+\s*(?:years?|yrs?)', text, re.IGNORECASE):
-        found.append(int(m.group(1)))
+    # 'X to Y years' -> take X
+    for m in re.finditer(rf'{num}\s+to\s+\d+(?:\.\d+)?\s*(?:years?|yrs?)', text, re.IGNORECASE):
+        found.append(float(m.group(1)))
 
-    # "minimum/min/at least X years"
+    # 'minimum/min/at least X years'
     for m in re.finditer(
-        r'(?:minimum|min\.?|at\s+least)\s+(\d+)\s*(?:years?|yrs?)',
+        rf'(?:minimum|min\.?|at\s+least)\s+{num}\s*(?:years?|yrs?)',
         text, re.IGNORECASE
     ):
-        found.append(int(m.group(1)))
+        found.append(float(m.group(1)))
 
-    # "X years [of] experience" — negative lookbehind prevents matching "3" in "1-3 years"
+    # 'X years [of] experience' — negative lookbehind prevents matching upper bound of range
     for m in re.finditer(
-        r'(?<![-–\d])(\d+)\s*(?:years?|yrs?)\s*(?:of\s+)?(?:experience|exp)\b',
+        rf'(?<![-–\d.]){num}\s*(?:years?|yrs?)\s*(?:of\s+)?(?:relevant\s+)?(?:experience|exp)\b',
         text, re.IGNORECASE
     ):
-        found.append(int(m.group(1)))
+        found.append(float(m.group(1)))
 
-    # "experience of X years" / "experience: X years"
+    # 'experience of X years' / 'experience: X years'
     for m in re.finditer(
-        r'(?:experience|exp)[:\s]+(?:of\s+)?(\d+)\s*\+?\s*(?:years?|yrs?)',
+        rf'(?:experience|exp)[:\s]+(?:of\s+)?{num}\s*\+?\s*(?:years?|yrs?)',
         text, re.IGNORECASE
     ):
-        found.append(int(m.group(1)))
+        found.append(float(m.group(1)))
 
-    return min(found) if found else None
+    # Parenthesized YOE in titles: '(2 yrs)', '(2.5 yrs)', '(3 years)', '(0 yrs)'
+    for m in re.finditer(
+        rf'\(\s*(?:min\s+)?{num}\s*\+?\s*(?:years?|yrs?)\s*\)',
+        text, re.IGNORECASE
+    ):
+        found.append(float(m.group(1)))
+
+    if not found:
+        return None
+    val = min(found)
+    return int(val) if val.is_integer() else round(val, 1)
 
 
 def _title_is_skip(title: str) -> bool:
     tl = title.lower()
+    if re.search(r'\bintern(s|ship)?\b', tl):
+        return True
     return any(kw in tl for kw in _SKIP_TITLE_LOWER)
+
+
+def _title_is_executive(title: str) -> bool:
+    tl = title.lower()
+    return any(kw in tl for kw in _EXECUTIVE_LOWER)
 
 
 def _title_implies_senior(title: str) -> bool:
@@ -511,43 +529,41 @@ def meets_experience_requirement(job: dict, driver: webdriver.Chrome = None) -> 
     """
     Decide whether this job should be notified.
 
-    Priority:
-      1. DEEP_SCAN → read description, extract min years
-           YOE >= MIN  → INCLUDE (YOE always wins — "Entry Level + 3yrs" → INCLUDE)
-           YOE <  MIN  → SKIP
-           No YOE      → INCLUDE (never miss potential role)
-      2. Year in title → compare
-      3. Senior keyword in title → INCLUDE
-      4. Obvious fresher title with no other data → SKIP
-      5. No info → INCLUDE
+    Tailored for ~2.5 years of experience:
+      - Jobs requiring min 1+, 2+, 3+ years  → INCLUDE
+      - Jobs requiring min 0 (fresher/intern) → SKIP (< min_yrs)
+      - Jobs requiring min >= 4+ years       → SKIP (> max_yrs)
+      - No YOE in description                → INCLUDE (unless intern/fresher or executive)
     """
     min_yrs = constants.MIN_EXPERIENCE_YEARS
+    max_yrs = getattr(constants, "MAX_EXPERIENCE_YEARS", 3)
     title   = job.get("title", "")
 
     if constants.DEEP_SCAN and driver is not None:
-        return _deep_scan_experience(driver, job, min_yrs)
+        return _deep_scan_experience(driver, job, min_yrs, max_yrs)
 
     yrs_in_title = _extract_min_years_required(title)
     if yrs_in_title is not None:
-        result = yrs_in_title >= min_yrs
+        result = min_yrs <= yrs_in_title <= max_yrs
         if result:
             job["yoe_found"] = yrs_in_title
-        logger.info("%s (title: %d yrs): %s", "PASS" if result else "SKIP", yrs_in_title, title)
+        logger.info("%s (title: %s yrs, range %s-%s): %s",
+                    "PASS" if result else "SKIP", yrs_in_title, min_yrs, max_yrs, title)
         return result
 
-    if _title_implies_senior(title):
-        logger.info("PASS (senior keyword): %s", title)
-        return True
-
     if _title_is_skip(title):
-        logger.info("SKIP (fresher title, no YOE): %s", title)
+        logger.info("SKIP (fresher/intern title): %s", title)
+        return False
+
+    if _title_is_executive(title):
+        logger.info("SKIP (executive title, no YOE): %s", title)
         return False
 
     logger.info("INCLUDE (no YOE info): %s", title)
     return True
 
 
-def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: int) -> bool:
+def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: float, max_yrs: float) -> bool:
     """Open job page in new tab, extract description, check YOE."""
     title  = job.get("title", "")
     job_id = job.get("id", "")
@@ -609,25 +625,25 @@ def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: int) -> 
         driver.close()
         driver.switch_to.window(orig)
 
-        # Evaluate — ONLY the minimum YOE number matters
+        # Evaluate — minimum YOE must be within eligible range [min_yrs, max_yrs]
         if desc:
             yrs = _extract_min_years_required(desc)
             if yrs is not None:
-                result = yrs >= min_yrs
+                result = min_yrs <= yrs <= max_yrs
                 if result:
                     job["yoe_found"] = yrs
-                logger.info("DEEP_SCAN %s — %d yrs min (threshold %d): %s",
-                            "PASS" if result else "SKIP", yrs, min_yrs, title)
+                logger.info("DEEP_SCAN %s — %s yrs min (eligible range: %s-%s yrs): %s",
+                            "PASS" if result else "SKIP", yrs, min_yrs, max_yrs, title)
                 return result
             else:
-                if _title_is_skip(title):
-                    logger.info("DEEP_SCAN SKIP (fresher/intern title, no YOE in desc): %s", title)
+                if _title_is_skip(title) or _title_is_executive(title):
+                    logger.info("DEEP_SCAN SKIP (fresher/executive title, no YOE in desc): %s", title)
                     return False
                 logger.info("DEEP_SCAN INCLUDE (no YOE in desc): %s", title)
                 return True
         else:
-            if _title_is_skip(title):
-                logger.info("DEEP_SCAN SKIP (fresher/intern title, couldn't read desc): %s", title)
+            if _title_is_skip(title) or _title_is_executive(title):
+                logger.info("DEEP_SCAN SKIP (fresher/executive title, couldn't read desc): %s", title)
                 return False
             logger.warning("DEEP_SCAN: Couldn't read desc — INCLUDE: %s", title)
             return True
@@ -640,7 +656,7 @@ def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: int) -> 
             driver.switch_to.window(driver.window_handles[0])
         except Exception:
             pass
-        return not _title_is_skip(title)
+        return not (_title_is_skip(title) or _title_is_executive(title))
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -713,8 +729,8 @@ def run_once(headless: bool = True) -> int:
     """
     keywords = constants.SEARCH_KEYWORDS_LIST
     logger.info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    logger.info("Run Start | Keywords: %s | Location: %s | Min %d yrs",
-                keywords, constants.SEARCH_LOCATION, constants.MIN_EXPERIENCE_YEARS)
+    logger.info("Run Start | Keywords: %s | Location: %s | YOE: %s-%s yrs",
+                keywords, constants.SEARCH_LOCATION, constants.MIN_EXPERIENCE_YEARS, getattr(constants, "MAX_EXPERIENCE_YEARS", 3))
 
     driver         = None
     new_jobs_count = 0

@@ -104,7 +104,8 @@ def _send_job_embed(job: dict) -> bool:
     if posted_time:
         lines.append(posted_time)
     if yoe is not None:
-        lines.append(f"{yoe}+ years experience required")
+        yoe_str = f"{int(yoe)}" if int(yoe) == yoe else f"{yoe}"
+        lines.append(f"{yoe_str}+ years experience required")
     else:
         lines.append("Experience requirements — see description")
 

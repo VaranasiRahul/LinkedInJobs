@@ -40,11 +40,18 @@ LINKEDIN_URL_TEMPLATE = (
 )
 
 # ── Experience Filtering ───────────────────────────────────────────────────────
-# A job is sent if:
-#   - Description explicitly mentions >= MIN_EXPERIENCE_YEARS  → NOTIFY
-#   - Description mentions no YOE at all                       → NOTIFY
-#   - Description explicitly mentions < MIN_EXPERIENCE_YEARS   → SKIP
-MIN_EXPERIENCE_YEARS = 2
+# Tailored for your 2.5 years of experience:
+# You qualify for roles requiring minimum 1+, 2+, or 3+ years:
+#   - min 1+ years (e.g. 1+, 1-3 yrs)                  → NOTIFY
+#   - min 2+ years (e.g. 2+, 2.5 yrs, 2-4 yrs, 2-5 yrs) → NOTIFY
+#   - min 3+ years (e.g. 3+, 3-5 yrs)                  → NOTIFY
+#   - Description mentions no explicit YOE              → NOTIFY (unless fresher/intern/director)
+#
+# Skipped roles:
+#   - Fresher/Entry-level (0-1 yr, intern, trainee)     → SKIP (< MIN_EXPERIENCE_YEARS)
+#   - Over-experienced (4+ yrs, 5+ yrs, 8+ yrs)        → SKIP (> MAX_EXPERIENCE_YEARS)
+MIN_EXPERIENCE_YEARS = 1
+MAX_EXPERIENCE_YEARS = 3
 
 # ── Deep Scan ─────────────────────────────────────────────────────────────────
 DEEP_SCAN = True
