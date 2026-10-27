@@ -40,21 +40,28 @@ LINKEDIN_URL_TEMPLATE = (
 )
 
 # ── Experience Filtering ───────────────────────────────────────────────────────
-# Tailored for your 2.5 years of experience:
+# Tailored for your 2.8 years of experience:
 # You qualify for roles requiring minimum 1+, 2+, or 3+ years:
 #   - min 1+ years (e.g. 1+, 1-3 yrs)                  → NOTIFY
 #   - min 2+ years (e.g. 2+, 2.5 yrs, 2-4 yrs, 2-5 yrs) → NOTIFY
 #   - min 3+ years (e.g. 3+, 3-5 yrs)                  → NOTIFY
-#   - Description mentions no explicit YOE              → NOTIFY (unless fresher/intern/director)
+#   - Description mentions no explicit YOE              → NOTIFY (unless fresher/intern/senior/director)
 #
 # Skipped roles:
 #   - Fresher/Entry-level (0-1 yr, intern, trainee)     → SKIP (< MIN_EXPERIENCE_YEARS)
 #   - Over-experienced (4+ yrs, 5+ yrs, 8+ yrs)        → SKIP (> MAX_EXPERIENCE_YEARS)
+#   - Senior/Lead/Staff/AVP with no YOE anywhere        → SKIP (title implies overqualified)
 MIN_EXPERIENCE_YEARS = 1
 MAX_EXPERIENCE_YEARS = 3
 
 # ── Deep Scan ─────────────────────────────────────────────────────────────────
 DEEP_SCAN = True
+
+# ── External Portal Scan ──────────────────────────────────────────────────────
+# When LinkedIn description has no YOE, click Apply and scan the external
+# company job portal for experience requirements.
+EXTERNAL_PORTAL_SCAN = True
+EXTERNAL_PORTAL_TIMEOUT = 6   # seconds to wait for external portal page to load
 
 # ── Skip Keywords (title only — very obvious fresher-only roles) ───────────────
 # ONLY skips if title contains these AND description also has no 2+ YOE mention.

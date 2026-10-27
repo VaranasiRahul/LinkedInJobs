@@ -92,6 +92,12 @@ _SKIP_TITLE_LOWER = [kw.lower() for kw in constants.SKIP_TITLE_KEYWORDS]
 _EXECUTIVE_LOWER  = [
     "principal", "director", "vp ", "vice president", "head of",
     "staff architect", "chief architect", "enterprise architect",
+    # New: additional seniority markers clearly out of scope for 2.8 yrs
+    "avp", "associate vice president",
+    "assistant manager", " manager",
+    "module lead", "tech lead", "team lead",
+    "l5", "l6", "l7",
+    "distinguished",
 ]
 _SENIOR_KEYWORDS  = [
     "senior", "sr.", "sr ", "lead", "staff", "architect",
@@ -446,66 +452,165 @@ def tag_duplicates(jobs: List[dict]) -> None:
 # EXPERIENCE FILTERING  ← BUG FIX: now extracts MINIMUM of range, not maximum
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def _extract_min_years_required(text: str) -> Optional[float]:
+# Patterns that indicate a year mention is about a sub-skill/tool, NOT the overall requirement.
+# e.g. "8+ years experience ... with 2+ years in Kubernetes" → the 2 is secondary.
+_TECH_PATTERNS = (
+    r'(?:AWS|Azure|GCP|Google\s+Cloud|Kubernetes|K8s|Docker|'
+    r'Terraform|Ansible|Jenkins|CI/?CD|Git|Linux|Python|Go\b|Java|Helm|ArgoCD|GitOps|'
+    r'Prometheus|Grafana|Datadog|EKS|AKS|GKE|ECS|Fargate|CloudFormation|CDK|'
+    r'Bash|Shell|Puppet|Chef|Vagrant|VMware|OpenStack|Istio|Vault|Consul|'
+    r'Splunk|ElasticSearch|Kibana|Kafka|RabbitMQ|PostgreSQL|MySQL|MongoDB|Redis)'
+)
+
+_SECONDARY_CONTEXT_RE = re.compile(
+    r'\b(?:with|including|of\s+which|out\s+of\s+which|'  # transitional words
+    r'hands[\s-]?on\s+(?:experience\s+)?(?:in|with|on)|'   # "hands-on in/with"
+    r'proficiency|proficient|expertise|exposure|familiarity)\s+'
+    r'(?:in|with|on|of)?\s*(?:' + _TECH_PATTERNS + ')?',
+    re.IGNORECASE,
+)
+
+_SECONDARY_AFTER_RE = re.compile(
+    rf'^(?:\s*\+)?\s*(?:years?|yrs?)?\s*'
+    rf'(?:'
+        rf'(?:of\s+)?(?:hands[\s-]?on|practical|working)?\s*(?:experience|exp)?\s*(?:in|with|on)\s+{_TECH_PATTERNS}|'
+        rf'(?:in|with|on)\s+{_TECH_PATTERNS}|'
+        rf'(?:of\s+)?{_TECH_PATTERNS}\s+(?:experience|exp)'
+    rf')',
+    re.IGNORECASE,
+)
+
+
+def _extract_primary_yoe(text: str) -> Optional[float]:
     """
-    Extract the MINIMUM years of experience the job REQUIRES.
+    Context-aware extraction of the PRIMARY years-of-experience requirement.
 
-    Supports decimals (e.g. 2.5 yrs, 1.5 yrs) and ranges (1-3 yrs -> 1).
-    Excludes company age phrases (e.g. '15+ years in business', 'founded 20 years ago').
+    Key improvement over the old _extract_min_years_required():
+      OLD: min() of ALL year values found  →  "8+ yrs exp, with 2+ yrs K8s" gives 2 ✗
+      NEW: classify each mention as PRIMARY (overall req) or SECONDARY (sub-skill),
+           then return min(primary). If only secondary mentions exist, return
+           max(secondary) because the real requirement is at least that high.
 
-    Returns the minimum of all year values found (as int if whole number, else float).
-    Returns None if no year mentions found.
+    PRIMARY patterns  (overall job requirement):
+      "X+ years of experience"  |  "minimum X years"  |  "X-Y years of experience"
+      "experience: X years"    |  "(X yrs)" in title  |  "X to Y years experience"
+
+    SECONDARY patterns  (tool/technology-specific sub-requirements):
+      Preceded by: with / including / of which / out of which / hands-on in ...
+      Followed by a specific technology keyword (Kubernetes, AWS, Docker, etc.)
+
+    Returns the numeric YOE as int (whole) or float (decimal), or None if not found.
     """
     num = r'(\d+(?:\.\d+)?)'
-    found = []
+    primary: List[float] = []
+    secondary: List[float] = []
 
-    # 'X+ years' (excluding company age phrases like '15+ years in business')
+    def _classify(m: re.Match, context_before: str, context_after: str = "") -> str:
+        """Return 'primary' or 'secondary' based on context around the match."""
+        before = context_before.lower()
+        if _SECONDARY_CONTEXT_RE.search(before[-80:]):
+            return "secondary"
+        if context_after and _SECONDARY_AFTER_RE.search(context_after[:80]):
+            return "secondary"
+        return "primary"
+
+    def _add_match(val: float, m: re.Match, force_secondary: bool = False):
+        if force_secondary:
+            secondary.append(val)
+            return
+        start = max(0, m.start() - 80)
+        ctx_before = text[start:m.start()]
+        ctx_after = text[m.end():m.end() + 80]
+        kind = _classify(m, ctx_before, ctx_after)
+        if kind == "primary":
+            primary.append(val)
+        else:
+            secondary.append(val)
+
+    # ── PRIMARY pattern 1: 'minimum/min/at least X years' ────────────────────
     for m in re.finditer(
-        rf'{num}\s*\+\s*(?:years?|yrs?)(?!\s+(?:in\s+business|old|ago|history))\b',
+        rf'(?:minimum|min\.?|at\s+least)\s+{num}\s*\+?\s*(?:years?|yrs?)',
         text, re.IGNORECASE
     ):
-        found.append(float(m.group(1)))
+        _add_match(float(m.group(1)), m)
 
-    # 'X-Y years' or 'X–Y years' -> take X (lower bound = minimum required)
+    # ── PRIMARY pattern 2: 'X+ years of experience' (NOT sub-skill) ──────────
+    for m in re.finditer(
+        rf'{num}\s*\+\s*(?:years?|yrs?)\s+(?:of\s+)?(?:relevant\s+|total\s+)?(?:work\s+)?experience'
+        rf'(?!\s+(?:in\s+business|old|ago|history))\b',
+        text, re.IGNORECASE
+    ):
+        _add_match(float(m.group(1)), m)
+
+    # ── PRIMARY pattern 3: 'experience of/: X years' ─────────────────────────
+    for m in re.finditer(
+        rf'(?:^|[\n.;])\s*(?:total\s+)?(?:relevant\s+)?experience[:\s]+(?:of\s+)?\s*{num}\s*\+?\s*(?:years?|yrs?)',
+        text, re.IGNORECASE | re.MULTILINE
+    ):
+        _add_match(float(m.group(1)), m)
+
+    # ── PRIMARY pattern 4: 'X years of experience' / 'X years experience' ────
+    for m in re.finditer(
+        rf'(?<![-–\d.]){num}\s*(?:years?|yrs?)\s+(?:of\s+)?(?:relevant\s+|total\s+)?(?:work\s+)?(?:experience|exp)\b',
+        text, re.IGNORECASE
+    ):
+        _add_match(float(m.group(1)), m)
+
+    # ── RANGE pattern: 'X-Y years' / 'X to Y years' → take X ─────────────────
+    # These are nearly always primary (e.g. "3-5 years of experience")
     for m in re.finditer(rf'{num}\s*[-–]\s*\d+(?:\.\d+)?\s*(?:years?|yrs?)', text, re.IGNORECASE):
-        found.append(float(m.group(1)))
+        _add_match(float(m.group(1)), m)
 
-    # 'X to Y years' -> take X
     for m in re.finditer(rf'{num}\s+to\s+\d+(?:\.\d+)?\s*(?:years?|yrs?)', text, re.IGNORECASE):
-        found.append(float(m.group(1)))
+        _add_match(float(m.group(1)), m)
 
-    # 'minimum/min/at least X years'
+    # ── Explicit tech sub-skill: X(+) years of <TECH> experience / in <TECH> ──
     for m in re.finditer(
-        rf'(?:minimum|min\.?|at\s+least)\s+{num}\s*(?:years?|yrs?)',
+        rf'{num}\s*\+?\s*(?:years?|yrs?)\s+(?:of\s+)?{_TECH_PATTERNS}\s+(?:experience|exp)\b',
         text, re.IGNORECASE
     ):
-        found.append(float(m.group(1)))
+        _add_match(float(m.group(1)), m, force_secondary=True)
 
-    # 'X years [of] experience' — negative lookbehind prevents matching upper bound of range
     for m in re.finditer(
-        rf'(?<![-–\d.]){num}\s*(?:years?|yrs?)\s*(?:of\s+)?(?:relevant\s+)?(?:experience|exp)\b',
+        rf'{num}\s*\+?\s*(?:years?|yrs?)\s+(?:in|with|on)\s+{_TECH_PATTERNS}\b',
         text, re.IGNORECASE
     ):
-        found.append(float(m.group(1)))
+        _add_match(float(m.group(1)), m, force_secondary=True)
 
-    # 'experience of X years' / 'experience: X years'
+    # ── SECONDARY / ambiguous: 'X+ years' with no explicit 'of experience' ────
+    # e.g. "2+ years in Kubernetes" — if not already captured, classify
     for m in re.finditer(
-        rf'(?:experience|exp)[:\s]+(?:of\s+)?{num}\s*\+?\s*(?:years?|yrs?)',
+        rf'{num}\s*\+\s*(?:years?|yrs?)(?!\s+(?:in\s+business|old|ago|history|of\s+experience))\b',
         text, re.IGNORECASE
     ):
-        found.append(float(m.group(1)))
+        val = float(m.group(1))
+        already = any(abs(val - p) < 0.01 for p in primary) or any(abs(val - s) < 0.01 for s in secondary)
+        if not already:
+            _add_match(val, m)
 
-    # Parenthesized YOE in titles: '(2 yrs)', '(2.5 yrs)', '(3 years)', '(0 yrs)'
+    # ── Parenthesized YOE in titles: '(2 yrs)', '(3 years)' ──────────────────
     for m in re.finditer(
         rf'\(\s*(?:min\s+)?{num}\s*\+?\s*(?:years?|yrs?)\s*\)',
         text, re.IGNORECASE
     ):
-        found.append(float(m.group(1)))
+        primary.append(float(m.group(1)))
 
-    if not found:
-        return None
-    val = min(found)
-    return int(val) if val.is_integer() else round(val, 1)
+    # ── Decide final value ────────────────────────────────────────────────────
+    if primary:
+        val = min(primary)
+        logger.debug("YOE extract: primary=%s secondary=%s → using %s", primary, secondary, val)
+        return int(val) if float(val).is_integer() else round(val, 1)
+    if secondary:
+        # No explicit overall requirement found; the highest sub-skill YOE is
+        # our best proxy for the overall seniority expected.
+        val = max(secondary)
+        logger.debug("YOE extract: no primary, secondary=%s → using max %s", secondary, val)
+        return int(val) if float(val).is_integer() else round(val, 1)
+    return None
+
+
+# Keep old name as alias so nothing else breaks (used in meets_experience_requirement fallback)
+_extract_min_years_required = _extract_primary_yoe
 
 
 def _title_is_skip(title: str) -> bool:
@@ -529,11 +634,12 @@ def meets_experience_requirement(job: dict, driver: webdriver.Chrome = None) -> 
     """
     Decide whether this job should be notified.
 
-    Tailored for ~2.5 years of experience:
+    Tailored for ~2.8 years of experience:
       - Jobs requiring min 1+, 2+, 3+ years  → INCLUDE
       - Jobs requiring min 0 (fresher/intern) → SKIP (< min_yrs)
       - Jobs requiring min >= 4+ years       → SKIP (> max_yrs)
-      - No YOE in description                → INCLUDE (unless intern/fresher or executive)
+      - No YOE in description                → try external portal; else INCLUDE
+                                               (unless intern/fresher, executive, or senior+no YOE anywhere)
     """
     min_yrs = constants.MIN_EXPERIENCE_YEARS
     max_yrs = getattr(constants, "MAX_EXPERIENCE_YEARS", 3)
@@ -542,7 +648,7 @@ def meets_experience_requirement(job: dict, driver: webdriver.Chrome = None) -> 
     if constants.DEEP_SCAN and driver is not None:
         return _deep_scan_experience(driver, job, min_yrs, max_yrs)
 
-    yrs_in_title = _extract_min_years_required(title)
+    yrs_in_title = _extract_primary_yoe(title)
     if yrs_in_title is not None:
         result = min_yrs <= yrs_in_title <= max_yrs
         if result:
@@ -559,12 +665,181 @@ def meets_experience_requirement(job: dict, driver: webdriver.Chrome = None) -> 
         logger.info("SKIP (executive title, no YOE): %s", title)
         return False
 
+    if _title_implies_senior(title):
+        logger.info("SKIP (senior title, no YOE, no deep scan): %s", title)
+        return False
+
     logger.info("INCLUDE (no YOE info): %s", title)
     return True
 
 
+def _scrape_external_portal_yoe(
+    driver: webdriver.Chrome,
+    job: dict,
+    linkedin_tab: str,
+) -> Optional[float]:
+    """
+    Click the 'Apply on company website' button on the currently-open LinkedIn
+    job detail page, wait for the external portal to load in a new tab, scrape
+    its text, extract YOE, then close the external tab and return to `linkedin_tab`.
+
+    Returns the extracted YOE float, or None if the portal couldn't be reached
+    or contained no YOE information.
+    """
+    if not getattr(constants, "EXTERNAL_PORTAL_SCAN", False):
+        return None
+
+    title = job.get("title", "")
+    timeout = getattr(constants, "EXTERNAL_PORTAL_TIMEOUT", 6)
+
+    # ── Find the Apply / external link button ────────────────────────────────
+    apply_selectors = [
+        "a[data-tracking-control-name='public_jobs_apply-link-offsite_sign-up-modal']",
+        "a[data-tracking-control-name='public_jobs_apply-link-offsite']",
+        "button[data-tracking-control-name='public_jobs_apply-link-offsite_sign-up-modal']",
+        "button[data-tracking-control-name='public_jobs_apply-link-offsite']",
+        "a.apply-button--offsite",
+        "button.apply-button--offsite",
+        "a.top-card-layout__cta",
+        "button.top-card-layout__cta",
+        "a[href*='applyUrl']",
+        "a.sign-up-modal__outlet-btn",
+        "button.jobs-apply-button",
+        "a.jobs-apply-button",
+        "a[class*='apply']",
+        "button[class*='apply']",
+    ]
+
+    apply_btn = None
+    for sel in apply_selectors:
+        try:
+            found = driver.find_elements(By.CSS_SELECTOR, sel)
+            for el in found:
+                if el.is_displayed():
+                    apply_btn = el
+                    break
+            if apply_btn:
+                break
+        except Exception:
+            continue
+
+    if apply_btn is None:
+        logger.debug("EXTERNAL_SCAN: No Apply button found for: %s", title)
+        return None
+
+    # Record the href before clicking (some portals open in same tab)
+    try:
+        portal_href = apply_btn.get_attribute("href") or ""
+    except Exception:
+        portal_href = ""
+
+    handles_before = set(driver.window_handles)
+    try:
+        driver.execute_script("arguments[0].click();", apply_btn)
+        time.sleep(1.5)
+    except Exception as e:
+        logger.debug("EXTERNAL_SCAN: Click failed for '%s': %s", title, e)
+        return None
+
+    handles_after = set(driver.window_handles)
+    new_handles = handles_after - handles_before
+
+    if new_handles:
+        # A new tab opened — switch to it
+        ext_handle = new_handles.pop()
+        driver.switch_to.window(ext_handle)
+    elif portal_href and portal_href.startswith("http"):
+        # No new tab — navigate current tab to the href directly
+        try:
+            driver.get(portal_href)
+        except Exception as e:
+            logger.debug("EXTERNAL_SCAN: Navigate failed for '%s': %s", title, e)
+            # Go back to linkedin job tab
+            try:
+                driver.switch_to.window(linkedin_tab)
+            except Exception:
+                pass
+            return None
+    else:
+        logger.debug("EXTERNAL_SCAN: No new tab and no href for: %s", title)
+        return None
+
+    # ── Scrape the external portal page ──────────────────────────────────────
+    ext_yoe: Optional[float] = None
+    try:
+        portal_url = driver.current_url
+        logger.info("EXTERNAL_SCAN: Opened portal %s for: %s", portal_url[:80], title)
+
+        # Wait for the page body to load
+        try:
+            WebDriverWait(driver, timeout).until(
+                EC.presence_of_element_located((By.TAG_NAME, "body"))
+            )
+        except TimeoutException:
+            pass
+        time.sleep(1.0)
+
+        # Dismiss any cookie banners / modals on the external portal
+        _dismiss_modals(driver)
+
+        # Extract text — prefer a job description container, fall back to full body
+        ext_text = ""
+        ext_desc_selectors = [
+            # Common job portal containers
+            "[class*='job-description']", "[class*='jobDescription']",
+            "[class*='job_description']", "[id*='job-description']",
+            "[id*='jobDescription']", "[class*='description-content']",
+            "[class*='job-details']", "[id*='job-details']",
+            "article", "main",
+        ]
+        for sel in ext_desc_selectors:
+            try:
+                els = driver.find_elements(By.CSS_SELECTOR, sel)
+                if els:
+                    t = els[0].text.strip()
+                    if t and len(t) > 100:
+                        ext_text = t
+                        break
+            except Exception:
+                continue
+
+        if not ext_text:
+            try:
+                ext_text = driver.find_element(By.TAG_NAME, "body").text
+            except Exception:
+                pass
+
+        if ext_text:
+            ext_yoe = _extract_primary_yoe(ext_text)
+            if ext_yoe is not None:
+                logger.info("EXTERNAL_SCAN: Found %s yrs on portal for: %s", ext_yoe, title)
+            else:
+                logger.info("EXTERNAL_SCAN: No YOE on portal for: %s", title)
+        else:
+            logger.info("EXTERNAL_SCAN: Couldn't read portal text for: %s", title)
+
+    except Exception as e:
+        logger.warning("EXTERNAL_SCAN: Error scraping portal for '%s': %s", title, e)
+
+    # ── Close the external tab and return to LinkedIn job detail tab ──────────
+    try:
+        if driver.current_window_handle != linkedin_tab:
+            driver.close()
+        driver.switch_to.window(linkedin_tab)
+    except Exception:
+        try:
+            driver.switch_to.window(linkedin_tab)
+        except Exception:
+            pass
+
+    return ext_yoe
+
+
 def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: float, max_yrs: float) -> bool:
-    """Open job page in new tab, extract description, check YOE."""
+    """Open job page in new tab, extract description, check YOE.
+    If LinkedIn description has no YOE, follow the Apply button to the external
+    portal and check there too before making an include/skip decision.
+    """
     title  = job.get("title", "")
     job_id = job.get("id", "")
     url    = job.get("url", "")
@@ -575,6 +850,7 @@ def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: float, m
         orig = driver.current_window_handle
         driver.execute_script("window.open(arguments[0], '_blank');", view_url)
         driver.switch_to.window(driver.window_handles[-1])
+        linkedin_tab = driver.current_window_handle   # remember this for external scan
         time.sleep(randint(1500, 2200) / 1000.0)
 
         if _is_auth_wall(driver):
@@ -622,30 +898,68 @@ def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: float, m
             except Exception:
                 pass
 
-        driver.close()
-        driver.switch_to.window(orig)
-
-        # Evaluate — minimum YOE must be within eligible range [min_yrs, max_yrs]
+        # ── Evaluate LinkedIn description ─────────────────────────────────────
         if desc:
-            yrs = _extract_min_years_required(desc)
+            yrs = _extract_primary_yoe(desc)
             if yrs is not None:
+                driver.close()
+                driver.switch_to.window(orig)
                 result = min_yrs <= yrs <= max_yrs
                 if result:
                     job["yoe_found"] = yrs
                 logger.info("DEEP_SCAN %s — %s yrs min (eligible range: %s-%s yrs): %s",
                             "PASS" if result else "SKIP", yrs, min_yrs, max_yrs, title)
                 return result
-            else:
-                if _title_is_skip(title) or _title_is_executive(title):
-                    logger.info("DEEP_SCAN SKIP (fresher/executive title, no YOE in desc): %s", title)
-                    return False
-                logger.info("DEEP_SCAN INCLUDE (no YOE in desc): %s", title)
-                return True
+
+            # No YOE in LinkedIn desc — try the external portal
+            logger.debug("DEEP_SCAN: No YOE in LinkedIn desc, trying external portal: %s", title)
+            ext_yrs = _scrape_external_portal_yoe(driver, job, linkedin_tab)
+
+            # After external scan, driver is back on linkedin_tab; close it now
+            driver.close()
+            driver.switch_to.window(orig)
+
+            if ext_yrs is not None:
+                result = min_yrs <= ext_yrs <= max_yrs
+                if result:
+                    job["yoe_found"] = ext_yrs
+                logger.info("EXTERNAL_SCAN %s — %s yrs min (eligible range: %s-%s yrs): %s",
+                            "PASS" if result else "SKIP", ext_yrs, min_yrs, max_yrs, title)
+                return result
+
+            # Still no YOE anywhere — apply title-based heuristics
+            if _title_is_skip(title) or _title_is_executive(title):
+                logger.info("DEEP_SCAN SKIP (fresher/executive title, no YOE in desc or portal): %s", title)
+                return False
+            if _title_implies_senior(title):
+                logger.info("DEEP_SCAN SKIP (senior title + no YOE anywhere): %s", title)
+                return False
+            logger.info("DEEP_SCAN INCLUDE (no YOE in desc or portal): %s", title)
+            return True
+
         else:
+            # Couldn't read the LinkedIn description at all — still try external portal
+            logger.debug("DEEP_SCAN: Empty LinkedIn desc, trying external portal: %s", title)
+            ext_yrs = _scrape_external_portal_yoe(driver, job, linkedin_tab)
+
+            driver.close()
+            driver.switch_to.window(orig)
+
+            if ext_yrs is not None:
+                result = min_yrs <= ext_yrs <= max_yrs
+                if result:
+                    job["yoe_found"] = ext_yrs
+                logger.info("EXTERNAL_SCAN %s — %s yrs min (eligible range: %s-%s yrs) [li-desc empty]: %s",
+                            "PASS" if result else "SKIP", ext_yrs, min_yrs, max_yrs, title)
+                return result
+
             if _title_is_skip(title) or _title_is_executive(title):
                 logger.info("DEEP_SCAN SKIP (fresher/executive title, couldn't read desc): %s", title)
                 return False
-            logger.warning("DEEP_SCAN: Couldn't read desc — INCLUDE: %s", title)
+            if _title_implies_senior(title):
+                logger.info("DEEP_SCAN SKIP (senior title + no YOE anywhere): %s", title)
+                return False
+            logger.warning("DEEP_SCAN: Couldn't read desc or portal — INCLUDE: %s", title)
             return True
 
     except Exception as e:
@@ -656,7 +970,8 @@ def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: float, m
             driver.switch_to.window(driver.window_handles[0])
         except Exception:
             pass
-        return not (_title_is_skip(title) or _title_is_executive(title))
+        return not (_title_is_skip(title) or _title_is_executive(title) or _title_implies_senior(title))
+
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
