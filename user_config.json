@@ -1,0 +1,13 @@
+{
+  "search_keywords": [
+    "DevOps Engineer",
+    "SRE",
+    "Platform Engineer",
+    "Cloud Engineer",
+    "Infrastructure Engineer"
+  ],
+  "search_location": "India",
+  "min_experience_years": 1,
+  "max_experience_years": 3,
+  "enable_discord": false
+}

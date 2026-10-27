@@ -36,6 +36,7 @@ import sys
 import time
 import urllib.parse
 from random import choice, randint
+from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple
 
 try:
@@ -449,6 +450,89 @@ def tag_duplicates(jobs: List[dict]) -> None:
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# DASHBOARD EXPORT
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def write_dashboard_jobs(eligible_jobs: List[dict]) -> None:
+    """
+    Write eligible jobs to dashboard_jobs.json for the web dashboard.
+
+    Accumulates across runs (48h rolling window):
+      1. Load existing dashboard_jobs.json
+      2. Merge new eligible jobs (preserve original found_at)
+      3. Prune entries older than 48h
+      4. Write sorted output (priority first, then by YOE desc)
+    """
+    import json as _json
+
+    dashboard_file = getattr(constants, "DASHBOARD_JOBS_FILE", "data/dashboard_jobs.json")
+
+    # Load existing dashboard data
+    existing: Dict[str, dict] = {}
+    try:
+        with open(dashboard_file, "r", encoding="utf-8") as f:
+            data = _json.load(f)
+            if isinstance(data, dict) and "jobs" in data:
+                existing = {j["id"]: j for j in data["jobs"] if "id" in j}
+    except (FileNotFoundError, _json.JSONDecodeError, OSError):
+        pass
+
+    # Merge new jobs (newer data wins, preserve found_at)
+    now_iso = datetime.utcnow().isoformat()
+    for job in eligible_jobs:
+        jid = job.get("id", "")
+        if not jid:
+            continue
+        entry = {
+            "id":           jid,
+            "title":        job.get("title", ""),
+            "company":      job.get("company", ""),
+            "location":     job.get("location", ""),
+            "posted_time":  job.get("posted_time", ""),
+            "url":          job.get("url", ""),
+            "yoe_found":    job.get("yoe_found"),
+            "is_priority":  job.get("is_priority", False),
+            "is_duplicate": job.get("is_duplicate", False),
+            "found_at":     existing.get(jid, {}).get("found_at", now_iso),
+        }
+        existing[jid] = entry
+
+    # Prune entries older than 48h
+    cutoff = datetime.utcnow() - timedelta(hours=48)
+    pruned: Dict[str, dict] = {}
+    for jid, job in existing.items():
+        try:
+            found = datetime.fromisoformat(job.get("found_at", ""))
+            if found >= cutoff:
+                pruned[jid] = job
+        except (ValueError, TypeError):
+            pruned[jid] = job  # keep if can't parse
+
+    # Write sorted output
+    output = {
+        "last_updated": now_iso,
+        "config": {
+            "search_keywords":      constants.SEARCH_KEYWORDS_LIST,
+            "min_experience_years": constants.MIN_EXPERIENCE_YEARS,
+            "max_experience_years": getattr(constants, "MAX_EXPERIENCE_YEARS", 3),
+            "search_location":      constants.SEARCH_LOCATION,
+            "enable_discord":       getattr(constants, "ENABLE_DISCORD", False),
+        },
+        "total_jobs": len(pruned),
+        "jobs": sorted(
+            pruned.values(),
+            key=lambda j: (not j.get("is_priority", False), -(j.get("yoe_found") or 0)),
+        ),
+    }
+
+    os.makedirs(os.path.dirname(os.path.abspath(dashboard_file)), exist_ok=True)
+    with open(dashboard_file, "w", encoding="utf-8") as f:
+        _json.dump(output, f, indent=2)
+
+    logger.info("Dashboard: wrote %d jobs to %s", len(pruned), dashboard_file)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # EXPERIENCE FILTERING  ← BUG FIX: now extracts MINIMUM of range, not maximum
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -854,9 +938,16 @@ def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: float, m
         time.sleep(randint(1500, 2200) / 1000.0)
 
         if _is_auth_wall(driver):
-            logger.info("DEEP_SCAN: Auth wall — INCLUDE: %s", title)
             driver.close()
             driver.switch_to.window(orig)
+            # Auth wall = can't read description; apply title heuristics
+            if _title_is_skip(title) or _title_is_executive(title):
+                logger.info("DEEP_SCAN: Auth wall — SKIP (title heuristic): %s", title)
+                return False
+            if _title_implies_senior(title):
+                logger.info("DEEP_SCAN: Auth wall — SKIP (senior title, no desc): %s", title)
+                return False
+            logger.info("DEEP_SCAN: Auth wall — INCLUDE (title OK): %s", title)
             return True
 
         _dismiss_modals(driver)
@@ -1103,6 +1194,12 @@ def run_once(headless: bool = True) -> int:
 
         logger.info("After experience filter: %d / %d eligible.",
                     len(eligible), len(all_jobs))
+
+        # ── Step 6b: Write dashboard JSON ─────────────────────────────────────
+        try:
+            write_dashboard_jobs(eligible)
+        except Exception as e:
+            logger.warning("Dashboard export failed: %s", e)
 
         # ── Step 7: Deduplicate against store ─────────────────────────────────
         eligible_ids = [j["id"] for j in eligible]

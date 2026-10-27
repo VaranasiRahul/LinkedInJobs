@@ -28,7 +28,7 @@ constants_local.py
 *.env
 
 # Local state — no need to version this
-data/seen_jobs.json
+data/
 
 # macOS
 .DS_Store

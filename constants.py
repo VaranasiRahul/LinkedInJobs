@@ -1,3 +1,4 @@
+import json
 import os
 
 # Try to load local secrets file if present (untracked by Git)
@@ -6,9 +7,18 @@ try:
 except ImportError:
     _LOCAL_WEBHOOK = ""
 
+# ── User Config (overrides from user_config.json — editable via dashboard) ─────
+_user_config = {}
+try:
+    _config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "user_config.json")
+    with open(_config_path, "r", encoding="utf-8") as _f:
+        _user_config = json.load(_f)
+except (FileNotFoundError, json.JSONDecodeError, OSError):
+    pass  # No user config — use defaults below
+
 # ── Discord ────────────────────────────────────────────────────────────────────
-# Reads from environment variable when running in GitHub Actions (CI/CD).
-# Falls back to local secrets file for local runs.
+# Disabled — using web dashboard instead. Set to True to re-enable.
+ENABLE_DISCORD = _user_config.get("enable_discord", False)
 DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL") or _LOCAL_WEBHOOK or ""
 
 
@@ -16,15 +26,15 @@ DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL") or _LOCAL_WEBHOOK or
 # Multiple keywords — each is searched separately, results merged by job ID.
 # This catches roles posted as "SRE", "Platform Engineer" etc. that don't
 # appear under a plain "DevOps" search.
-SEARCH_KEYWORDS_LIST = [
+SEARCH_KEYWORDS_LIST = _user_config.get("search_keywords", [
     "DevOps Engineer",
     "SRE",
     "Platform Engineer",
     "Cloud Engineer",
     "Infrastructure Engineer",
-]
+])
 
-SEARCH_LOCATION   = "India"
+SEARCH_LOCATION   = _user_config.get("search_location", "India")
 DATE_POSTED_FILTER = "r86400"   # last 24 hours (matches browser extension)
 
 # Max result pages to scrape per keyword (LinkedIn shows ~25 jobs/page).
@@ -51,8 +61,8 @@ LINKEDIN_URL_TEMPLATE = (
 #   - Fresher/Entry-level (0-1 yr, intern, trainee)     → SKIP (< MIN_EXPERIENCE_YEARS)
 #   - Over-experienced (4+ yrs, 5+ yrs, 8+ yrs)        → SKIP (> MAX_EXPERIENCE_YEARS)
 #   - Senior/Lead/Staff/AVP with no YOE anywhere        → SKIP (title implies overqualified)
-MIN_EXPERIENCE_YEARS = 1
-MAX_EXPERIENCE_YEARS = 3
+MIN_EXPERIENCE_YEARS = _user_config.get("min_experience_years", 1)
+MAX_EXPERIENCE_YEARS = _user_config.get("max_experience_years", 3)
 
 # ── Deep Scan ─────────────────────────────────────────────────────────────────
 DEEP_SCAN = True
@@ -80,8 +90,8 @@ COMPANY_BLOCKLIST = [
     # "Some Company", "ABC Consultants",
 ]
 
-# ── Priority Companies (Indian IT MNCs) ────────────────────────────────────────
-# Jobs from these companies get a ★ PRIORITY badge in Discord.
+# ── Priority Companies ─────────────────────────────────────────────────────────
+# Jobs from these companies get a ★ PRIORITY badge in the dashboard.
 # Partial match — "TCS" will match "TCS Limited", "Tata Consultancy Services", etc.
 PRIORITY_COMPANIES = [
     # ─── Tier 1 Indian IT Giants ──────────────────────────────────────────────
@@ -92,9 +102,35 @@ PRIORITY_COMPANIES = [
     "Zensar", "Cyient", "Sonata", "KPIT", "Happiest Minds",
     "Sasken", "Tata Elxsi", "Mastech", "NIIT Tech",
     "L&T Technology", "LTTS", "Tata Technologies",
-    # ─── Other large Indian tech companies ───────────────────────────────────
+    # ─── Indian Startups / Tech Companies ────────────────────────────────────
     "Juspay", "Razorpay", "PhonePe", "Zepto", "Swiggy", "Zomato",
     "Flipkart", "Meesho", "Paytm", "CRED", "Groww", "Ola",
+    # ─── Global Tech MNCs (strong India presence, genuine hiring) ─────────────
+    "Microsoft", "Google", "Amazon", "Apple", "Meta",
+    "IBM", "Oracle", "SAP", "Salesforce", "Adobe",
+    "VMware", "Broadcom", "Cisco", "Intel", "Qualcomm",
+    "NVIDIA", "Dell", "HP", "HPE", "Hewlett Packard",
+    "NetApp", "Juniper", "Akamai", "Palo Alto",
+    # ─── Cloud / SaaS / DevOps-centric companies ─────────────────────────────
+    "Red Hat", "Atlassian", "GitLab", "GitHub", "HashiCorp",
+    "Datadog", "Elastic", "Confluent", "MongoDB", "Cloudflare",
+    "Grafana", "New Relic", "PagerDuty", "Splunk",
+    "Snowflake", "Databricks", "Palantir", "Twilio",
+    "Stripe", "Square", "Block",
+    # ─── Financial / Banking MNCs (large India tech teams) ────────────────────
+    "Goldman Sachs", "Morgan Stanley", "JP Morgan", "JPMorgan",
+    "Deutsche Bank", "Barclays", "HSBC", "Citi", "Citibank",
+    "BNY Mellon", "BNY", "UBS", "Credit Suisse",
+    "Wells Fargo", "Bank of America", "Nomura",
+    "Visa", "Mastercard", "PayPal", "American Express",
+    # ─── Consulting / Professional Services ───────────────────────────────────
+    "Deloitte", "Accenture", "Capgemini", "Cognizant", "CGI",
+    "DXC", "Atos", "NTT Data", "Fujitsu",
+    # ─── Product / Other MNCs with India engineering ──────────────────────────
+    "Walmart", "Target", "Intuit", "ServiceNow", "Workday",
+    "Uber", "Grab", "Booking", "Expedia",
+    "Samsung", "Sony", "Siemens", "Bosch",
+    "ThoughtWorks", "Thoughtworks",
 ]
 
 # ── Proxy Rotation (optional) ─────────────────────────────────────────────────
@@ -115,8 +151,9 @@ PROXY_LIST = [
 USE_RSS_FALLBACK = True
 
 # ── Data / State ───────────────────────────────────────────────────────────────
-SEEN_JOBS_FILE    = "data/seen_jobs.json"
-SEEN_JOBS_TTL_HOURS = 48
+SEEN_JOBS_FILE         = "data/seen_jobs.json"
+SEEN_JOBS_TTL_HOURS    = 48
+DASHBOARD_JOBS_FILE    = "data/dashboard_jobs.json"
 
 # ── Browser ────────────────────────────────────────────────────────────────────
 HEADLESS = True

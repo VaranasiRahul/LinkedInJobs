@@ -124,6 +124,9 @@ def _send_job_embed(job: dict) -> bool:
 
 def _post(payload: dict) -> bool:
     """POST payload to Discord webhook. Returns True on success."""
+    if not getattr(constants, "ENABLE_DISCORD", True):
+        logger.debug("Discord disabled (ENABLE_DISCORD=False). Skipping message.")
+        return True
     url = _get_webhook_url()
     if not url:
         logger.error("Discord send failed: DISCORD_WEBHOOK_URL is not configured.")

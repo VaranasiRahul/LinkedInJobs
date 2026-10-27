@@ -37,6 +37,8 @@ jobs:
     name: Scrape & Notify
     runs-on: ubuntu-latest
     timeout-minutes: 20    # Kill if Chrome hangs
+    permissions:
+      contents: write      # Needed for gh-pages deployment
 
     steps:
 
@@ -50,13 +52,18 @@ jobs:
       - name: Restore seen jobs cache
         uses: actions/cache/restore@v4
         with:
-          path: data/seen_jobs.json
+          path: |
+            data/seen_jobs.json
+            data/dashboard_jobs.json
           key: seen-jobs-${{ github.run_id }}
           restore-keys: seen-jobs-
 
       # ── 3. Create data/ directory if it doesn't exist (first run) ────────────
       - name: Ensure data directory exists
-        run: mkdir -p data && [ -f data/seen_jobs.json ] || echo '{}' > data/seen_jobs.json
+        run: |
+          mkdir -p data
+          [ -f data/seen_jobs.json ] || echo '{}' > data/seen_jobs.json
+          [ -f data/dashboard_jobs.json ] || echo '{"jobs":[],"last_updated":"","config":{}}' > data/dashboard_jobs.json
 
       # ── 4. Set up Python ─────────────────────────────────────────────────────
       - name: Set up Python 3.11
@@ -90,7 +97,9 @@ jobs:
         uses: actions/cache/save@v4
         if: always()
         with:
-          path: data/seen_jobs.json
+          path: |
+            data/seen_jobs.json
+            data/dashboard_jobs.json
           key: seen-jobs-${{ github.run_id }}
 
       # ── 9. Upload log as artifact (for debugging) ─────────────────────────────
@@ -102,3 +111,21 @@ jobs:
           path: linkedin_jobs.log
           retention-days: 7
           if-no-files-found: ignore
+
+      # ── 10. Deploy dashboard to GitHub Pages ──────────────────────────────────
+      - name: Prepare dashboard deployment
+        if: always()
+        run: |
+          mkdir -p dashboard_deploy
+          cp dashboard/index.html dashboard_deploy/ 2>/dev/null || true
+          cp dashboard/style.css dashboard_deploy/ 2>/dev/null || true
+          cp dashboard/app.js dashboard_deploy/ 2>/dev/null || true
+          cp data/dashboard_jobs.json dashboard_deploy/jobs.json 2>/dev/null || echo '{"jobs":[]}' > dashboard_deploy/jobs.json
+
+      - name: Deploy to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dashboard_deploy
+          publish_branch: gh-pages
