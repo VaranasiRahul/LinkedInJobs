@@ -1,32 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DevOps Job Tracker</title>
   <meta name="description" content="Personal DevOps job tracking dashboard — automated LinkedIn job monitoring">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@200;300;400;500&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <div id="app">
 
     <!-- ── Top Bar ──────────────────────────────────────────────────────── -->
     <header class="topbar" id="topbar">
       <div class="topbar__left">
-        <span class="topbar__icon">🎯</span>
+        <img src="logo.png" alt="RVX Logo" class="topbar__logo">
         <div>
-          <h1 class="topbar__title">DevOps Job Tracker</h1>
+          <h1 class="topbar__title">Rahul Varanasi's Job Tracker</h1>
           <p class="topbar__subtitle" id="lastUpdated">Loading...</p>
         </div>
       </div>
       <div class="topbar__stats" id="statsBar"></div>
       <div class="topbar__right">
         <button class="btn-icon" id="settingsBtn" title="Settings (S)">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
         </button>
       </div>
     </header>
@@ -44,7 +54,11 @@
     <!-- ── Filters ─────────────────────────────────────────────────────── -->
     <section class="filters" id="filtersBar">
       <div class="filters__search">
-        <svg class="filters__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <svg class="filters__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.3-4.3" />
+        </svg>
         <input type="text" id="searchInput" placeholder="Search jobs, companies, locations..." autocomplete="off">
       </div>
       <div class="filters__chips" id="filterChips">
@@ -53,7 +67,11 @@
         <button class="chip" data-filter="unread">Unread</button>
       </div>
       <button class="btn btn--ghost btn--sm" id="dismissAllBtn" title="Dismiss all visible jobs">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18" />
+          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+        </svg>
         Dismiss All
       </button>
     </section>
@@ -62,7 +80,6 @@
     <main class="content" id="jobsView">
       <div class="job-grid" id="jobGrid"></div>
       <div class="empty-state" id="emptyState" hidden>
-        <div class="empty-state__icon">✨</div>
         <h3>All caught up!</h3>
         <p>No new jobs to review. The pipeline runs every 30 minutes.</p>
       </div>
@@ -88,14 +105,18 @@
         <div class="modal__header">
           <h2 class="modal__title">Settings</h2>
           <button class="btn-icon" id="closeSettings" aria-label="Close">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
           </button>
         </div>
         <div class="modal__body">
           <!-- Pipeline Config -->
           <fieldset class="settings-section">
             <legend class="settings-section__title">Pipeline Configuration</legend>
-            <p class="settings-section__desc">Controls what the scraper searches for. Changes take effect on the next pipeline run (~30 min).</p>
+            <p class="settings-section__desc">Controls what the scraper searches for. Changes take effect on the next
+              pipeline run (~30 min).</p>
             <div class="form-group">
               <label class="form-label" for="kwField">Search Keywords</label>
               <div class="tags-input" id="keywordsInput">
@@ -122,11 +143,14 @@
           <!-- GitHub Integration -->
           <fieldset class="settings-section">
             <legend class="settings-section__title">GitHub Integration</legend>
-            <p class="settings-section__desc">To save settings to the repository, provide a GitHub Personal Access Token with <code>repo</code> scope.</p>
+            <p class="settings-section__desc">To save settings to the repository, provide a GitHub Personal Access Token
+              with <code>repo</code> scope.</p>
             <div class="form-group">
               <label class="form-label" for="githubPat">GitHub PAT</label>
-              <input type="password" class="form-input" id="githubPat" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
-              <small class="form-hint">Stored only in your browser's localStorage. Never sent anywhere except GitHub API.</small>
+              <input type="password" class="form-input" id="githubPat" placeholder="ghp_xxxxxxxxxxxx"
+                autocomplete="off">
+              <small class="form-hint">Stored only in your browser's localStorage. Never sent anywhere except GitHub
+                API.</small>
             </div>
           </fieldset>
 
@@ -173,7 +197,10 @@
         <div class="modal__header">
           <h2 class="modal__title">Keyboard Shortcuts</h2>
           <button class="btn-icon" id="closeKbd" aria-label="Close">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
           </button>
         </div>
         <div class="modal__body">
@@ -194,4 +221,5 @@
 
   <script src="app.js"></script>
 </body>
+
 </html>
