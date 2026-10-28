@@ -97,7 +97,12 @@ code { font-family: var(--font-mono); font-size: 0.85em; background: var(--bg-in
   border-bottom: 1px solid var(--border);
 }
 .topbar__left { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.topbar__icon { font-size: 28px; }
+.topbar__icon, .topbar__logo {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
 .topbar__title {
   font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em;
   background: linear-gradient(135deg, var(--text-primary), var(--accent-hover));
