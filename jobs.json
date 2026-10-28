@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-28T15:08:41.463884",
+  "last_updated": "2026-10-28T20:14:47.199735",
   "config": {
     "search_keywords": [
       "DevOps Engineer",
@@ -13,7 +13,7 @@
     "search_location": "India",
     "enable_discord": false
   },
-  "total_jobs": 196,
+  "total_jobs": 222,
   "jobs": [
     {
       "id": "https://in.linkedin.com/jobs/view/azure-devops-github-actions-docker-kubernetes-powershell-scripting-at-cognizant-4483662836",
@@ -528,7 +528,7 @@
       "url": "https://in.linkedin.com/jobs/view/software-engineer-at-cloudflare-4466900053",
       "yoe_found": null,
       "is_priority": true,
-      "is_duplicate": true,
+      "is_duplicate": false,
       "found_at": "2026-10-28T15:08:41.463884"
     },
     {
@@ -566,6 +566,102 @@
       "is_priority": true,
       "is_duplicate": false,
       "found_at": "2026-10-28T15:08:41.463884"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-crashplan-4443717137",
+      "title": "DevOps Engineer",
+      "company": "CrashPlan",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-crashplan-4443717137",
+      "yoe_found": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/infrastructure-cloud-and-devops-engineer-at-barclays-4482532683",
+      "title": "Infrastructure Cloud and DevOps Engineer",
+      "company": "Barclays",
+      "location": "Pune Division, Maharashtra, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/infrastructure-cloud-and-devops-engineer-at-barclays-4482532683",
+      "yoe_found": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/site-reliability-engineer-at-mphasis-4484710195",
+      "title": "Site Reliability Engineer",
+      "company": "Mphasis",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/site-reliability-engineer-at-mphasis-4484710195",
+      "yoe_found": null,
+      "is_priority": true,
+      "is_duplicate": true,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/platform-engineer-at-sap-4482542293",
+      "title": "Platform Engineer",
+      "company": "SAP",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/platform-engineer-at-sap-4482542293",
+      "yoe_found": null,
+      "is_priority": true,
+      "is_duplicate": true,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/cloud-ai-engineer-at-ibm-4474441749",
+      "title": "Cloud & AI Engineer",
+      "company": "IBM",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/cloud-ai-engineer-at-ibm-4474441749",
+      "yoe_found": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/infrastructure-specialist-cloud-platforms-at-ibm-4457226063",
+      "title": "Infrastructure Specialist-Cloud Platforms",
+      "company": "IBM",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/infrastructure-specialist-cloud-platforms-at-ibm-4457226063",
+      "yoe_found": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/cloud-ai-engineer-at-ibm-4474444640",
+      "title": "Cloud & AI Engineer",
+      "company": "IBM",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/cloud-ai-engineer-at-ibm-4474444640",
+      "yoe_found": null,
+      "is_priority": true,
+      "is_duplicate": true,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/openshift-admin-at-infosys-4483805273",
+      "title": "OpenShift Admin",
+      "company": "Infosys",
+      "location": "Bengaluru East, Karnataka, India",
+      "posted_time": "2026-10-27",
+      "url": "https://in.linkedin.com/jobs/view/openshift-admin-at-infosys-4483805273",
+      "yoe_found": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
     },
     {
       "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-simple-logic-it-private-limited-4472135922",
@@ -688,6 +784,42 @@
       "found_at": "2026-10-28T15:08:41.463884"
     },
     {
+      "id": "https://in.linkedin.com/jobs/view/consultant-devops-administrator-india-pune-maharashtra-at-rotary-international-4478505481",
+      "title": "Consultant - DevOps Administrator/ India: Pune, Maharashtra",
+      "company": "Rotary International",
+      "location": "Pune/Pimpri-Chinchwad Area",
+      "posted_time": "2026-10-27",
+      "url": "https://in.linkedin.com/jobs/view/consultant-devops-administrator-india-pune-maharashtra-at-rotary-international-4478505481",
+      "yoe_found": 3,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-10-27T23:10:25.994930"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-weltec-institute-4483869893",
+      "title": "Devops Engineer",
+      "company": "WELTEC Institute",
+      "location": "Vadodara, Gujarat, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-weltec-institute-4483869893",
+      "yoe_found": 3,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T15:08:41.463884"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-engineer-id98058-at-agileengine-4483876720",
+      "title": "DevOps Engineer ID98058",
+      "company": "AgileEngine",
+      "location": "Kochi, Kerala, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-id98058-at-agileengine-4483876720",
+      "yoe_found": 3,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T15:08:41.463884"
+    },
+    {
       "id": "https://in.linkedin.com/jobs/view/se-i-devops-developer-productivity-at-keywords-studios-4478397978",
       "title": "SE I - DevOps Developer Productivity",
       "company": "Keywords Studios",
@@ -794,18 +926,6 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-10-28T02:11:30.033802"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/consultant-devops-administrator-india-pune-maharashtra-at-rotary-international-4478505481",
-      "title": "Consultant - DevOps Administrator/ India: Pune, Maharashtra",
-      "company": "Rotary International",
-      "location": "Pune/Pimpri-Chinchwad Area",
-      "posted_time": "2026-10-27",
-      "url": "https://in.linkedin.com/jobs/view/consultant-devops-administrator-india-pune-maharashtra-at-rotary-international-4478505481",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-10-27T23:10:25.994930"
     },
     {
       "id": "https://in.linkedin.com/jobs/view/it-azure-cloud-engineer-cot-at-liebherr-tower-cranes-4474693801",
@@ -1684,30 +1804,6 @@
       "found_at": "2026-10-28T15:08:41.463884"
     },
     {
-      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-weltec-institute-4483869893",
-      "title": "Devops Engineer",
-      "company": "WELTEC Institute",
-      "location": "Vadodara, Gujarat, India",
-      "posted_time": "2026-10-28",
-      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-weltec-institute-4483869893",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-10-28T15:08:41.463884"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/devops-engineer-id98058-at-agileengine-4483876720",
-      "title": "DevOps Engineer ID98058",
-      "company": "AgileEngine",
-      "location": "Kochi, Kerala, India",
-      "posted_time": "2026-10-28",
-      "url": "https://in.linkedin.com/jobs/view/devops-engineer-id98058-at-agileengine-4483876720",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-10-28T15:08:41.463884"
-    },
-    {
       "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-weltec-institute-4483890139",
       "title": "Devops Engineer",
       "company": "WELTEC Institute",
@@ -1848,7 +1944,7 @@
       "url": "https://in.linkedin.com/jobs/view/devops-engineer-india-at-algosec-4484468857",
       "yoe_found": null,
       "is_priority": false,
-      "is_duplicate": true,
+      "is_duplicate": false,
       "found_at": "2026-10-28T15:08:41.463884"
     },
     {
@@ -1892,7 +1988,7 @@
       "title": "DevOps Engineer",
       "company": "Peer Consulting Resources Inc.",
       "location": "India",
-      "posted_time": "2026-10-27",
+      "posted_time": "1 day ago",
       "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-peer-consulting-resources-inc-4481485555",
       "yoe_found": null,
       "is_priority": false,
@@ -2366,6 +2462,222 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-10-28T15:08:41.463884"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/cloud-platform-engineer-%E2%80%93-gke-ci-cd-at-cardinal-health-4482540267",
+      "title": "Cloud Platform Engineer \u2013 GKE & CI/CD",
+      "company": "Cardinal Health",
+      "location": "Bengaluru East, Karnataka, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/cloud-platform-engineer-%E2%80%93-gke-ci-cd-at-cardinal-health-4482540267",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-copart-4448178975",
+      "title": "DevOps Engineer",
+      "company": "Copart",
+      "location": "Greater Hyderabad Area",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-copart-4448178975",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-transunion-4484101382",
+      "title": "DevOps Engineer",
+      "company": "TransUnion",
+      "location": "Chennai, Tamil Nadu, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-transunion-4484101382",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": true,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-engineer-%E2%80%93-openshift-kubernetes-bangalore-gurugram-go-jc-4899-2026-at-golden-opportunities-4484104290",
+      "title": "DevOps Engineer \u2013 OpenShift / Kubernetes- Bangalore/Gurugram - GO/JC/4899/2026",
+      "company": "Golden Opportunities",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-%E2%80%93-openshift-kubernetes-bangalore-gurugram-go-jc-4899-2026-at-golden-opportunities-4484104290",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/site-reliability-engineer-azure-preferred-at-fis-4467999113",
+      "title": "Site Reliability Engineer (Azure Preferred)",
+      "company": "FIS",
+      "location": "Pune/Pimpri-Chinchwad Area",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/site-reliability-engineer-azure-preferred-at-fis-4467999113",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/production-support-analyst-i-aws-and-linux-unix-administration-at-fis-4476336342",
+      "title": "Production Support Analyst I(AWS and Linux/UNIX administration)",
+      "company": "FIS",
+      "location": "Pune/Pimpri-Chinchwad Area",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/production-support-analyst-i-aws-and-linux-unix-administration-at-fis-4476336342",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/intermediate-applications-developer-at-ups-4408317633",
+      "title": "Intermediate Applications Developer",
+      "company": "UPS",
+      "location": "Chennai, Tamil Nadu, India",
+      "posted_time": "2026-10-27",
+      "url": "https://in.linkedin.com/jobs/view/intermediate-applications-developer-at-ups-4408317633",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": true,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/gcp-infrastructure-engineer-google-cloud-terraform-python-bash-gke-ci-cd-at-ups-4306653307",
+      "title": "GCP Infrastructure Engineer - Google Cloud, Terraform, Python, Bash, GKE, CI/CD",
+      "company": "UPS",
+      "location": "Chennai, Tamil Nadu, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/gcp-infrastructure-engineer-google-cloud-terraform-python-bash-gke-ci-cd-at-ups-4306653307",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/aws-infrastructure-associate-2-at-pwc-acceleration-center-india-4482544357",
+      "title": "AWS - Infrastructure- Associate 2",
+      "company": "PwC Acceleration Center India",
+      "location": "Bengaluru East, Karnataka, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/aws-infrastructure-associate-2-at-pwc-acceleration-center-india-4482544357",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/cloud-platform-engineer-%E2%80%93-gke-ci-cd-at-cardinal-health-4482527626",
+      "title": "Cloud Platform Engineer \u2013 GKE & CI/CD",
+      "company": "Cardinal Health",
+      "location": "Bengaluru East, Karnataka, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/cloud-platform-engineer-%E2%80%93-gke-ci-cd-at-cardinal-health-4482527626",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": true,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/hybrid-cloud-infrastructure-engineer-at-atkinsr%C3%A9alis-4484483508",
+      "title": "Hybrid Cloud Infrastructure Engineer",
+      "company": "AtkinsR\u00e9alis",
+      "location": "Bengaluru East, Karnataka, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/hybrid-cloud-infrastructure-engineer-at-atkinsr%C3%A9alis-4484483508",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/cloud-administrator-at-csm-tech-us-4483877837",
+      "title": "Cloud Administrator",
+      "company": "CSM Tech US",
+      "location": "Raipur, Chhattisgarh, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/cloud-administrator-at-csm-tech-us-4483877837",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/infrastructure-systems-engineer-iii-at-conduent-4467916403",
+      "title": "Infrastructure Systems Engineer III",
+      "company": "Conduent",
+      "location": "Hyderabad, Telangana, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/infrastructure-systems-engineer-iii-at-conduent-4467916403",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/infrastructure-systems-engineer-ii-at-conduent-4467915378",
+      "title": "Infrastructure Systems Engineer II",
+      "company": "Conduent",
+      "location": "Hyderabad, Telangana, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/infrastructure-systems-engineer-ii-at-conduent-4467915378",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/i-t-infrastructure-administrator-husky-india-chennai-at-husky-technologies-4483891917",
+      "title": "I.T. Infrastructure Administrator- Husky(India) Chennai",
+      "company": "Husky Technologies",
+      "location": "Chennai, Tamil Nadu, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/i-t-infrastructure-administrator-husky-india-chennai-at-husky-technologies-4483891917",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/cloud-system-administrator-at-harris-computer-4482051768",
+      "title": "Cloud System Administrator",
+      "company": "Harris Computer",
+      "location": "India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/cloud-system-administrator-at-harris-computer-4482051768",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": true,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/systems-engr-ii-at-honeywell-technologies-4476502642",
+      "title": "Systems Engr II",
+      "company": "Honeywell Technologies",
+      "location": "Kolkata, West Bengal, India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/systems-engr-ii-at-honeywell-technologies-4476502642",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-10-28T20:14:47.199735"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/cloud-system-administrator-at-harris-global-business-services-gbs-4479417172",
+      "title": "Cloud System Administrator",
+      "company": "Harris Global Business Services (GBS)",
+      "location": "India",
+      "posted_time": "2026-10-28",
+      "url": "https://in.linkedin.com/jobs/view/cloud-system-administrator-at-harris-global-business-services-gbs-4479417172",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": true,
+      "found_at": "2026-10-28T20:14:47.199735"
     }
   ]
 }
