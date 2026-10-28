@@ -117,9 +117,7 @@ jobs:
         if: always()
         run: |
           mkdir -p dashboard_deploy
-          cp dashboard/index.html dashboard_deploy/ 2>/dev/null || true
-          cp dashboard/style.css dashboard_deploy/ 2>/dev/null || true
-          cp dashboard/app.js dashboard_deploy/ 2>/dev/null || true
+          cp -r dashboard/* dashboard_deploy/ 2>/dev/null || true
           cp data/dashboard_jobs.json dashboard_deploy/jobs.json 2>/dev/null || echo '{"jobs":[]}' > dashboard_deploy/jobs.json
 
       - name: Deploy to GitHub Pages
