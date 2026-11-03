@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-03T05:51:34.750374",
+  "last_updated": "2026-11-03T13:40:13.668866",
   "config": {
     "search_keywords": [
       "DevOps Engineer",
@@ -13,7 +13,7 @@
     "search_location": "India",
     "enable_discord": false
   },
-  "total_jobs": 236,
+  "total_jobs": 241,
   "jobs": [
     {
       "id": "https://in.linkedin.com/jobs/view/tools-engineer-l3-at-wipro-4485931205",
@@ -88,6 +88,42 @@
       "found_at": "2026-11-03T05:51:34.750374"
     },
     {
+      "id": "https://in.linkedin.com/jobs/view/systems-and-infrastructure-engineer-iii-at-walmart-global-tech-india-4484677256",
+      "title": "Systems and Infrastructure Engineer III",
+      "company": "Walmart Global Tech India",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/systems-and-infrastructure-engineer-iii-at-walmart-global-tech-india-4484677256",
+      "yoe_found": 3,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/systems-integration-senior-specialist-at-ntt-data-north-america-4486401269",
+      "title": "Systems Integration Senior Specialist",
+      "company": "NTT DATA North America",
+      "location": "Hyderabad, Telangana, India",
+      "posted_time": "2026-11-02",
+      "url": "https://in.linkedin.com/jobs/view/systems-integration-senior-specialist-at-ntt-data-north-america-4486401269",
+      "yoe_found": 3,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/sr-system-cloud-engineer-at-paypal-4478754261",
+      "title": "Sr System & Cloud Engineer",
+      "company": "PayPal",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/sr-system-cloud-engineer-at-paypal-4478754261",
+      "yoe_found": 3,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
       "id": "https://in.linkedin.com/jobs/view/java-backend-and-cloud-platform-lead-at-qualcomm-4449738727",
       "title": "\"Java Backend\" and \"Cloud Platform\" Lead",
       "company": "Qualcomm",
@@ -100,28 +136,16 @@
       "found_at": "2026-11-01T17:11:10.821530"
     },
     {
-      "id": "https://in.linkedin.com/jobs/view/site-reliability-engineer-ii-at-akamai-technologies-4469172041",
-      "title": "Site Reliability Engineer II",
-      "company": "Akamai Technologies",
-      "location": "Bengaluru, Karnataka, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/site-reliability-engineer-ii-at-akamai-technologies-4469172041",
-      "yoe_found": 2,
-      "is_priority": true,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/systems-software-engr-at-hewlett-packard-enterprise-4485394177",
-      "title": "Systems/Software Engr",
-      "company": "Hewlett Packard Enterprise",
+      "id": "https://in.linkedin.com/jobs/view/site-reliability-engineer-at-solarwinds-4469852331",
+      "title": "Site Reliability Engineer",
+      "company": "SolarWinds",
       "location": "Bengaluru, Karnataka, India",
       "posted_time": "2026-11-02",
-      "url": "https://in.linkedin.com/jobs/view/systems-software-engr-at-hewlett-packard-enterprise-4485394177",
+      "url": "https://in.linkedin.com/jobs/view/site-reliability-engineer-at-solarwinds-4469852331",
       "yoe_found": 2,
       "is_priority": true,
-      "is_duplicate": false,
-      "found_at": "2026-11-03T00:06:49.916469"
+      "is_duplicate": true,
+      "found_at": "2026-11-02T17:29:57.032263"
     },
     {
       "id": "https://in.linkedin.com/jobs/view/applied-ai-platform-engineer-pega-systems-engineer-lead-software-engineer-i-at-deloitte-4450350412",
@@ -136,16 +160,28 @@
       "found_at": "2026-11-01T17:11:10.821530"
     },
     {
-      "id": "https://in.linkedin.com/jobs/view/applied-ai-platform-engineer-pega-systems-engineer-software-specialist-engineer-ii-at-deloitte-4449124819",
-      "title": "Applied AI Platform Engineer (PEGA Systems Engineer) - Software Specialist Engineer II",
-      "company": "Deloitte",
-      "location": "Hyderabad, Telangana, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/applied-ai-platform-engineer-pega-systems-engineer-software-specialist-engineer-ii-at-deloitte-4449124819",
+      "id": "https://in.linkedin.com/jobs/view/system-development-engineer-utr-tech-in-last-mile-at-amazon-4486854916",
+      "title": "System Development Engineer, UTR Tech in Last Mile",
+      "company": "Amazon",
+      "location": "Gurugram, Haryana, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/system-development-engineer-utr-tech-in-last-mile-at-amazon-4486854916",
+      "yoe_found": 1,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/systems-software-engr-at-hewlett-packard-enterprise-4485394177",
+      "title": "Systems/Software Engr",
+      "company": "Hewlett Packard Enterprise",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-02",
+      "url": "https://in.linkedin.com/jobs/view/systems-software-engr-at-hewlett-packard-enterprise-4485394177",
       "yoe_found": null,
       "is_priority": true,
       "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
+      "found_at": "2026-11-03T00:06:49.916469"
     },
     {
       "id": "https://in.linkedin.com/jobs/view/software-dev-engineer-ii-eu-intech-partner-growth-experience-at-amazon-4459875955",
@@ -158,102 +194,6 @@
       "is_priority": true,
       "is_duplicate": false,
       "found_at": "2026-11-01T17:11:10.821530"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/platform-services-platform-eng-build-tools-support-at-infosys-4485184235",
-      "title": "Platform Services / Platform Eng - Build & Tools Support",
-      "company": "Infosys",
-      "location": "Hyderabad, Telangana, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/platform-services-platform-eng-build-tools-support-at-infosys-4485184235",
-      "yoe_found": null,
-      "is_priority": true,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/cloud-ai-engineer-at-ibm-4474439870",
-      "title": "Cloud & AI Engineer",
-      "company": "IBM",
-      "location": "Bengaluru, Karnataka, India",
-      "posted_time": "2026-10-31",
-      "url": "https://in.linkedin.com/jobs/view/cloud-ai-engineer-at-ibm-4474439870",
-      "yoe_found": null,
-      "is_priority": true,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/production-support-engineer-aws%2Bjava-at-infosys-4485166763",
-      "title": "Production support Engineer ( AWS+Java)",
-      "company": "Infosys",
-      "location": "Hyderabad, Telangana, India",
-      "posted_time": "2026-10-31",
-      "url": "https://in.linkedin.com/jobs/view/production-support-engineer-aws%2Bjava-at-infosys-4485166763",
-      "yoe_found": null,
-      "is_priority": true,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/production-support-engineer-at-persistent-systems-4485187224",
-      "title": "Production Support Engineer",
-      "company": "Persistent Systems",
-      "location": "Bengaluru, Karnataka, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/production-support-engineer-at-persistent-systems-4485187224",
-      "yoe_found": null,
-      "is_priority": true,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/software-development-engineer-iii-prime-video-infrastructure-and-platform-team-at-prime-video-amazon-mgm-studios-4459885016",
-      "title": "Software Development Engineer III, Prime Video Infrastructure and platform team",
-      "company": "Prime Video & Amazon MGM Studios",
-      "location": "Bengaluru, Karnataka, India",
-      "posted_time": "2026-10-31",
-      "url": "https://in.linkedin.com/jobs/view/software-development-engineer-iii-prime-video-infrastructure-and-platform-team-at-prime-video-amazon-mgm-studios-4459885016",
-      "yoe_found": null,
-      "is_priority": true,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/application-developer-aws-cloud-fullstack-at-ibm-4483946644",
-      "title": "Application Developer-AWS Cloud FullStack",
-      "company": "IBM",
-      "location": "Pune Division, Maharashtra, India",
-      "posted_time": "2026-10-31",
-      "url": "https://in.linkedin.com/jobs/view/application-developer-aws-cloud-fullstack-at-ibm-4483946644",
-      "yoe_found": null,
-      "is_priority": true,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/application-developer-aws-cloud-fullstack-at-hakk%C5%8Dda-an-ibm-company-4485908595",
-      "title": "Application Developer-AWS Cloud FullStack",
-      "company": "Hakk\u014dda, an IBM Company",
-      "location": "Pune Division, Maharashtra, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/application-developer-aws-cloud-fullstack-at-hakk%C5%8Dda-an-ibm-company-4485908595",
-      "yoe_found": null,
-      "is_priority": true,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/hp-nonstop-tandem-administrator-at-cognizant-4439957760",
-      "title": "HP NonStop / Tandem Administrator",
-      "company": "Cognizant",
-      "location": "Chennai, Tamil Nadu, India",
-      "posted_time": "2026-10-31",
-      "url": "https://in.linkedin.com/jobs/view/hp-nonstop-tandem-administrator-at-cognizant-4439957760",
-      "yoe_found": null,
-      "is_priority": true,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
     },
     {
       "id": "https://in.linkedin.com/jobs/view/site-reliability-engineer-big-data-7-to-11-years-at-phonepe-4387287790",
@@ -532,18 +472,6 @@
       "found_at": "2026-11-02T17:29:57.032263"
     },
     {
-      "id": "https://in.linkedin.com/jobs/view/site-reliability-engineer-at-solarwinds-4469852331",
-      "title": "Site Reliability Engineer",
-      "company": "SolarWinds",
-      "location": "Bengaluru, Karnataka, India",
-      "posted_time": "2026-11-02",
-      "url": "https://in.linkedin.com/jobs/view/site-reliability-engineer-at-solarwinds-4469852331",
-      "yoe_found": null,
-      "is_priority": true,
-      "is_duplicate": true,
-      "found_at": "2026-11-02T17:29:57.032263"
-    },
-    {
       "id": "https://in.linkedin.com/jobs/view/software-engineer-at-cisco-4486141993",
       "title": "Software Engineer",
       "company": "Cisco",
@@ -648,7 +576,7 @@
       "url": "https://in.linkedin.com/jobs/view/cloud-ai-engineer-at-ibm-4476000261",
       "yoe_found": null,
       "is_priority": true,
-      "is_duplicate": true,
+      "is_duplicate": false,
       "found_at": "2026-11-02T17:29:57.032263"
     },
     {
@@ -772,6 +700,18 @@
       "found_at": "2026-11-03T05:51:34.750374"
     },
     {
+      "id": "https://in.linkedin.com/jobs/view/software-engineer-iii-google-distributed-cloud-at-google-4477593551",
+      "title": "Software Engineer III, Google Distributed Cloud",
+      "company": "Google",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/software-engineer-iii-google-distributed-cloud-at-google-4477593551",
+      "yoe_found": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
       "id": "https://in.linkedin.com/jobs/view/senior-member-of-technical-staff-go-python-development-and-kubernetes-at-aptiv-4434259735",
       "title": "Senior Member of Technical Staff - Go/Python Development and Kubernetes",
       "company": "Aptiv",
@@ -796,18 +736,6 @@
       "found_at": "2026-11-01T21:28:05.492021"
     },
     {
-      "id": "https://in.linkedin.com/jobs/view/software-engineer-cloud-sre-at-ebay-4466908329",
-      "title": "Software Engineer - Cloud SRE",
-      "company": "eBay",
-      "location": "Bengaluru, Karnataka, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/software-engineer-cloud-sre-at-ebay-4466908329",
-      "yoe_found": 3,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
       "id": "https://in.linkedin.com/jobs/view/platform-engineer-i-270-at-amagi-4484309694",
       "title": "Platform Engineer I: 270",
       "company": "Amagi",
@@ -818,18 +746,6 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-11-02T07:24:31.342782"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/software-engineer-devops-at-pivotroots-4368191990",
-      "title": "Software Engineer - DevOps",
-      "company": "PivotRoots",
-      "location": "Mumbai Metropolitan Region",
-      "posted_time": "2026-11-02",
-      "url": "https://in.linkedin.com/jobs/view/software-engineer-devops-at-pivotroots-4368191990",
-      "yoe_found": 3,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-02T17:29:57.032263"
     },
     {
       "id": "https://in.linkedin.com/jobs/view/devops-engineer-ii-at-hackerrank-4438751577",
@@ -904,18 +820,6 @@
       "found_at": "2026-11-02T17:29:57.032263"
     },
     {
-      "id": "https://in.linkedin.com/jobs/view/cloud-engineer-aws-expertise-at-marklytics-4485736664",
-      "title": "Cloud Engineer (AWS Expertise)",
-      "company": "Marklytics",
-      "location": "Chennai, Tamil Nadu, India",
-      "posted_time": "2026-11-02",
-      "url": "https://in.linkedin.com/jobs/view/cloud-engineer-aws-expertise-at-marklytics-4485736664",
-      "yoe_found": 3,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-02T17:29:57.032263"
-    },
-    {
       "id": "https://in.linkedin.com/jobs/view/platform-engineer-ii-%E2%80%93-hybrid-cloud-engineer-at-lpl-financial-global-capability-center-4413433870",
       "title": "Platform Engineer II \u2013 Hybrid Cloud Engineer",
       "company": "LPL Financial Global Capability Center",
@@ -964,18 +868,6 @@
       "found_at": "2026-11-03T00:06:49.916469"
     },
     {
-      "id": "https://in.linkedin.com/jobs/view/software-engineer-2-at-kong-4486462171",
-      "title": "Software Engineer 2",
-      "company": "Kong",
-      "location": "Bengaluru, Karnataka, India",
-      "posted_time": "2026-11-02",
-      "url": "https://in.linkedin.com/jobs/view/software-engineer-2-at-kong-4486462171",
-      "yoe_found": 3,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-03T00:06:49.916469"
-    },
-    {
       "id": "https://in.linkedin.com/jobs/view/infrastructure-engineer-at-flexiple-4486498357",
       "title": "Infrastructure Engineer",
       "company": "Flexiple",
@@ -986,6 +878,102 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-11-03T05:51:34.750374"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/engineer-devops-at-transunion-4486033504",
+      "title": "Engineer, DevOps",
+      "company": "TransUnion",
+      "location": "Chennai, Tamil Nadu, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/engineer-devops-at-transunion-4486033504",
+      "yoe_found": 3,
+      "is_priority": false,
+      "is_duplicate": true,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/se-i-devops-engineer-at-keywords-studios-4486860514",
+      "title": "SE I DevOps Engineer",
+      "company": "Keywords Studios",
+      "location": "Pune Division, Maharashtra, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/se-i-devops-engineer-at-keywords-studios-4486860514",
+      "yoe_found": 3,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/senior-devops-engineer-at-quantixlabs-ventures-llp-4486831807",
+      "title": "Senior DevOps Engineer",
+      "company": "QuantixLabs Ventures LLP",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/senior-devops-engineer-at-quantixlabs-ventures-llp-4486831807",
+      "yoe_found": 3,
+      "is_priority": false,
+      "is_duplicate": true,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/cloud-infrastructure-engineer-%E2%80%93-aws-ec2-at-ust-4484652847",
+      "title": "Cloud Infrastructure Engineer \u2013 AWS & EC2",
+      "company": "UST",
+      "location": "Ahmedabad, Gujarat, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/cloud-infrastructure-engineer-%E2%80%93-aws-ec2-at-ust-4484652847",
+      "yoe_found": 3,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/lead-devops-platform-engineer-at-nuplay-ai-4474272694",
+      "title": "Lead DevOps & Platform Engineer",
+      "company": "NuPlay AI",
+      "location": "Bangalore Urban, Karnataka, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/lead-devops-platform-engineer-at-nuplay-ai-4474272694",
+      "yoe_found": 3,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/ai-ops-engineer-at-onemagnify-4484684000",
+      "title": "AI Ops Engineer",
+      "company": "OneMagnify",
+      "location": "Greater Chennai Area",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/ai-ops-engineer-at-onemagnify-4484684000",
+      "yoe_found": 3,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/consultant-at-kpmg-4484664845",
+      "title": "Consultant",
+      "company": "KPMG",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/consultant-at-kpmg-4484664845",
+      "yoe_found": 3,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/system-engineer-ap-at-lighthouse-4483907334",
+      "title": "System Engineer - AP",
+      "company": "Lighthouse",
+      "location": "Sahakar Nagar, Karnataka, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/system-engineer-ap-at-lighthouse-4483907334",
+      "yoe_found": 3,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
     },
     {
       "id": "https://in.linkedin.com/jobs/view/assistant-manager-customer-interaction-suite-customer-interaction-suite-at-tata-communications-4485193194",
@@ -1072,6 +1060,162 @@
       "found_at": "2026-11-03T05:51:34.750374"
     },
     {
+      "id": "https://in.linkedin.com/jobs/view/build-release-engineer-at-baker-hughes-4486407346",
+      "title": "Build & Release Engineer",
+      "company": "Baker Hughes",
+      "location": "Bengaluru East, Karnataka, India",
+      "posted_time": "2026-11-02",
+      "url": "https://in.linkedin.com/jobs/view/build-release-engineer-at-baker-hughes-4486407346",
+      "yoe_found": 2,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-02T17:29:57.032263"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-mumzworld-com-4485743469",
+      "title": "DevOps Engineer",
+      "company": "Mumzworld.com",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-02",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-mumzworld-com-4485743469",
+      "yoe_found": 2,
+      "is_priority": false,
+      "is_duplicate": true,
+      "found_at": "2026-11-02T17:29:57.032263"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/noc-engineer-at-flexiple-4486467094",
+      "title": "NOC Engineer",
+      "company": "Flexiple",
+      "location": "India",
+      "posted_time": "2026-11-02",
+      "url": "https://in.linkedin.com/jobs/view/noc-engineer-at-flexiple-4486467094",
+      "yoe_found": 2,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T00:06:49.916469"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/cloud-operations-specialist-ericsson-cnis-vmware-bangalorevois-at-vois-4476013699",
+      "title": "Cloud Operations Specialist (Ericsson CNIS & VMware) - BangaloreVOIS",
+      "company": "VOIS",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-02",
+      "url": "https://in.linkedin.com/jobs/view/cloud-operations-specialist-ericsson-cnis-vmware-bangalorevois-at-vois-4476013699",
+      "yoe_found": 2,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T00:06:49.916469"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-support-l2-tanzu-at-talentgigs-4486011968",
+      "title": "DevOps Support L2 - Tanzu",
+      "company": "Talentgigs",
+      "location": "Navi Mumbai, Maharashtra, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/devops-support-l2-tanzu-at-talentgigs-4486011968",
+      "yoe_found": 2,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/backend-devops-developer-at-stock-bazaar-4484659889",
+      "title": "Backend & DevOps Developer",
+      "company": "Stock Bazaar",
+      "location": "New Delhi, Delhi, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/backend-devops-developer-at-stock-bazaar-4484659889",
+      "yoe_found": 2,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/site-reliability-engineer-ii-at-backblaze-4484651948",
+      "title": "Site Reliability Engineer II",
+      "company": "Backblaze",
+      "location": "Bengaluru East, Karnataka, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/site-reliability-engineer-ii-at-backblaze-4484651948",
+      "yoe_found": 2,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/gpu-cluster-reliability-engineer-at-ishan-technologies-4486876131",
+      "title": "GPU Cluster Reliability Engineer",
+      "company": "Ishan Technologies",
+      "location": "Ahmedabad, Gujarat, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/gpu-cluster-reliability-engineer-at-ishan-technologies-4486876131",
+      "yoe_found": 2,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/in-manager-site-reliability-engineering-gcc-advisory-pune-at-pwc-india-4486879005",
+      "title": "IN_Manager_Site Reliability Engineering _GCC_Advisory_Pune",
+      "company": "PwC India",
+      "location": "Pune Division, Maharashtra, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/in-manager-site-reliability-engineering-gcc-advisory-pune-at-pwc-india-4486879005",
+      "yoe_found": 2,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/software-engineer-at-docusign-4486011998",
+      "title": "Software Engineer",
+      "company": "Docusign",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/software-engineer-at-docusign-4486011998",
+      "yoe_found": 2,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/software-engineer-ai-ml-platform-at-autodesk-4486047324",
+      "title": "Software Engineer(AI/ML Platform)",
+      "company": "Autodesk",
+      "location": "Pune/Pimpri-Chinchwad Area",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/software-engineer-ai-ml-platform-at-autodesk-4486047324",
+      "yoe_found": 2,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/software-engineer-ai-ml-platform-at-autodesk-4486032567",
+      "title": "Software Engineer(AI/ML Platform)",
+      "company": "Autodesk",
+      "location": "Pune Division, Maharashtra, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/software-engineer-ai-ml-platform-at-autodesk-4486032567",
+      "yoe_found": 2,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/sr-engineer-it-operations-infrastructure-at-tata-communications-4468167709",
+      "title": "Sr Engineer - IT Operations & Infrastructure",
+      "company": "Tata Communications",
+      "location": "Pune Division, Maharashtra, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/sr-engineer-it-operations-infrastructure-at-tata-communications-4468167709",
+      "yoe_found": 2,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
       "id": "https://in.linkedin.com/jobs/view/site-reliability-engineer-i-at-ncr-voyix-4486163523",
       "title": "Site Reliability Engineer I",
       "company": "NCR Voyix",
@@ -1096,40 +1240,76 @@
       "found_at": "2026-11-03T05:51:34.750374"
     },
     {
-      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-vastika-inc-4485197255",
+      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-recro-4486017777",
       "title": "DevOps Engineer",
-      "company": "Vastika Inc",
-      "location": "Mumbai, Maharashtra, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-vastika-inc-4485197255",
-      "yoe_found": null,
+      "company": "Recro",
+      "location": "Greater Bengaluru Area",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-recro-4486017777",
+      "yoe_found": 1,
       "is_priority": false,
       "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
+      "found_at": "2026-11-03T05:51:34.750374"
     },
     {
-      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-flexiple-4485941644",
-      "title": "DevOps Engineer",
-      "company": "Flexiple",
-      "location": "India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-flexiple-4485941644",
-      "yoe_found": null,
+      "id": "https://in.linkedin.com/jobs/view/senior-devops-engineer-at-foxsense-innovations-4486832858",
+      "title": "Senior DevOps Engineer",
+      "company": "Foxsense Innovations",
+      "location": "Coimbatore, Tamil Nadu, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/senior-devops-engineer-at-foxsense-innovations-4486832858",
+      "yoe_found": 1,
       "is_priority": false,
       "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
+      "found_at": "2026-11-03T13:40:13.668866"
     },
     {
-      "id": "https://in.linkedin.com/jobs/view/associate-iii-semiconductor-s-w-product-development-at-ust-4420116752",
-      "title": "Associate III - Semiconductor S/W Product Development",
-      "company": "UST",
+      "id": "https://in.linkedin.com/jobs/view/site-reliability-engineer-sre-at-codemonk-4486029191",
+      "title": "Site Reliability Engineer (SRE)",
+      "company": "Codemonk",
       "location": "Bengaluru, Karnataka, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/associate-iii-semiconductor-s-w-product-development-at-ust-4420116752",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/site-reliability-engineer-sre-at-codemonk-4486029191",
+      "yoe_found": 1,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/software-engineer-devops-at-pivotroots-4368191990",
+      "title": "Software Engineer - DevOps",
+      "company": "PivotRoots",
+      "location": "Mumbai Metropolitan Region",
+      "posted_time": "2026-11-02",
+      "url": "https://in.linkedin.com/jobs/view/software-engineer-devops-at-pivotroots-4368191990",
       "yoe_found": null,
       "is_priority": false,
       "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
+      "found_at": "2026-11-02T17:29:57.032263"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/cloud-engineer-aws-expertise-at-marklytics-4485736664",
+      "title": "Cloud Engineer (AWS Expertise)",
+      "company": "Marklytics",
+      "location": "Chennai, Tamil Nadu, India",
+      "posted_time": "2026-11-02",
+      "url": "https://in.linkedin.com/jobs/view/cloud-engineer-aws-expertise-at-marklytics-4485736664",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-02T17:29:57.032263"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/software-engineer-2-at-kong-4486462171",
+      "title": "Software Engineer 2",
+      "company": "Kong",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-02",
+      "url": "https://in.linkedin.com/jobs/view/software-engineer-2-at-kong-4486462171",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T00:06:49.916469"
     },
     {
       "id": "https://in.linkedin.com/jobs/view/devops-platform-engineer-at-acura-solutions-ltd-4485956178",
@@ -1142,18 +1322,6 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-11-01T17:11:10.821530"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/cloud-support-engineer-at-flexiple-4485940423",
-      "title": "Cloud Support Engineer",
-      "company": "Flexiple",
-      "location": "India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/cloud-support-engineer-at-flexiple-4485940423",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
     },
     {
       "id": "https://in.linkedin.com/jobs/view/quantexa-devops-engineer-at-talentgigs-4485413302",
@@ -1190,234 +1358,6 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-11-01T17:11:10.821530"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-kanhasoft-4483937823",
-      "title": "DevOps Engineer",
-      "company": "KanhaSoft",
-      "location": "Ahmedabad, Gujarat, India",
-      "posted_time": "2026-10-31",
-      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-kanhasoft-4483937823",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/cloud-devops-engineer-at-ups-4470385668",
-      "title": "Cloud DevOps Engineer",
-      "company": "UPS",
-      "location": "Chennai, Tamil Nadu, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/cloud-devops-engineer-at-ups-4470385668",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/cloud-devops-engineer-at-ups-4470754478",
-      "title": "Cloud DevOps Engineer",
-      "company": "UPS",
-      "location": "Chennai, Tamil Nadu, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/cloud-devops-engineer-at-ups-4470754478",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": true,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/devops-devsecops-engineer-ai-first-at-ust-4483972958",
-      "title": "DevOps & DevSecOps Engineer, AI-First",
-      "company": "UST",
-      "location": "Chennai, Tamil Nadu, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/devops-devsecops-engineer-ai-first-at-ust-4483972958",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/azure-devops-engineer-at-skillyt-4485178370",
-      "title": "Azure DevOps Engineer",
-      "company": "SkillYT",
-      "location": "Bengaluru, Karnataka, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/azure-devops-engineer-at-skillyt-4485178370",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-scoutit-4485192935",
-      "title": "DevOps Engineer",
-      "company": "Scoutit",
-      "location": "Hyderabad, Telangana, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-scoutit-4485192935",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/devops-engineer-india-at-algosec-4485924715",
-      "title": "DevOps Engineer, India",
-      "company": "AlgoSec",
-      "location": "New Delhi, Delhi, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/devops-engineer-india-at-algosec-4485924715",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/quantexa-devops-engineer-at-talentgigs-4485186564",
-      "title": "Quantexa DevOps Engineer",
-      "company": "Talentgigs",
-      "location": "Navi Mumbai, Maharashtra, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/quantexa-devops-engineer-at-talentgigs-4485186564",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/platform-engineer-at-dow-4475255355",
-      "title": "Platform Engineer",
-      "company": "Dow",
-      "location": "Navi Mumbai, Maharashtra, India",
-      "posted_time": "2026-10-31",
-      "url": "https://in.linkedin.com/jobs/view/platform-engineer-at-dow-4475255355",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/site-reliability-engineer-mobile-applications-%E2%80%93-ios-android-at-emagine-4481129081",
-      "title": "Site Reliability Engineer (Mobile Applications \u2013 iOS & Android)",
-      "company": "emagine",
-      "location": "Bengaluru, Karnataka, India",
-      "posted_time": "2026-10-31",
-      "url": "https://in.linkedin.com/jobs/view/site-reliability-engineer-mobile-applications-%E2%80%93-ios-android-at-emagine-4481129081",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/cloud-devops-engineer-at-ups-4470753514",
-      "title": "Cloud DevOps Engineer",
-      "company": "UPS",
-      "location": "Chennai, Tamil Nadu, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/cloud-devops-engineer-at-ups-4470753514",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": true,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/java-production-support-at-fis-4449925526",
-      "title": "Java Production Support",
-      "company": "FIS",
-      "location": "Bengaluru, Karnataka, India",
-      "posted_time": "2026-10-31",
-      "url": "https://in.linkedin.com/jobs/view/java-production-support-at-fis-4449925526",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/software-engineer-at-brightedge-4485184924",
-      "title": "Software Engineer",
-      "company": "BrightEdge",
-      "location": "India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/software-engineer-at-brightedge-4485184924",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/backend-engineer-distributed-systems-india-at-onehouse-4255527098",
-      "title": "Backend Engineer - Distributed Systems (India)",
-      "company": "Onehouse",
-      "location": "Greater Kolkata Area",
-      "posted_time": "2026-10-31",
-      "url": "https://in.linkedin.com/jobs/view/backend-engineer-distributed-systems-india-at-onehouse-4255527098",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/platform-infrastructure-hyperconverged-infrastructure-hci-engineer-at-ey-4465969658",
-      "title": "Platform Infrastructure Hyperconverged Infrastructure-HCI-Engineer",
-      "company": "EY",
-      "location": "Kochi, Kerala, India",
-      "posted_time": "2026-10-31",
-      "url": "https://in.linkedin.com/jobs/view/platform-infrastructure-hyperconverged-infrastructure-hci-engineer-at-ey-4465969658",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/forward-deployed-engineer-chennai-at-devrev-4467568410",
-      "title": "Forward Deployed Engineer {Chennai}",
-      "company": "DevRev",
-      "location": "Chennai, Tamil Nadu, India",
-      "posted_time": "2026-10-31",
-      "url": "https://in.linkedin.com/jobs/view/forward-deployed-engineer-chennai-at-devrev-4467568410",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/i-t-infrastructure-administrator-husky-india-chennai-at-husky-technologies-4485198159",
-      "title": "I.T. Infrastructure Administrator- Husky(India) Chennai",
-      "company": "Husky Technologies",
-      "location": "Chennai, Tamil Nadu, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/i-t-infrastructure-administrator-husky-india-chennai-at-husky-technologies-4485198159",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/citrix-it-infrastructure-engineer-at-idfc-first-bank-4403356410",
-      "title": "Citrix - IT Infrastructure Engineer",
-      "company": "IDFC FIRST Bank",
-      "location": "Mumbai, Maharashtra, India",
-      "posted_time": "2026-10-31",
-      "url": "https://in.linkedin.com/jobs/view/citrix-it-infrastructure-engineer-at-idfc-first-bank-4403356410",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/vm-storage-engineer-at-htc-global-services-4485928211",
-      "title": "VM & Storage Engineer",
-      "company": "HTC Global Services",
-      "location": "Chennai, Tamil Nadu, India",
-      "posted_time": "2026-11-01",
-      "url": "https://in.linkedin.com/jobs/view/vm-storage-engineer-at-htc-global-services-4485928211",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-01T11:05:48.357631"
     },
     {
       "id": "https://in.linkedin.com/jobs/view/assoc-devops-engineer-at-transunion-4485411559",
@@ -2152,18 +2092,6 @@
       "found_at": "2026-11-02T17:29:57.032263"
     },
     {
-      "id": "https://in.linkedin.com/jobs/view/build-release-engineer-at-baker-hughes-4486407346",
-      "title": "Build & Release Engineer",
-      "company": "Baker Hughes",
-      "location": "Bengaluru East, Karnataka, India",
-      "posted_time": "2026-11-02",
-      "url": "https://in.linkedin.com/jobs/view/build-release-engineer-at-baker-hughes-4486407346",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-02T17:29:57.032263"
-    },
-    {
       "id": "https://in.linkedin.com/jobs/view/devops-engineer-rancher-aws-terraform-night-shift-wfo-at-htc-global-services-4486126987",
       "title": "DevOps Engineer (Rancher | AWS | Terraform)- Night Shift(WFO)",
       "company": "HTC Global Services",
@@ -2269,18 +2197,6 @@
       "yoe_found": null,
       "is_priority": false,
       "is_duplicate": false,
-      "found_at": "2026-11-02T17:29:57.032263"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-mumzworld-com-4485743469",
-      "title": "DevOps Engineer",
-      "company": "Mumzworld.com",
-      "location": "Bengaluru, Karnataka, India",
-      "posted_time": "2026-11-02",
-      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-mumzworld-com-4485743469",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": true,
       "found_at": "2026-11-02T17:29:57.032263"
     },
     {
@@ -2692,18 +2608,6 @@
       "found_at": "2026-11-03T00:06:49.916469"
     },
     {
-      "id": "https://in.linkedin.com/jobs/view/noc-engineer-at-flexiple-4486467094",
-      "title": "NOC Engineer",
-      "company": "Flexiple",
-      "location": "India",
-      "posted_time": "2026-11-02",
-      "url": "https://in.linkedin.com/jobs/view/noc-engineer-at-flexiple-4486467094",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-03T00:06:49.916469"
-    },
-    {
       "id": "https://in.linkedin.com/jobs/view/ai-platform-engineer-at-edwards-vacuum-4477512839",
       "title": "AI Platform Engineer",
       "company": "Edwards Vacuum",
@@ -2776,30 +2680,6 @@
       "found_at": "2026-11-03T00:06:49.916469"
     },
     {
-      "id": "https://in.linkedin.com/jobs/view/cloud-operations-specialist-ericsson-cnis-vmware-bangalorevois-at-vois-4476013699",
-      "title": "Cloud Operations Specialist (Ericsson CNIS & VMware) - BangaloreVOIS",
-      "company": "VOIS",
-      "location": "Bengaluru, Karnataka, India",
-      "posted_time": "2026-11-02",
-      "url": "https://in.linkedin.com/jobs/view/cloud-operations-specialist-ericsson-cnis-vmware-bangalorevois-at-vois-4476013699",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-03T00:06:49.916469"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-recro-4486017777",
-      "title": "DevOps Engineer",
-      "company": "Recro",
-      "location": "Greater Bengaluru Area",
-      "posted_time": "2026-11-03",
-      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-recro-4486017777",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-03T05:51:34.750374"
-    },
-    {
       "id": "https://in.linkedin.com/jobs/view/software-developer-at-agilegrid-solutions-4486494772",
       "title": "Software Developer",
       "company": "AgileGrid Solutions",
@@ -2846,6 +2726,186 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-11-03T05:51:34.750374"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-platform-engineer-remote-full-time-as348-at-smart-working-4486845044",
+      "title": "DevOps / Platform Engineer (Remote, Full-Time) [AS348]",
+      "company": "Smart Working",
+      "location": "Indore, Madhya Pradesh, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/devops-platform-engineer-remote-full-time-as348-at-smart-working-4486845044",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-platform-engineer-remote-full-time-as348-at-smart-working-4486822915",
+      "title": "DevOps / Platform Engineer (Remote, Full-Time) [AS348]",
+      "company": "Smart Working",
+      "location": "Chandigarh, Chandigarh, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/devops-platform-engineer-remote-full-time-as348-at-smart-working-4486822915",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-truwave-software-4457912268",
+      "title": "DevOps Engineer",
+      "company": "Truwave Software",
+      "location": "Madurai, Tamil Nadu, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-truwave-software-4457912268",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-equal-experts-4486816901",
+      "title": "DevOps Engineer",
+      "company": "Equal Experts",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-equal-experts-4486816901",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/platform-specialist-at-acl-digital-4486035198",
+      "title": "Platform Specialist",
+      "company": "ACL Digital",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/platform-specialist-at-acl-digital-4486035198",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-thales-4478796014",
+      "title": "Devops Engineer",
+      "company": "Thales",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-thales-4478796014",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": true,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-flexiple-4486828411",
+      "title": "DevOps Engineer",
+      "company": "Flexiple",
+      "location": "India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-flexiple-4486828411",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/associate-sre-platform-engineering-at-jefferies-4486862482",
+      "title": "Associate - SRE - Platform Engineering",
+      "company": "Jefferies",
+      "location": "Pune Division, Maharashtra, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/associate-sre-platform-engineering-at-jefferies-4486862482",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/engineer-iii-site-reliability-kubernetes-at-crowdstrike-4476020048",
+      "title": "Engineer III - Site Reliability, Kubernetes",
+      "company": "CrowdStrike",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/engineer-iii-site-reliability-kubernetes-at-crowdstrike-4476020048",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/site-reliability-engineer-at-redholt-4484649135",
+      "title": "Site Reliability Engineer",
+      "company": "RedHolt",
+      "location": "Delhi, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/site-reliability-engineer-at-redholt-4484649135",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-platform-engineer-remote-full-time-as348-at-smart-working-4486845045",
+      "title": "DevOps / Platform Engineer (Remote, Full-Time) [AS348]",
+      "company": "Smart Working",
+      "location": "Hyderabad, Telangana, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/devops-platform-engineer-remote-full-time-as348-at-smart-working-4486845045",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-platform-engineer-remote-full-time-as348-at-smart-working-4486825845",
+      "title": "DevOps / Platform Engineer (Remote, Full-Time) [AS348]",
+      "company": "Smart Working",
+      "location": "Pune Division, Maharashtra, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/devops-platform-engineer-remote-full-time-as348-at-smart-working-4486825845",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/backend-cloud-engineer-at-embitel-technologies-4484640926",
+      "title": "Backend &Cloud Engineer",
+      "company": "Embitel Technologies",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/backend-cloud-engineer-at-embitel-technologies-4484640926",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/i-t-infrastructure-administrator-husky-india-chennai-at-husky-technologies-4486046368",
+      "title": "I.T. Infrastructure Administrator- Husky(India) Chennai",
+      "company": "Husky Technologies",
+      "location": "Chennai, Tamil Nadu, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/i-t-infrastructure-administrator-husky-india-chennai-at-husky-technologies-4486046368",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/software-engineer-at-infor-4484633572",
+      "title": "Software Engineer",
+      "company": "Infor",
+      "location": "Hyderabad, Telangana, India",
+      "posted_time": "2026-11-03",
+      "url": "https://in.linkedin.com/jobs/view/software-engineer-at-infor-4484633572",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-03T13:40:13.668866"
     }
   ]
 }
