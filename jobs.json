@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-05T22:56:52.427525",
+  "last_updated": "2026-11-06T03:18:56.678781",
   "config": {
     "search_keywords": [
       "DevOps Engineer",
@@ -13,7 +13,7 @@
     "search_location": "India",
     "enable_discord": false
   },
-  "total_jobs": 227,
+  "total_jobs": 230,
   "jobs": [
     {
       "id": "https://in.linkedin.com/jobs/view/devops-engineer-l3-at-wipro-4487095129",
@@ -134,6 +134,30 @@
       "is_priority": true,
       "is_duplicate": false,
       "found_at": "2026-11-05T22:56:52.427525"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/applied-ai-platforms-engineer-iii-sap-datasphere-bdc-at-deloitte-4486709159",
+      "title": "Applied AI Platforms Engineer III - SAP Datasphere/BDC",
+      "company": "Deloitte",
+      "location": "Hyderabad, Telangana, India",
+      "posted_time": "2026-11-05",
+      "url": "https://in.linkedin.com/jobs/view/applied-ai-platforms-engineer-iii-sap-datasphere-bdc-at-deloitte-4486709159",
+      "yoe_found": 2,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-05T22:56:52.427525"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/software-engineer-ii-sre-python-automation-sql-cloud-at-jpmorganchase-4488065590",
+      "title": "Software Engineer II - SRE, Python - Automation, SQL, Cloud",
+      "company": "JPMorganChase",
+      "location": "Mumbai, Maharashtra, India",
+      "posted_time": "2026-11-05",
+      "url": "https://in.linkedin.com/jobs/view/software-engineer-ii-sre-python-automation-sql-cloud-at-jpmorganchase-4488065590",
+      "yoe_found": 2,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-06T03:18:56.678781"
     },
     {
       "id": "https://in.linkedin.com/jobs/view/infrastructure-engineer-iii-production-support-with-monitoring-at-jpmorganchase-4487294866",
@@ -556,18 +580,6 @@
       "found_at": "2026-11-05T22:56:52.427525"
     },
     {
-      "id": "https://in.linkedin.com/jobs/view/applied-ai-platforms-engineer-iii-sap-datasphere-bdc-at-deloitte-4486709159",
-      "title": "Applied AI Platforms Engineer III - SAP Datasphere/BDC",
-      "company": "Deloitte",
-      "location": "Hyderabad, Telangana, India",
-      "posted_time": "2026-11-05",
-      "url": "https://in.linkedin.com/jobs/view/applied-ai-platforms-engineer-iii-sap-datasphere-bdc-at-deloitte-4486709159",
-      "yoe_found": null,
-      "is_priority": true,
-      "is_duplicate": false,
-      "found_at": "2026-11-05T22:56:52.427525"
-    },
-    {
       "id": "https://in.linkedin.com/jobs/view/software-engineering-pmts-apache-kafka-terraform-at-salesforce-4487792006",
       "title": "Software Engineering PMTS (Apache, Kafka, Terraform)",
       "company": "Salesforce",
@@ -868,6 +880,42 @@
       "found_at": "2026-11-05T22:56:52.427525"
     },
     {
+      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-celebal-technologies-4486584272",
+      "title": "DevOps Engineer",
+      "company": "Celebal Technologies",
+      "location": "Jaipur, Rajasthan, India",
+      "posted_time": "2026-11-05",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-celebal-technologies-4486584272",
+      "yoe_found": 3,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-05T09:05:29.482862"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-flexiple-4487732153",
+      "title": "DevOps Engineer",
+      "company": "Flexiple",
+      "location": "India",
+      "posted_time": "2026-11-05",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-flexiple-4487732153",
+      "yoe_found": 3,
+      "is_priority": false,
+      "is_duplicate": true,
+      "found_at": "2026-11-05T17:10:46.905216"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/avp-sre-platform-engineering-at-jefferies-4487757223",
+      "title": "AVP - SRE - Platform Engineering",
+      "company": "Jefferies",
+      "location": "Pune Division, Maharashtra, India",
+      "posted_time": "2026-11-05",
+      "url": "https://in.linkedin.com/jobs/view/avp-sre-platform-engineering-at-jefferies-4487757223",
+      "yoe_found": 3,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-06T03:18:56.678781"
+    },
+    {
       "id": "https://in.linkedin.com/jobs/view/senior-devops-engineer-at-capminds-4486332741",
       "title": "Senior DevOps Engineer",
       "company": "CapMinds",
@@ -946,6 +994,30 @@
       "location": "Greater Delhi Area",
       "posted_time": "2026-11-05",
       "url": "https://in.linkedin.com/jobs/view/gcp-cloud-senior-engineer-at-ingram-micro-4478805851",
+      "yoe_found": 2,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-05T22:56:52.427525"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/site-reliability-engineer-cloud-at-sophos-4487776404",
+      "title": "Site Reliability Engineer /Cloud",
+      "company": "Sophos",
+      "location": "India",
+      "posted_time": "2026-11-05",
+      "url": "https://in.linkedin.com/jobs/view/site-reliability-engineer-cloud-at-sophos-4487776404",
+      "yoe_found": 2,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-05T17:10:46.905216"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/ai-devops-engineer-at-deltek-4488014751",
+      "title": "AI DevOps Engineer",
+      "company": "Deltek",
+      "location": "India",
+      "posted_time": "2026-11-05",
+      "url": "https://in.linkedin.com/jobs/view/ai-devops-engineer-at-deltek-4488014751",
       "yoe_found": 2,
       "is_priority": false,
       "is_duplicate": false,
@@ -2080,18 +2152,6 @@
       "found_at": "2026-11-05T09:05:29.482862"
     },
     {
-      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-celebal-technologies-4486584272",
-      "title": "DevOps Engineer",
-      "company": "Celebal Technologies",
-      "location": "Jaipur, Rajasthan, India",
-      "posted_time": "2026-11-05",
-      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-celebal-technologies-4486584272",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-05T09:05:29.482862"
-    },
-    {
       "id": "https://in.linkedin.com/jobs/view/site-reliability-engineer-gcp-gke-at-ust-4485593156",
       "title": "Site Reliability Engineer (GCP & GKE)",
       "company": "UST",
@@ -2320,18 +2380,6 @@
       "found_at": "2026-11-05T17:10:46.905216"
     },
     {
-      "id": "https://in.linkedin.com/jobs/view/devops-engineer-at-flexiple-4487732153",
-      "title": "DevOps Engineer",
-      "company": "Flexiple",
-      "location": "India",
-      "posted_time": "2026-11-05",
-      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-flexiple-4487732153",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": true,
-      "found_at": "2026-11-05T17:10:46.905216"
-    },
-    {
       "id": "https://in.linkedin.com/jobs/view/aws-cloud-engineer-iii-at-rackspace-technology-4467856080",
       "title": "AWS Cloud Engineer III",
       "company": "Rackspace Technology",
@@ -2350,18 +2398,6 @@
       "location": "Bengaluru, Karnataka, India",
       "posted_time": "2026-11-05",
       "url": "https://in.linkedin.com/jobs/view/site-reliability-engineer-iv-at-sabre-4446421070",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-05T17:10:46.905216"
-    },
-    {
-      "id": "https://in.linkedin.com/jobs/view/site-reliability-engineer-cloud-at-sophos-4487776404",
-      "title": "Site Reliability Engineer /Cloud",
-      "company": "Sophos",
-      "location": "India",
-      "posted_time": "2026-11-05",
-      "url": "https://in.linkedin.com/jobs/view/site-reliability-engineer-cloud-at-sophos-4487776404",
       "yoe_found": null,
       "is_priority": false,
       "is_duplicate": false,
@@ -2672,7 +2708,7 @@
       "title": "Cloud Platform Engineer \u2013 Devops/IAC, Officer",
       "company": "State Street",
       "location": "Hyderabad, Telangana, India",
-      "posted_time": "2026-11-05",
+      "posted_time": "2026-11-06",
       "url": "https://in.linkedin.com/jobs/view/cloud-platform-engineer-%E2%80%93-devops-iac-officer-at-state-street-4482855606",
       "yoe_found": null,
       "is_priority": false,
@@ -2704,18 +2740,6 @@
       "found_at": "2026-11-05T22:56:52.427525"
     },
     {
-      "id": "https://in.linkedin.com/jobs/view/ai-devops-engineer-at-deltek-4488014751",
-      "title": "AI DevOps Engineer",
-      "company": "Deltek",
-      "location": "India",
-      "posted_time": "2026-11-05",
-      "url": "https://in.linkedin.com/jobs/view/ai-devops-engineer-at-deltek-4488014751",
-      "yoe_found": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-05T22:56:52.427525"
-    },
-    {
       "id": "https://in.linkedin.com/jobs/view/software-engineer-ii-at-cadence-4469446102",
       "title": "Software Engineer II",
       "company": "Cadence",
@@ -2738,6 +2762,18 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-11-05T22:56:52.427525"
+    },
+    {
+      "id": "https://in.linkedin.com/jobs/view/devops-engineer-4485851219",
+      "title": "DevOps Engineer",
+      "company": "Self Project (or LNCT University Project)",
+      "location": "Bhopal, Madhya Pradesh, India",
+      "posted_time": "2026-11-06",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-4485851219",
+      "yoe_found": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-06T03:18:56.678781"
     }
   ]
 }
