@@ -218,7 +218,9 @@
   function createJobCard(job, index, isApplied, appliedInfo) {
     const isNew = state.lastVisit && new Date(job.found_at || 0) > new Date(state.lastVisit);
     const yoeText = job.yoe_found != null
-      ? `${Number.isInteger(job.yoe_found) ? job.yoe_found : job.yoe_found.toFixed(1)}+ YOE`
+      ? (job.yoe_max != null
+          ? `${Number.isInteger(job.yoe_found) ? job.yoe_found : job.yoe_found.toFixed(1)}-${Number.isInteger(job.yoe_max) ? job.yoe_max : job.yoe_max.toFixed(1)} YOE`
+          : `${Number.isInteger(job.yoe_found) ? job.yoe_found : job.yoe_found.toFixed(1)}+ YOE`)
       : 'YOE N/A';
     const yoeClass = job.yoe_found != null ? 'badge--amber' : 'badge--dim';
 
@@ -490,8 +492,8 @@
     // Load from current config (what the pipeline is using)
     state.settingsKeywords = [...(state.config.search_keywords || [])];
     renderKeywordTags();
-    $('#minYoe').value = state.config.min_experience_years ?? 1;
-    $('#maxYoe').value = state.config.max_experience_years ?? 3;
+    $('#minYoe').value = state.config.your_experience_years ?? 3;
+    $('#maxYoe').value = state.config.stretch_years ?? 1;
     $('#searchLocation').value = state.config.search_location ?? 'India';
     $('#enableDiscord').checked = state.config.enable_discord ?? false;
     $('#githubPat').value = state.githubPat || '';
@@ -531,8 +533,8 @@
     const newConfig = {
       search_keywords: [...state.settingsKeywords],
       search_location: $('#searchLocation').value.trim() || 'India',
-      min_experience_years: parseInt($('#minYoe').value) || 1,
-      max_experience_years: parseInt($('#maxYoe').value) || 3,
+      your_experience_years: parseInt($('#minYoe').value) || 3,
+      stretch_years: parseInt($('#maxYoe').value) || 1,
       enable_discord: $('#enableDiscord').checked,
     };
 
