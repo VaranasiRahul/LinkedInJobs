@@ -50,19 +50,24 @@ LINKEDIN_URL_TEMPLATE = (
 )
 
 # ── Experience Filtering ───────────────────────────────────────────────────────
-# Tailored for your 2.8 years of experience:
-# You qualify for roles requiring minimum 1+, 2+, or 3+ years:
-#   - min 1+ years (e.g. 1+, 1-3 yrs)                  → NOTIFY
-#   - min 2+ years (e.g. 2+, 2.5 yrs, 2-4 yrs, 2-5 yrs) → NOTIFY
-#   - min 3+ years (e.g. 3+, 3-5 yrs)                  → NOTIFY
-#   - Description mentions no explicit YOE              → NOTIFY (unless fresher/intern/senior/director)
+# Smart eligibility matching for YOUR experience level.
 #
-# Skipped roles:
-#   - Fresher/Entry-level (0-1 yr, intern, trainee)     → SKIP (< MIN_EXPERIENCE_YEARS)
-#   - Over-experienced (4+ yrs, 5+ yrs, 8+ yrs)        → SKIP (> MAX_EXPERIENCE_YEARS)
-#   - Senior/Lead/Staff/AVP with no YOE anywhere        → SKIP (title implies overqualified)
-MIN_EXPERIENCE_YEARS = _user_config.get("min_experience_years", 1)
-MAX_EXPERIENCE_YEARS = _user_config.get("max_experience_years", 3)
+# Instead of a dumb min/max number comparison, the algorithm asks:
+# "Does MY experience fit what THIS JOB is looking for?"
+#
+# With YOUR_EXPERIENCE_YEARS = 3 and STRETCH_YEARS = 1:
+#
+#   Job says "1+ years"     → I have 3 ≥ 1     → ✅ I exceed their minimum
+#   Job says "2-4 years"    → 3 is in [2, 4]   → ✅ I'm right in the range
+#   Job says "3-5 years"    → 3 is in [3, 5]   → ✅ I'm at the bottom of range
+#   Job says "4+ years"     → I have 3+1 ≥ 4   → ✅ Within stretch — companies flex
+#   Job says "5+ years"     → I have 3+1 < 5   → ❌ Too senior for me
+#   Job says "0-1 years"    → max ≤ 1 = fresher→ ❌ Fresher role, I'm overqualified
+#   Job says "5-8 years"    → 3+1 < 5          → ❌ I can't reach their minimum
+#   No YOE found            →                  → ✅ INCLUDE (unless title says intern/senior/director)
+#
+YOUR_EXPERIENCE_YEARS = _user_config.get("your_experience_years", 3)
+STRETCH_YEARS         = _user_config.get("stretch_years", 1)
 
 # ── Deep Scan ─────────────────────────────────────────────────────────────────
 DEEP_SCAN = True
@@ -74,12 +79,13 @@ EXTERNAL_PORTAL_SCAN = True
 EXTERNAL_PORTAL_TIMEOUT = 6   # seconds to wait for external portal page to load
 
 # ── Skip Keywords (title only — very obvious fresher-only roles) ───────────────
-# ONLY skips if title contains these AND description also has no 2+ YOE mention.
+# ONLY skips if title contains these AND description also has no 3+ YOE mention.
 SKIP_TITLE_KEYWORDS = [
     "fresher", "freshers", "fresh graduate",
     "0-1 year", "0 to 1 year",
-    "internship", "intern ",
+    "internship", "intern",
     "trainee", "apprentice",
+    "junior", "entry level", "entry-level",
 ]
 
 # ── Company Blocklist ──────────────────────────────────────────────────────────
@@ -148,11 +154,11 @@ PROXY_LIST = [
 # If LinkedIn returns valid data, Selenium is skipped for that keyword (faster).
 # LinkedIn has deprecated public RSS, so this often fails — that's fine,
 # Selenium kicks in as the real scraper.
-USE_RSS_FALLBACK = True
+USE_RSS_FALLBACK = False   # LinkedIn deprecated RSS — this never returns data, skip it
 
 # ── Data / State ───────────────────────────────────────────────────────────────
 SEEN_JOBS_FILE         = "data/seen_jobs.json"
-SEEN_JOBS_TTL_HOURS    = 48
+SEEN_JOBS_TTL_HOURS    = 720  # 30 days retention (prevents reposted/promoted active jobs from repeating every 2 days)
 DASHBOARD_JOBS_FILE    = "data/dashboard_jobs.json"
 
 # ── Browser ────────────────────────────────────────────────────────────────────

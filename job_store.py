@@ -27,9 +27,10 @@ Write safety:
 import json
 import logging
 import os
+import re
 import tempfile
-from datetime import datetime, timedelta
-from typing import List
+from datetime import datetime, timezone, timedelta
+from typing import Dict, List, Optional, Set
 
 import constants
 
@@ -40,6 +41,29 @@ _TTL_HOURS  = constants.SEEN_JOBS_TTL_HOURS
 
 
 # ── Internal helpers ───────────────────────────────────────────────────────────
+
+def _fingerprint(title: str, company: str) -> str:
+    """Create a normalised title+company fingerprint for content-based dedup.
+
+    This catches the same job reposted under a different LinkedIn URL/ID.
+    Example: "DevOps Engineer | Wipro" today has ID 123456, tomorrow it's
+    reposted as ID 789012 — the fingerprint "devops engineer|wipro" matches.
+
+    Requires BOTH title and company to be non-empty so we never falsely match
+    different companies posting similarly titled roles.
+    """
+    if not title or not company:
+        return ''
+    t = title.lower()
+    t = re.sub(r'[^a-z0-9\s]', ' ', t)
+    # Remove insignificant stopwords and collapse whitespace
+    stopwords = {"and", "for", "the", "at", "in", "of", "with", "on", "a", "an", "to"}
+    t_words = [w for w in t.split() if w not in stopwords]
+    t_norm = " ".join(t_words)
+    c = re.sub(r'[^a-z0-9]', '', company.lower())
+    if not t_norm or not c:
+        return ''
+    return f"{t_norm}|{c}"
 
 def _load() -> dict:
     """
@@ -80,22 +104,52 @@ def _save(store: dict) -> None:
 
 # ── Public API ─────────────────────────────────────────────────────────────────
 
-def filter_new(job_ids: List[str]) -> List[str]:
+def filter_new(job_ids: List[str], jobs: Optional[List[dict]] = None) -> List[str]:
     """
     Given a list of job IDs, return only the ones NOT seen before.
+
+    Two-layer deduplication:
+      1. Job ID match — exact numeric LinkedIn job ID
+      2. Fingerprint match — normalised 'title|company' catches the same
+         job reposted under a different URL/ID (LinkedIn re-lists jobs)
+
+    Args:
+        job_ids: List of extracted job IDs to check.
+        jobs:    Optional list of job dicts (same order as job_ids).
+                 If provided, enables fingerprint dedup.
 
     This is the primary deduplication function — called once per run.
     Loads the store ONCE (efficient — no repeated disk reads).
     Does NOT write anything; call mark_seen_batch() after notifying.
-
-    How "no miss" is guaranteed:
-      - LinkedIn URL uses f_TPR=r86400 → fetches ALL jobs from last 24h every run.
-      - So a job posted 5 mins ago is fetched on the NEXT 30-min tick.
-      - filter_new() returns it as new because it wasn't seen before.
-      - After notification, it's marked seen → never notified again.
     """
     store = _load()
-    new_ids = [jid for jid in job_ids if jid not in store]
+
+    # Build set of known fingerprints from the store for O(1) lookup
+    known_fps: Set[str] = set()
+    for jid, val in store.items():
+        # Store format is either a plain ISO string (old) or a dict with 'ts' + 'fp'
+        if isinstance(val, dict):
+            fp = val.get("fp", "")
+            if fp:
+                known_fps.add(fp)
+
+    new_ids = []
+    for i, jid in enumerate(job_ids):
+        # Layer 1: exact job ID match
+        if jid in store:
+            continue
+        # Layer 2: fingerprint match (if job dicts provided)
+        if jobs and i < len(jobs):
+            job = jobs[i]
+            fp = _fingerprint(job.get("title", ""), job.get("company", ""))
+            if fp and fp in known_fps:
+                logger.info(
+                    "Fingerprint dedup: job %s (%s @ %s) matches a seen job.",
+                    jid, job.get("title", "")[:40], job.get("company", "")[:20],
+                )
+                continue
+        new_ids.append(jid)
+
     logger.info(
         "Dedup check: %d total → %d already seen → %d new",
         len(job_ids),
@@ -105,23 +159,54 @@ def filter_new(job_ids: List[str]) -> List[str]:
     return new_ids
 
 
-def is_new(job_id: str) -> bool:
-    """Return True if this job_id has NOT been seen before (single-check convenience)."""
-    return job_id not in _load()
+def is_new(job_id: str, job: Optional[dict] = None) -> bool:
+    """Return True if this job has NOT been seen before (by ID or fingerprint)."""
+    store = _load()
+    if job_id in store:
+        return False
+    if job:
+        fp = _fingerprint(job.get("title", ""), job.get("company", ""))
+        if fp:
+            for val in store.values():
+                if isinstance(val, dict) and val.get("fp") == fp:
+                    return False
+    return True
 
 
-def mark_seen_batch(job_ids: List[str]) -> None:
+def mark_seen_batch(job_ids: List[str], jobs: Optional[List[dict]] = None) -> None:
     """
     Atomically mark multiple job IDs as seen in a single disk write.
-    Call this AFTER sending all notifications so a crash mid-notify
-    doesn't mark jobs as seen before the Discord message went out.
+
+    If job dicts are provided (same order as job_ids), also stores a
+    title+company fingerprint for content-based dedup on future runs.
+
+    Storage format per entry (new):
+        { "ts": "2026-10-21T01:30:00+00:00", "fp": "devops engineer|wipro" }
+    Preserves original first-seen timestamp and fingerprint for existing entries.
     """
     if not job_ids:
         return
     store = _load()
-    now_iso = datetime.utcnow().isoformat()
-    for jid in job_ids:
-        store[jid] = now_iso
+    now_iso = datetime.now(timezone.utc).isoformat()
+    for i, jid in enumerate(job_ids):
+        fp = ""
+        if jobs and i < len(jobs):
+            job = jobs[i]
+            fp = _fingerprint(job.get("title", ""), job.get("company", ""))
+
+        existing = store.get(jid)
+        existing_ts = None
+        existing_fp = ""
+        if isinstance(existing, dict):
+            existing_ts = existing.get("ts")
+            existing_fp = existing.get("fp", "")
+        elif isinstance(existing, str):
+            existing_ts = existing
+
+        store[jid] = {
+            "ts": existing_ts or now_iso,
+            "fp": fp or existing_fp,
+        }
     _save(store)
     logger.info("Marked %d job ID(s) as seen.", len(job_ids))
 
@@ -139,7 +224,7 @@ def cleanup() -> int:
     Returns the number of entries removed.
     """
     store    = _load()
-    cutoff   = datetime.utcnow() - timedelta(hours=_TTL_HOURS)
+    cutoff   = datetime.now(timezone.utc) - timedelta(hours=_TTL_HOURS)
     n_before = len(store)
 
     expired = [
@@ -164,9 +249,23 @@ def count() -> int:
     return len(_load())
 
 
-def _is_expired(ts_str: str, cutoff: datetime) -> bool:
-    """Return True if timestamp string is before the cutoff (or malformed)."""
+def _is_expired(ts_or_entry, cutoff: datetime) -> bool:
+    """Return True if timestamp is before the cutoff (or malformed).
+
+    Handles both formats:
+      - Old: plain ISO string (e.g., "2026-10-21T01:30:00+00:00")
+      - New: dict with {"ts": "...", "fp": "..."}
+    """
     try:
-        return datetime.fromisoformat(ts_str) < cutoff
+        if isinstance(ts_or_entry, dict):
+            ts_str = ts_or_entry.get("ts", "")
+        else:
+            ts_str = str(ts_or_entry)
+        if not ts_str:
+            return True
+        ts = datetime.fromisoformat(ts_str.replace("Z", "+00:00"))
+        if ts.tzinfo is None:
+            ts = ts.replace(tzinfo=timezone.utc)
+        return ts < cutoff
     except (ValueError, TypeError):
         return True   # malformed entry → purge it

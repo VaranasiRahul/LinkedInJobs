@@ -84,6 +84,7 @@ def _send_job_embed(job: dict) -> bool:
     posted_time  = job.get("posted_time", "")
     url          = job.get("url", "")
     yoe          = job.get("yoe_found")          # int or None
+    yoe_max      = job.get("yoe_max")            # int or None (upper bound of range)
     is_priority  = job.get("is_priority", False) # True if company is in PRIORITY_COMPANIES
     is_duplicate = job.get("is_duplicate", False)
 
@@ -105,7 +106,11 @@ def _send_job_embed(job: dict) -> bool:
         lines.append(posted_time)
     if yoe is not None:
         yoe_str = f"{int(yoe)}" if int(yoe) == yoe else f"{yoe}"
-        lines.append(f"{yoe_str}+ years experience required")
+        if yoe_max is not None:
+            yoe_max_str = f"{int(yoe_max)}" if int(yoe_max) == yoe_max else f"{yoe_max}"
+            lines.append(f"{yoe_str}-{yoe_max_str} years experience required")
+        else:
+            lines.append(f"{yoe_str}+ years experience required")
     else:
         lines.append("Experience requirements — see description")
 

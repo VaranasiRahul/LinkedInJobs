@@ -7,22 +7,25 @@ Scrapes LinkedIn's public job search for DevOps (and related) jobs posted
 in the last 24 hours, filters by experience level, deduplicates, and sends
 Discord notifications for every new match.
 
-New in this version:
+Features:
   - Multi-keyword search (DevOps, SRE, Platform Engineer, ...)
   - Pagination — scrapes multiple result pages per keyword
-  - RSS lightweight pre-check (falls back to Selenium if fails)
   - Company blocklist — silently skip unwanted companies
   - Priority company badge — ★ for Indian IT MNCs
   - Within-run duplicate detection
   - Log rotation (5 MB max, 5 backups)
   - Proxy rotation support
+  - Deep scan of job descriptions for YOE extraction
+  - External portal scan when LinkedIn desc has no YOE
 
-YOE filter fix:
-  - "1-3 years" now extracts 1 (the MINIMUM of the range), not 3.
-    Jobs requiring min < 2 years are correctly skipped.
+YOE filtering (3+ YOE target):
+  - "3-5 years" extracts 3 (the MINIMUM of the range) → PASS
+  - "5+ years of experience with 2+ years Kubernetes" → 5 primary → SKIP
+  - Sub-skill years (AWS, Kubernetes, Docker) are classified as SECONDARY
+    and do not lower the extracted primary requirement.
 
 Usage:
-    python linkedin_jobs.py            # headless run (used by launchd / GitHub Actions)
+    python linkedin_jobs.py            # headless run (GitHub Actions / cron)
     python linkedin_jobs.py --manual   # visible Chrome (debug only)
     python linkedin_jobs.py --schedule # daemon every 30 min
     python linkedin_jobs.py --test     # send 2 test embeds to Discord
@@ -36,11 +39,11 @@ import sys
 import time
 import urllib.parse
 from random import choice, randint
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 from typing import Dict, List, Optional, Tuple
 
 try:
-    import feedparser          # RSS fallback
+    import feedparser          # RSS fallback (rarely succeeds — LinkedIn deprecated RSS)
 except ImportError:
     feedparser = None
 
@@ -54,6 +57,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 try:
+    from webdriver_manager.chrome import ChromeDriverManager
+    _WDM_AVAILABLE = True
+except ImportError:
+    _WDM_AVAILABLE = False
+
+try:
     import schedule as schedule_lib
 except ImportError:
     schedule_lib = None
@@ -62,9 +71,10 @@ import constants
 import job_store
 import notifier
 
-# ── Logging (with rotation) ───────────────────────────────────────────────────
+# ── Logging (with rotation, anchored to script directory) ─────────────────────
+_LOG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "linkedin_jobs.log")
 _log_handler_file = logging.handlers.RotatingFileHandler(
-    "linkedin_jobs.log",
+    _LOG_PATH,
     maxBytes=5 * 1024 * 1024,   # 5 MB per file
     backupCount=5,               # keep 5 rotated files
     encoding="utf-8",
@@ -90,19 +100,22 @@ USER_AGENTS = [
 _BLOCKLIST_LOWER  = [c.lower() for c in constants.COMPANY_BLOCKLIST]
 _PRIORITY_LOWER   = [c.lower() for c in constants.PRIORITY_COMPANIES]
 _SKIP_TITLE_LOWER = [kw.lower() for kw in constants.SKIP_TITLE_KEYWORDS]
+
+# Executive titles → always SKIP regardless of YOE found (overqualified / managerial)
 _EXECUTIVE_LOWER  = [
     "principal", "director", "vp ", "vice president", "head of",
     "staff architect", "chief architect", "enterprise architect",
-    # New: additional seniority markers clearly out of scope for 2.8 yrs
     "avp", "associate vice president",
-    "assistant manager", " manager",
     "module lead", "tech lead", "team lead",
-    "l5", "l6", "l7",
+    "l6", "l7",
     "distinguished",
 ]
+
+# Senior titles → SKIP only when no YOE found anywhere (description is silent)
+# If a senior role explicitly says "3-4 yrs", YOE filter handles it correctly.
 _SENIOR_KEYWORDS  = [
     "senior", "sr.", "sr ", "lead", "staff", "architect",
-    "manager", "l3", "l4", "l5",
+    "manager", "l5",
 ]
 
 
@@ -213,10 +226,18 @@ def launch_chrome(headless: bool = True) -> webdriver.Chrome:
     if headless:
         options.add_argument("--headless=new")
 
+    # Prefer webdriver-manager (auto-matches ChromeDriver version), fall back to system
     try:
-        driver = webdriver.Chrome(options=options, service=ChromeService())
+        if _WDM_AVAILABLE:
+            service = ChromeService(ChromeDriverManager().install())
+            driver = webdriver.Chrome(options=options, service=service)
+        else:
+            raise RuntimeError("webdriver-manager not available")
     except Exception:
-        driver = webdriver.Chrome(options=options)
+        try:
+            driver = webdriver.Chrome(options=options, service=ChromeService())
+        except Exception:
+            driver = webdriver.Chrome(options=options)
 
     driver.execute_cdp_cmd(
         "Page.addScriptToEvaluateOnNewDocument",
@@ -300,23 +321,59 @@ def _safe_text(el, css: str, default: str = "") -> str:
         return default
 
 
-def _safe_attr(el, css: str, attr: str, default: str = "") -> str:
+def _safe_attr(el, css: Optional[str], attr: str, default: str = "") -> str:
     try:
-        found = el.find_elements(By.CSS_SELECTOR, css)
-        if found:
-            val = found[0].get_attribute(attr)
-            if val:
-                return val.strip()
+        target = el
+        if css:
+            found = el.find_elements(By.CSS_SELECTOR, css)
+            if not found:
+                return default
+            target = found[0]
+        val = target.get_attribute(attr)
+        if val:
+            return val.strip()
         return default
     except Exception:
         return default
 
 
 def _extract_job_id(url: str) -> str:
-    m = re.search(r'/(\d{7,})', url)
-    if m:
-        return m.group(1)
-    return url.split("?")[0].rstrip("/")
+    """Extract the canonical numeric LinkedIn job ID from any URL or URN variant.
+
+    LinkedIn job identifiers come in many forms:
+      - https://www.linkedin.com/jobs/view/1234567890/
+      - https://www.linkedin.com/jobs/view/job-title-at-company-1234567890/
+      - https://in.linkedin.com/jobs/view/devops-engineer-at-wipro-1234567890
+      - /jobs/view/1234567890?trackingId=...
+      - https://www.linkedin.com/jobs/search/?currentJobId=1234567890
+      - urn:li:jobPosting:1234567890
+
+    We extract ONLY the number, strip everything else → deterministic dedup.
+    """
+    if not url:
+        return ""
+    # 1. Query parameters: ?currentJobId=1234567890 or &jobId=1234567890
+    m_param = re.search(r'[?&](?:currentJobId|jobId)=(\d{7,})', url)
+    if m_param:
+        return m_param.group(1)
+
+    # 2. URN: urn:li:jobPosting:1234567890
+    m_urn = re.search(r'urn:li:jobPosting:(\d{7,})', url)
+    if m_urn:
+        return m_urn.group(1)
+
+    # 3. Path digits after hyphen or slash: e.g. -4481511083 or /4481511083
+    clean = url.split("?")[0].split("#")[0].rstrip("/")
+    nums = re.findall(r'(\d{7,})', clean)
+    if nums:
+        return nums[-1]
+
+    # 4. Any 7+ digit number anywhere in the string
+    m_any = re.search(r'(\d{7,})', url)
+    if m_any:
+        return m_any.group(1)
+
+    return clean
 
 
 def _parse_single_card(card) -> Optional[dict]:
@@ -344,18 +401,41 @@ def _parse_single_card(card) -> Optional[dict]:
         if posted_time:
             break
 
+    # Extract Job ID directly from card DOM attributes if present
+    job_id = ""
+    for attr in ["data-entity-urn", "data-job-id", "data-id", "data-occludable-job-id"]:
+        val = _safe_attr(card, None, attr)
+        if val:
+            extracted = _extract_job_id(val)
+            if extracted and extracted.isdigit():
+                job_id = extracted
+                break
+
     url = ""
     for sel in ["a.base-card__full-link", "a[data-tracking-control-name]", "a"]:
         raw = _safe_attr(card, sel, "href")
         if raw and "linkedin.com/jobs" in raw:
+            if not job_id:
+                extracted = _extract_job_id(raw)
+                if extracted and extracted.isdigit():
+                    job_id = extracted
             url = raw.split("?")[0]
             break
 
-    if not title or not url:
+    if not job_id and url:
+        job_id = _extract_job_id(url)
+
+    if not title or (not url and not job_id):
         return None
 
+    # Canonicalize URL to ensure consistent, clean links
+    if job_id and job_id.isdigit():
+        canonical_url = f"https://www.linkedin.com/jobs/view/{job_id}/"
+        if not url or "search" in url or not url.startswith("http"):
+            url = canonical_url
+
     return {
-        "id":          _extract_job_id(url),
+        "id":          job_id,
         "title":       title,
         "company":     company,
         "location":    location,
@@ -416,8 +496,13 @@ def _company_is_blocked(company: str) -> bool:
 
 
 def _company_is_priority(company: str) -> bool:
+    """Word-boundary aware priority match — 'HP' won't match 'PHPDev Corp'."""
     cl = company.lower()
-    return any(p in cl for p in _PRIORITY_LOWER)
+    for p in _PRIORITY_LOWER:
+        # Use word boundary if the keyword is purely alphabetic; else plain substring
+        if re.search(r'\b' + re.escape(p) + r'\b', cl):
+            return True
+    return False
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -428,23 +513,29 @@ def _normalize_title(title: str) -> str:
     """Lowercase, strip punctuation and common filler words for comparison."""
     t = title.lower()
     t = re.sub(r'[^a-z0-9\s]', ' ', t)
-    stop = {"engineer", "senior", "lead", "and", "for", "the", "at", "in",
-            "of", "with", "on", "a", "an", "to", "role", "position", "job", "india"}
+    # Keep role-defining words like "engineer", "cloud", "devops" — they distinguish jobs
+    stop = {"senior", "lead", "and", "for", "the", "at", "in",
+            "of", "with", "on", "a", "an", "to", "role", "position", "job", "india",
+            "ii", "iii", "iv", "i"}
     return " ".join(w for w in t.split() if w not in stop)
 
 
 def tag_duplicates(jobs: List[dict]) -> None:
     """
     Mutates job dicts in-place to mark likely duplicates.
-    Two jobs are considered duplicates if their normalised title + location
+    Two jobs are considered duplicates if their normalised title + company + location
     combination has appeared before in this same run.
     """
     seen_sigs: set = set()
     for job in jobs:
-        sig = (_normalize_title(job.get("title", "")), job.get("location", "").lower()[:20])
+        sig = (
+            _normalize_title(job.get("title", "")),
+            job.get("company", "").lower().strip()[:30],
+            job.get("location", "").lower()[:20],
+        )
         if sig in seen_sigs:
             job["is_duplicate"] = True
-            logger.info("Duplicate detected: %s @ %s", job.get("title"), job.get("location"))
+            logger.info("Duplicate detected: %s @ %s (%s)", job.get("title"), job.get("company"), job.get("location"))
         else:
             seen_sigs.add(sig)
 
@@ -478,7 +569,7 @@ def write_dashboard_jobs(eligible_jobs: List[dict]) -> None:
         pass
 
     # Merge new jobs (newer data wins, preserve found_at)
-    now_iso = datetime.utcnow().isoformat()
+    now_iso = datetime.now(timezone.utc).isoformat()
     for job in eligible_jobs:
         jid = job.get("id", "")
         if not jid:
@@ -491,6 +582,7 @@ def write_dashboard_jobs(eligible_jobs: List[dict]) -> None:
             "posted_time":  job.get("posted_time", ""),
             "url":          job.get("url", ""),
             "yoe_found":    job.get("yoe_found"),
+            "yoe_max":      job.get("yoe_max"),
             "is_priority":  job.get("is_priority", False),
             "is_duplicate": job.get("is_duplicate", False),
             "found_at":     existing.get(jid, {}).get("found_at", now_iso),
@@ -498,30 +590,39 @@ def write_dashboard_jobs(eligible_jobs: List[dict]) -> None:
         existing[jid] = entry
 
     # Prune entries older than 48h
-    cutoff = datetime.utcnow() - timedelta(hours=48)
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=48)
     pruned: Dict[str, dict] = {}
     for jid, job in existing.items():
         try:
-            found = datetime.fromisoformat(job.get("found_at", ""))
-            if found >= cutoff:
+            ts = job.get("found_at", "")
+            # Handle both timezone-aware and naive ISO strings
+            found = datetime.fromisoformat(ts.replace("Z", "+00:00")) if ts else None
+            if found is None:
                 pruned[jid] = job
+            else:
+                if found.tzinfo is None:
+                    found = found.replace(tzinfo=timezone.utc)
+                if found >= cutoff:
+                    pruned[jid] = job
         except (ValueError, TypeError):
             pruned[jid] = job  # keep if can't parse
 
     # Write sorted output
+    # Sort: priority first; within same priority, closest YOE match first (ascending)
+    # so roles asking for 3 yrs appear before 4 yrs when you have exactly 3 yrs
     output = {
-        "last_updated": now_iso,
+        "last_updated": datetime.now(timezone.utc).isoformat(),
         "config": {
-            "search_keywords":      constants.SEARCH_KEYWORDS_LIST,
-            "min_experience_years": constants.MIN_EXPERIENCE_YEARS,
-            "max_experience_years": getattr(constants, "MAX_EXPERIENCE_YEARS", 3),
-            "search_location":      constants.SEARCH_LOCATION,
-            "enable_discord":       getattr(constants, "ENABLE_DISCORD", False),
+            "search_keywords":       constants.SEARCH_KEYWORDS_LIST,
+            "your_experience_years": constants.YOUR_EXPERIENCE_YEARS,
+            "stretch_years":         getattr(constants, "STRETCH_YEARS", 1),
+            "search_location":       constants.SEARCH_LOCATION,
+            "enable_discord":        getattr(constants, "ENABLE_DISCORD", False),
         },
         "total_jobs": len(pruned),
         "jobs": sorted(
             pruned.values(),
-            key=lambda j: (not j.get("is_priority", False), -(j.get("yoe_found") or 0)),
+            key=lambda j: (not j.get("is_priority", False), (j.get("yoe_found") or 99)),
         ),
     }
 
@@ -533,7 +634,23 @@ def write_dashboard_jobs(eligible_jobs: List[dict]) -> None:
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# EXPERIENCE FILTERING  ← BUG FIX: now extracts MINIMUM of range, not maximum
+# EXPERIENCE FILTERING — Smart eligibility matching
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# DESIGN:
+#   OLD (broken): Extract the min from "3-5 years" → 3 → check if 3 is in
+#     [config_min, config_max]. This fails because "2-4 years" extracts 2,
+#     and 2 < config_min=3, so it's SKIPPED — even though 3 yrs is IN the range!
+#
+#   NEW (correct): Extract BOTH sides of the requirement (min AND max),
+#     then ask: "Does MY experience (3 yrs) qualify for this job?"
+#
+#     "1+ years"   → (1, None) → 3 ≥ 1          → ✅ I exceed their minimum
+#     "2-4 years"  → (2, 4)    → 3 is in [2, 4]  → ✅ I'm in their range
+#     "3-5 years"  → (3, 5)    → 3 is in [3, 5]  → ✅ At the bottom of range
+#     "4+ years"   → (4, None) → 3+1 ≥ 4         → ✅ Stretch (companies flex)
+#     "5+ years"   → (5, None) → 3+1 < 5          → ❌ Too senior
+#     "0-1 years"  → (0, 1)    → fresher range    → ❌ Overqualified
 # ═══════════════════════════════════════════════════════════════════════════════
 
 # Patterns that indicate a year mention is about a sub-skill/tool, NOT the overall requirement.
@@ -565,32 +682,34 @@ _SECONDARY_AFTER_RE = re.compile(
 )
 
 
-def _extract_primary_yoe(text: str) -> Optional[float]:
+def _extract_yoe_requirement(text: str) -> Optional[Tuple[float, Optional[float]]]:
     """
-    Context-aware extraction of the PRIMARY years-of-experience requirement.
+    Context-aware extraction of the experience requirement from job text.
 
-    Key improvement over the old _extract_min_years_required():
-      OLD: min() of ALL year values found  →  "8+ yrs exp, with 2+ yrs K8s" gives 2 ✗
-      NEW: classify each mention as PRIMARY (overall req) or SECONDARY (sub-skill),
-           then return min(primary). If only secondary mentions exist, return
-           max(secondary) because the real requirement is at least that high.
+    Returns:
+        (min_yoe, max_yoe) where:
+            min_yoe = minimum years the job requires
+            max_yoe = upper bound if range was specified, or None if open-ended
+        None if no YOE info found in text.
 
-    PRIMARY patterns  (overall job requirement):
-      "X+ years of experience"  |  "minimum X years"  |  "X-Y years of experience"
-      "experience: X years"    |  "(X yrs)" in title  |  "X to Y years experience"
+    Examples:
+        "3+ years of experience"      → (3.0, None)   open-ended minimum
+        "3-5 years of experience"     → (3.0, 5.0)    bounded range
+        "minimum 2 years"             → (2.0, None)   open-ended minimum
+        "2 to 4 years experience"     → (2.0, 4.0)    bounded range
+        "Experience with CI/CD"       → None           no YOE info
 
-    SECONDARY patterns  (tool/technology-specific sub-requirements):
-      Preceded by: with / including / of which / out of which / hands-on in ...
-      Followed by a specific technology keyword (Kubernetes, AWS, Docker, etc.)
-
-    Returns the numeric YOE as int (whole) or float (decimal), or None if not found.
+    Sub-skill classification:
+        "8+ yrs exp, with 2+ in K8s"  → (8.0, None)  the 2 is SECONDARY (sub-skill)
+        Only if no primary is found, max(secondary) is returned as open-ended.
     """
     num = r'(\d+(?:\.\d+)?)'
-    primary: List[float] = []
-    secondary: List[float] = []
+    # Each entry is (min_yoe, max_yoe_or_None)
+    primary: List[Tuple[float, Optional[float]]] = []
+    secondary: List[Tuple[float, Optional[float]]] = []
 
     def _classify(m: re.Match, context_before: str, context_after: str = "") -> str:
-        """Return 'primary' or 'secondary' based on context around the match."""
+        """Return 'primary' or 'secondary' based on surrounding context."""
         before = context_before.lower()
         if _SECONDARY_CONTEXT_RE.search(before[-80:]):
             return "secondary"
@@ -598,18 +717,21 @@ def _extract_primary_yoe(text: str) -> Optional[float]:
             return "secondary"
         return "primary"
 
-    def _add_match(val: float, m: re.Match, force_secondary: bool = False):
+    def _add_match(val: float, m: re.Match,
+                   range_max: Optional[float] = None,
+                   force_secondary: bool = False):
+        entry = (val, range_max)
         if force_secondary:
-            secondary.append(val)
+            secondary.append(entry)
             return
         start = max(0, m.start() - 80)
         ctx_before = text[start:m.start()]
         ctx_after = text[m.end():m.end() + 80]
         kind = _classify(m, ctx_before, ctx_after)
         if kind == "primary":
-            primary.append(val)
+            primary.append(entry)
         else:
-            secondary.append(val)
+            secondary.append(entry)
 
     # ── PRIMARY pattern 1: 'minimum/min/at least X years' ────────────────────
     for m in re.finditer(
@@ -640,13 +762,19 @@ def _extract_primary_yoe(text: str) -> Optional[float]:
     ):
         _add_match(float(m.group(1)), m)
 
-    # ── RANGE pattern: 'X-Y years' / 'X to Y years' → take X ─────────────────
+    # ── RANGE pattern: 'X-Y years' / 'X to Y years' → capture BOTH sides ────
     # These are nearly always primary (e.g. "3-5 years of experience")
-    for m in re.finditer(rf'{num}\s*[-–]\s*\d+(?:\.\d+)?\s*(?:years?|yrs?)', text, re.IGNORECASE):
-        _add_match(float(m.group(1)), m)
+    for m in re.finditer(
+        rf'{num}\s*[-–]\s*(\d+(?:\.\d+)?)\s*(?:years?|yrs?)',
+        text, re.IGNORECASE
+    ):
+        _add_match(float(m.group(1)), m, range_max=float(m.group(2)))
 
-    for m in re.finditer(rf'{num}\s+to\s+\d+(?:\.\d+)?\s*(?:years?|yrs?)', text, re.IGNORECASE):
-        _add_match(float(m.group(1)), m)
+    for m in re.finditer(
+        rf'{num}\s+to\s+(\d+(?:\.\d+)?)\s*(?:years?|yrs?)',
+        text, re.IGNORECASE
+    ):
+        _add_match(float(m.group(1)), m, range_max=float(m.group(2)))
 
     # ── Explicit tech sub-skill: X(+) years of <TECH> experience / in <TECH> ──
     for m in re.finditer(
@@ -662,13 +790,13 @@ def _extract_primary_yoe(text: str) -> Optional[float]:
         _add_match(float(m.group(1)), m, force_secondary=True)
 
     # ── SECONDARY / ambiguous: 'X+ years' with no explicit 'of experience' ────
-    # e.g. "2+ years in Kubernetes" — if not already captured, classify
     for m in re.finditer(
         rf'{num}\s*\+\s*(?:years?|yrs?)(?!\s+(?:in\s+business|old|ago|history|of\s+experience))\b',
         text, re.IGNORECASE
     ):
         val = float(m.group(1))
-        already = any(abs(val - p) < 0.01 for p in primary) or any(abs(val - s) < 0.01 for s in secondary)
+        already = (any(abs(val - p[0]) < 0.01 for p in primary) or
+                   any(abs(val - s[0]) < 0.01 for s in secondary))
         if not already:
             _add_match(val, m)
 
@@ -677,29 +805,105 @@ def _extract_primary_yoe(text: str) -> Optional[float]:
         rf'\(\s*(?:min\s+)?{num}\s*\+?\s*(?:years?|yrs?)\s*\)',
         text, re.IGNORECASE
     ):
-        primary.append(float(m.group(1)))
+        primary.append((float(m.group(1)), None))
 
     # ── Decide final value ────────────────────────────────────────────────────
     if primary:
-        val = min(primary)
-        logger.debug("YOE extract: primary=%s secondary=%s → using %s", primary, secondary, val)
-        return int(val) if float(val).is_integer() else round(val, 1)
+        # Pick the entry with the lowest min_yoe (the most accessible requirement)
+        best = min(primary, key=lambda x: x[0])
+        logger.debug("YOE req: primary=%s secondary=%s → using %s", primary, secondary, best)
+        return best
     if secondary:
         # No explicit overall requirement found; the highest sub-skill YOE is
-        # our best proxy for the overall seniority expected.
-        val = max(secondary)
-        logger.debug("YOE extract: no primary, secondary=%s → using max %s", secondary, val)
-        return int(val) if float(val).is_integer() else round(val, 1)
+        # our best proxy for the overall seniority expected (open-ended).
+        best = max(secondary, key=lambda x: x[0])
+        logger.debug("YOE req: no primary, secondary=%s → using max %s", secondary, best)
+        return best
     return None
 
 
-# Keep old name as alias so nothing else breaks (used in meets_experience_requirement fallback)
+def _extract_primary_yoe(text: str) -> Optional[float]:
+    """Backward-compatible wrapper — returns just the min requirement as a number."""
+    result = _extract_yoe_requirement(text)
+    if result is None:
+        return None
+    val = result[0]
+    return int(val) if float(val).is_integer() else round(val, 1)
+
+
+# Keep old name as alias
 _extract_min_years_required = _extract_primary_yoe
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SMART ELIGIBILITY CHECK
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def _is_eligible_for_role(
+    your_exp: float,
+    req_min: float,
+    req_max: Optional[float],
+    stretch: float = 1.0,
+) -> Tuple[bool, str]:
+    """
+    Determine if YOUR experience qualifies you for a job's requirement.
+
+    This is fundamentally different from the old min/max comparison:
+        OLD: "Does the extracted number fall in [config_min, config_max]?"
+             → "2-4 years" extracts 2, and 2 < 3, so SKIP — WRONG!
+        NEW: "Does my 3 years fit in the job's [2, 4] range?"
+             → 3 is between 2 and 4 — PASS!
+
+    Args:
+        your_exp: Your actual years of experience (e.g. 3)
+        req_min:  Job's minimum requirement (e.g. 2 from "2-4 years")
+        req_max:  Job's max if range (e.g. 4 from "2-4"), or None for "2+ years"
+        stretch:  Years above your exp you're willing to reach for (default 1)
+
+    Returns:
+        (eligible: bool, reason: str)
+
+    Decision flow:
+        1. Fresher range? (max ≤ 1)      → ❌ you're overqualified
+        2. Overqualified? (you >> max)    → ❌ they want someone more junior
+        3. Can you reach their minimum?   → ✅/❌ with stretch
+    """
+    # ── Rule 1: Fresher range exclusion ───────────────────────────────────────
+    # "0-1 years" means they want a fresher. With 3 yrs you're way past that.
+    if req_max is not None and req_max <= 1:
+        return False, f"fresher range (0-{req_max:.0f}yr)"
+
+    # ── Rule 2: Overqualified for explicit range ──────────────────────────────
+    # "1-2 years" and you have 5 → 5 > 2 + 1 = 3 → too senior for them
+    # "2-3 years" and you have 3 → 3 > 3 + 1 = 4? No → still OK
+    if req_max is not None and your_exp > req_max + stretch:
+        return False, f"overqualified for {req_min:.0f}-{req_max:.0f}yr (have {your_exp:.0f})"
+
+    # ── Rule 3: Can you meet their minimum (with stretch)? ────────────────────
+    # "4+ years" → need 4, you have 3, stretch 1 → 4 ≤ 3+1=4 → ✅
+    # "5+ years" → need 5, you have 3, stretch 1 → 5 ≤ 4 → ❌
+    if req_min <= your_exp + stretch:
+        if req_max is not None:
+            return True, f"fit {req_min:.0f}-{req_max:.0f}yr range (have {your_exp:.0f})"
+        else:
+            return True, f"meet {req_min:.0f}+ requirement (have {your_exp:.0f})"
+    else:
+        return False, f"need {req_min:.0f}+ yrs (have {your_exp:.0f}, stretch +{stretch:.0f} not enough)"
+
+
+def _set_yoe_on_job(job: dict, req_min: float, req_max: Optional[float]) -> None:
+    """Store the extracted YOE requirement on the job dict for dashboard/notifications."""
+    job["yoe_found"] = int(req_min) if float(req_min).is_integer() else round(req_min, 1)
+    if req_max is not None:
+        job["yoe_max"] = int(req_max) if float(req_max).is_integer() else round(req_max, 1)
 
 
 def _title_is_skip(title: str) -> bool:
     tl = title.lower()
+    # Regex word-boundary for intern/internship catches "DevOps Intern" and "Internship"
     if re.search(r'\bintern(s|ship)?\b', tl):
+        return True
+    if re.search(r'\b(junior|entry[\s-]?level|fresher|trainee|apprentice)\b', tl):
         return True
     return any(kw in tl for kw in _SKIP_TITLE_LOWER)
 
@@ -716,30 +920,37 @@ def _title_implies_senior(title: str) -> bool:
 
 def meets_experience_requirement(job: dict, driver: webdriver.Chrome = None) -> bool:
     """
-    Decide whether this job should be notified.
+    Decide whether this job matches your experience level.
 
-    Tailored for ~2.8 years of experience:
-      - Jobs requiring min 1+, 2+, 3+ years  → INCLUDE
-      - Jobs requiring min 0 (fresher/intern) → SKIP (< min_yrs)
-      - Jobs requiring min >= 4+ years       → SKIP (> max_yrs)
-      - No YOE in description                → try external portal; else INCLUDE
-                                               (unless intern/fresher, executive, or senior+no YOE anywhere)
+    Uses smart eligibility matching — not a dumb number range comparison.
+
+    With YOUR_EXPERIENCE_YEARS = 3 and STRETCH_YEARS = 1:
+
+        "1+ years"     → 3 ≥ 1     → ✅ (you exceed their minimum)
+        "2-4 years"    → 3 in [2,4] → ✅ (you're in their range)
+        "3-5 years"    → 3 in [3,5] → ✅ (you're at the bottom of their range)
+        "4+ years"     → 3+1 ≥ 4   → ✅ (stretch — companies often flex ±1 yr)
+        "5+ years"     → 3+1 < 5   → ❌ (too senior even with stretch)
+        "0-1 years"    → fresher   → ❌ (you're overqualified)
+        No YOE found   →           → title heuristics, then INCLUDE
     """
-    min_yrs = constants.MIN_EXPERIENCE_YEARS
-    max_yrs = getattr(constants, "MAX_EXPERIENCE_YEARS", 3)
-    title   = job.get("title", "")
+    your_exp = constants.YOUR_EXPERIENCE_YEARS
+    stretch  = getattr(constants, "STRETCH_YEARS", 1)
+    title    = job.get("title", "")
 
     if constants.DEEP_SCAN and driver is not None:
-        return _deep_scan_experience(driver, job, min_yrs, max_yrs)
+        return _deep_scan_experience(driver, job)
 
-    yrs_in_title = _extract_primary_yoe(title)
-    if yrs_in_title is not None:
-        result = min_yrs <= yrs_in_title <= max_yrs
-        if result:
-            job["yoe_found"] = yrs_in_title
-        logger.info("%s (title: %s yrs, range %s-%s): %s",
-                    "PASS" if result else "SKIP", yrs_in_title, min_yrs, max_yrs, title)
-        return result
+    # Try title for YOE
+    req = _extract_yoe_requirement(title)
+    if req is not None:
+        req_min, req_max = req
+        eligible, reason = _is_eligible_for_role(your_exp, req_min, req_max, stretch)
+        if eligible:
+            _set_yoe_on_job(job, req_min, req_max)
+        logger.info("%s (title YOE: %s — %s): %s",
+                    "PASS" if eligible else "SKIP", req, reason, title)
+        return eligible
 
     if _title_is_skip(title):
         logger.info("SKIP (fresher/intern title): %s", title)
@@ -761,14 +972,13 @@ def _scrape_external_portal_yoe(
     driver: webdriver.Chrome,
     job: dict,
     linkedin_tab: str,
-) -> Optional[float]:
+) -> Optional[Tuple[float, Optional[float]]]:
     """
     Click the 'Apply on company website' button on the currently-open LinkedIn
     job detail page, wait for the external portal to load in a new tab, scrape
-    its text, extract YOE, then close the external tab and return to `linkedin_tab`.
+    its text, extract YOE requirement, then close the tab and return.
 
-    Returns the extracted YOE float, or None if the portal couldn't be reached
-    or contained no YOE information.
+    Returns (min_yoe, max_yoe_or_None) tuple, or None if no YOE found.
     """
     if not getattr(constants, "EXTERNAL_PORTAL_SCAN", False):
         return None
@@ -829,16 +1039,13 @@ def _scrape_external_portal_yoe(
     new_handles = handles_after - handles_before
 
     if new_handles:
-        # A new tab opened — switch to it
         ext_handle = new_handles.pop()
         driver.switch_to.window(ext_handle)
     elif portal_href and portal_href.startswith("http"):
-        # No new tab — navigate current tab to the href directly
         try:
             driver.get(portal_href)
         except Exception as e:
             logger.debug("EXTERNAL_SCAN: Navigate failed for '%s': %s", title, e)
-            # Go back to linkedin job tab
             try:
                 driver.switch_to.window(linkedin_tab)
             except Exception:
@@ -849,12 +1056,11 @@ def _scrape_external_portal_yoe(
         return None
 
     # ── Scrape the external portal page ──────────────────────────────────────
-    ext_yoe: Optional[float] = None
+    ext_req: Optional[Tuple[float, Optional[float]]] = None
     try:
         portal_url = driver.current_url
         logger.info("EXTERNAL_SCAN: Opened portal %s for: %s", portal_url[:80], title)
 
-        # Wait for the page body to load
         try:
             WebDriverWait(driver, timeout).until(
                 EC.presence_of_element_located((By.TAG_NAME, "body"))
@@ -863,13 +1069,10 @@ def _scrape_external_portal_yoe(
             pass
         time.sleep(1.0)
 
-        # Dismiss any cookie banners / modals on the external portal
         _dismiss_modals(driver)
 
-        # Extract text — prefer a job description container, fall back to full body
         ext_text = ""
         ext_desc_selectors = [
-            # Common job portal containers
             "[class*='job-description']", "[class*='jobDescription']",
             "[class*='job_description']", "[id*='job-description']",
             "[id*='jobDescription']", "[class*='description-content']",
@@ -894,9 +1097,9 @@ def _scrape_external_portal_yoe(
                 pass
 
         if ext_text:
-            ext_yoe = _extract_primary_yoe(ext_text)
-            if ext_yoe is not None:
-                logger.info("EXTERNAL_SCAN: Found %s yrs on portal for: %s", ext_yoe, title)
+            ext_req = _extract_yoe_requirement(ext_text)
+            if ext_req is not None:
+                logger.info("EXTERNAL_SCAN: Found %s on portal for: %s", ext_req, title)
             else:
                 logger.info("EXTERNAL_SCAN: No YOE on portal for: %s", title)
         else:
@@ -905,7 +1108,7 @@ def _scrape_external_portal_yoe(
     except Exception as e:
         logger.warning("EXTERNAL_SCAN: Error scraping portal for '%s': %s", title, e)
 
-    # ── Close the external tab and return to LinkedIn job detail tab ──────────
+    # ── Close the external tab and return to LinkedIn tab ─────────────────────
     try:
         if driver.current_window_handle != linkedin_tab:
             driver.close()
@@ -916,17 +1119,19 @@ def _scrape_external_portal_yoe(
         except Exception:
             pass
 
-    return ext_yoe
+    return ext_req
 
 
-def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: float, max_yrs: float) -> bool:
-    """Open job page in new tab, extract description, check YOE.
+def _deep_scan_experience(driver: webdriver.Chrome, job: dict) -> bool:
+    """Open job page in new tab, extract description, check YOE eligibility.
     If LinkedIn description has no YOE, follow the Apply button to the external
     portal and check there too before making an include/skip decision.
     """
-    title  = job.get("title", "")
-    job_id = job.get("id", "")
-    url    = job.get("url", "")
+    your_exp = constants.YOUR_EXPERIENCE_YEARS
+    stretch  = getattr(constants, "STRETCH_YEARS", 1)
+    title    = job.get("title", "")
+    job_id   = job.get("id", "")
+    url      = job.get("url", "")
 
     view_url = f"https://www.linkedin.com/jobs/view/{job_id}/" if job_id.isdigit() else url
 
@@ -934,13 +1139,12 @@ def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: float, m
         orig = driver.current_window_handle
         driver.execute_script("window.open(arguments[0], '_blank');", view_url)
         driver.switch_to.window(driver.window_handles[-1])
-        linkedin_tab = driver.current_window_handle   # remember this for external scan
+        linkedin_tab = driver.current_window_handle
         time.sleep(randint(1500, 2200) / 1000.0)
 
         if _is_auth_wall(driver):
             driver.close()
             driver.switch_to.window(orig)
-            # Auth wall = can't read description; apply title heuristics
             if _title_is_skip(title) or _title_is_executive(title):
                 logger.info("DEEP_SCAN: Auth wall — SKIP (title heuristic): %s", title)
                 return False
@@ -968,7 +1172,7 @@ def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: float, m
             except Exception:
                 continue
 
-        # Extract description
+        # Extract description text
         desc = ""
         for sel in [".description__text", ".show-more-less-html__markup",
                     "#job-details", ".jobs-description-content__text",
@@ -991,32 +1195,33 @@ def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: float, m
 
         # ── Evaluate LinkedIn description ─────────────────────────────────────
         if desc:
-            yrs = _extract_primary_yoe(desc)
-            if yrs is not None:
+            req = _extract_yoe_requirement(desc)
+            if req is not None:
+                req_min, req_max = req
                 driver.close()
                 driver.switch_to.window(orig)
-                result = min_yrs <= yrs <= max_yrs
-                if result:
-                    job["yoe_found"] = yrs
-                logger.info("DEEP_SCAN %s — %s yrs min (eligible range: %s-%s yrs): %s",
-                            "PASS" if result else "SKIP", yrs, min_yrs, max_yrs, title)
-                return result
+                eligible, reason = _is_eligible_for_role(your_exp, req_min, req_max, stretch)
+                if eligible:
+                    _set_yoe_on_job(job, req_min, req_max)
+                logger.info("DEEP_SCAN %s — %s (%s): %s",
+                            "PASS" if eligible else "SKIP", req, reason, title)
+                return eligible
 
             # No YOE in LinkedIn desc — try the external portal
             logger.debug("DEEP_SCAN: No YOE in LinkedIn desc, trying external portal: %s", title)
-            ext_yrs = _scrape_external_portal_yoe(driver, job, linkedin_tab)
+            ext_req = _scrape_external_portal_yoe(driver, job, linkedin_tab)
 
-            # After external scan, driver is back on linkedin_tab; close it now
             driver.close()
             driver.switch_to.window(orig)
 
-            if ext_yrs is not None:
-                result = min_yrs <= ext_yrs <= max_yrs
-                if result:
-                    job["yoe_found"] = ext_yrs
-                logger.info("EXTERNAL_SCAN %s — %s yrs min (eligible range: %s-%s yrs): %s",
-                            "PASS" if result else "SKIP", ext_yrs, min_yrs, max_yrs, title)
-                return result
+            if ext_req is not None:
+                req_min, req_max = ext_req
+                eligible, reason = _is_eligible_for_role(your_exp, req_min, req_max, stretch)
+                if eligible:
+                    _set_yoe_on_job(job, req_min, req_max)
+                logger.info("EXTERNAL_SCAN %s — %s (%s): %s",
+                            "PASS" if eligible else "SKIP", ext_req, reason, title)
+                return eligible
 
             # Still no YOE anywhere — apply title-based heuristics
             if _title_is_skip(title) or _title_is_executive(title):
@@ -1031,18 +1236,19 @@ def _deep_scan_experience(driver: webdriver.Chrome, job: dict, min_yrs: float, m
         else:
             # Couldn't read the LinkedIn description at all — still try external portal
             logger.debug("DEEP_SCAN: Empty LinkedIn desc, trying external portal: %s", title)
-            ext_yrs = _scrape_external_portal_yoe(driver, job, linkedin_tab)
+            ext_req = _scrape_external_portal_yoe(driver, job, linkedin_tab)
 
             driver.close()
             driver.switch_to.window(orig)
 
-            if ext_yrs is not None:
-                result = min_yrs <= ext_yrs <= max_yrs
-                if result:
-                    job["yoe_found"] = ext_yrs
-                logger.info("EXTERNAL_SCAN %s — %s yrs min (eligible range: %s-%s yrs) [li-desc empty]: %s",
-                            "PASS" if result else "SKIP", ext_yrs, min_yrs, max_yrs, title)
-                return result
+            if ext_req is not None:
+                req_min, req_max = ext_req
+                eligible, reason = _is_eligible_for_role(your_exp, req_min, req_max, stretch)
+                if eligible:
+                    _set_yoe_on_job(job, req_min, req_max)
+                logger.info("EXTERNAL_SCAN %s — %s (%s) [li-desc empty]: %s",
+                            "PASS" if eligible else "SKIP", ext_req, reason, title)
+                return eligible
 
             if _title_is_skip(title) or _title_is_executive(title):
                 logger.info("DEEP_SCAN SKIP (fresher/executive title, couldn't read desc): %s", title)
@@ -1135,8 +1341,9 @@ def run_once(headless: bool = True) -> int:
     """
     keywords = constants.SEARCH_KEYWORDS_LIST
     logger.info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    logger.info("Run Start | Keywords: %s | Location: %s | YOE: %s-%s yrs",
-                keywords, constants.SEARCH_LOCATION, constants.MIN_EXPERIENCE_YEARS, getattr(constants, "MAX_EXPERIENCE_YEARS", 3))
+    logger.info("Run Start | Keywords: %s | Location: %s | YOE: %s yrs (stretch +%s)",
+                keywords, constants.SEARCH_LOCATION, constants.YOUR_EXPERIENCE_YEARS,
+                getattr(constants, "STRETCH_YEARS", 1))
 
     driver         = None
     new_jobs_count = 0
@@ -1186,42 +1393,71 @@ def run_once(headless: bool = True) -> int:
         # ── Step 5: Within-run duplicate detection ────────────────────────────
         tag_duplicates(list(all_jobs.values()))
 
-        # ── Step 6: Experience filter (deep scan) ─────────────────────────────
+        # ── Step 6: Deduplicate against seen_jobs store FIRST ─────────────────
+        # This MUST happen before the experience filter to avoid:
+        #   a) Wasting deep-scan time on already-seen jobs
+        #   b) Re-notifying about the same job every run
+        all_job_list = [j for j in all_jobs.values() if j.get("id")]
+        all_ids      = [j["id"] for j in all_job_list]
+        new_ids      = set(job_store.filter_new(all_ids, jobs=all_job_list))
+        unseen       = {jid: job for jid, job in all_jobs.items() if jid in new_ids}
+
+        logger.info("After dedup: %d / %d are new (not seen before).",
+                    len(unseen), len(all_jobs))
+
+        if not unseen:
+            logger.info("No new jobs this run — all were previously seen.")
+            # Refresh dashboard (prunes expired entries without adding unfiltered jobs)
+            try:
+                write_dashboard_jobs([])
+            except Exception as e:
+                logger.warning("Dashboard export failed: %s", e)
+            job_store.cleanup()
+            logger.info("Store size after cleanup: %d IDs.", job_store.count())
+            return 0
+
+        # ── Step 7: Experience filter (only on new/unseen jobs) ──────────────
         eligible = []
-        for job in all_jobs.values():
+        for job in unseen.values():
             if meets_experience_requirement(job, driver if constants.DEEP_SCAN else None):
                 eligible.append(job)
 
-        logger.info("After experience filter: %d / %d eligible.",
-                    len(eligible), len(all_jobs))
+        logger.info("After experience filter: %d / %d eligible (of %d new).",
+                    len(eligible), len(unseen), len(all_jobs))
 
-        # ── Step 6b: Write dashboard JSON ─────────────────────────────────────
+        # ── Step 7b: Write dashboard JSON ─────────────────────────────────────
+        # Dashboard gets ALL eligible (new + already-seen eligible from prior runs)
         try:
             write_dashboard_jobs(eligible)
         except Exception as e:
             logger.warning("Dashboard export failed: %s", e)
 
-        # ── Step 7: Deduplicate against store ─────────────────────────────────
-        eligible_ids = [j["id"] for j in eligible]
-        new_ids      = set(job_store.filter_new(eligible_ids))
-        new_jobs     = [j for j in eligible if j["id"] in new_ids]
-
-        # ── Step 8: Notify FIRST, then mark seen ─────────────────────────────
-        if new_jobs:
+        # ── Step 8: Notify eligible new jobs ──────────────────────────────────
+        if eligible:
             # Sort: priority companies first, then by YOE descending
-            new_jobs.sort(key=lambda j: (not j["is_priority"], -(j["yoe_found"] or 0)))
-            notifier.send_new_jobs(new_jobs)
+            eligible.sort(key=lambda j: (not j["is_priority"], -(j["yoe_found"] or 0)))
+            notifier.send_new_jobs(eligible)
 
             if constants.ENABLE_MACOS_NOTIFICATION:
                 notifier.notify_macos(
                     "LinkedIn Jobs Monitor",
-                    f"{len(new_jobs)} new DevOps job(s) found!",
+                    f"{len(eligible)} new DevOps job(s) found!",
                 )
 
-            job_store.mark_seen_batch(list(new_ids))
-            new_jobs_count = len(new_jobs)
-        else:
-            logger.info("No new jobs this run.")
+        # ── Step 9: Mark ALL scraped job IDs as seen ──────────────────────────
+        # Mark ALL new IDs (not just eligible ones) so that:
+        #   - Ineligible jobs (too senior, fresher, etc.) are never re-processed
+        #   - Eligible jobs are never re-notified
+        # This prevents "same job repeating every day" for jobs that keep
+        # appearing in the 24h search window (re-posted or still active).
+        # Pass job dicts for fingerprint-based dedup on future runs.
+        new_id_list  = list(new_ids)
+        new_job_list = [all_jobs[jid] for jid in new_id_list if jid in all_jobs]
+        job_store.mark_seen_batch(new_id_list, jobs=new_job_list)
+        new_jobs_count = len(eligible)
+
+        if not eligible:
+            logger.info("No eligible new jobs this run.")
 
         # ── Cleanup ───────────────────────────────────────────────────────────
         job_store.cleanup()

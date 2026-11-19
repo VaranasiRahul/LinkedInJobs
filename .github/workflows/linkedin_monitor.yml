@@ -72,12 +72,11 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
-      # ── 5. Install Chrome (Selenium needs a real browser) ─────────────────────
+      # ── 5. Install Chrome (using official browser-actions — more reliable than apt) ──
       - name: Install Google Chrome
-        run: |
-          sudo apt-get update -q
-          sudo apt-get install -y google-chrome-stable
-          google-chrome --version
+        uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: stable
 
       # ── 6. Install Python dependencies ───────────────────────────────────────
       - name: Install Python dependencies

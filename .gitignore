@@ -27,6 +27,10 @@ constants_local.py
 .env
 *.env
 
+# User config — edited via dashboard, committed intentionally via GitHub API only
+# Comment the next line out if you want to track user_config.json in git.
+# user_config.json
+
 # Local state — no need to version this
 data/
 
