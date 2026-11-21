@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-21T17:00:56.697450+00:00",
+  "last_updated": "2026-11-21T22:05:06.729056+00:00",
   "config": {
     "search_keywords": [
       "DevOps Engineer",
@@ -13,7 +13,7 @@
     "search_location": "India",
     "enable_discord": false
   },
-  "total_jobs": 249,
+  "total_jobs": 261,
   "jobs": [
     {
       "id": "4492408964",
@@ -105,6 +105,19 @@
       "is_priority": true,
       "is_duplicate": false,
       "found_at": "2026-11-20T12:36:31.032149+00:00"
+    },
+    {
+      "id": "4493103270",
+      "title": "Windows & VMware Administrator",
+      "company": "Tata Consultancy Services",
+      "location": "Mumbai, Maharashtra, India",
+      "posted_time": "2026-11-21",
+      "url": "https://in.linkedin.com/jobs/view/windows-vmware-administrator-at-tata-consultancy-services-4493103270",
+      "yoe_found": 4,
+      "yoe_max": 6,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-21T22:05:06.728907+00:00"
     },
     {
       "id": "4492466713",
@@ -770,6 +783,32 @@
       "found_at": "2026-11-21T17:00:56.697227+00:00"
     },
     {
+      "id": "4492315657",
+      "title": "DevOps Engineer",
+      "company": "Infosys",
+      "location": "Nizamabad, Telangana, India",
+      "posted_time": "2026-11-21",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-4492315657",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-21T22:05:06.728907+00:00"
+    },
+    {
+      "id": "4491903905",
+      "title": "Applied AI Specialist-Cloud FullStack",
+      "company": "IBM",
+      "location": "Chennai, Tamil Nadu, India",
+      "posted_time": "2026-11-20",
+      "url": "https://in.linkedin.com/jobs/view/applied-ai-specialist-cloud-fullstack-at-ibm-4491903905",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-21T22:05:06.728907+00:00"
+    },
+    {
       "id": "4492553495",
       "title": "Forward Deployed Engineer (Cloud Design and Build, 8-12 yrs)",
       "company": "Archer",
@@ -911,6 +950,32 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-11-21T17:00:56.697227+00:00"
+    },
+    {
+      "id": "4492300035",
+      "title": "Software Engineer",
+      "company": "Fluidra Technologies Private Limited",
+      "location": "Pune City, Maharashtra, India",
+      "posted_time": "2026-11-21",
+      "url": "https://in.linkedin.com/jobs/view/software-engineer-at-fluidra-technologies-private-limited-4492300035",
+      "yoe_found": 2,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-21T22:05:06.728907+00:00"
+    },
+    {
+      "id": "4491957912",
+      "title": "MS - IT Infra - Senior Associate Enhancement Pool - Operate",
+      "company": "PwC Acceleration Center India",
+      "location": "Bengaluru East, Karnataka, India",
+      "posted_time": "2026-11-20",
+      "url": "https://in.linkedin.com/jobs/view/ms-it-infra-senior-associate-enhancement-pool-operate-at-pwc-acceleration-center-india-4491957912",
+      "yoe_found": 2,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-21T22:05:06.728907+00:00"
     },
     {
       "id": "4491386850",
@@ -1093,6 +1158,71 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-11-21T17:00:56.697227+00:00"
+    },
+    {
+      "id": "4450305094",
+      "title": "Platform as a Service Engineer",
+      "company": "Tower Research Capital",
+      "location": "Gurgaon, Haryana, India",
+      "posted_time": "2026-11-21",
+      "url": "https://www.linkedin.com/jobs/view/4450305094/",
+      "yoe_found": 3,
+      "yoe_max": 7,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-21T22:05:06.728907+00:00"
+    },
+    {
+      "id": "4410189820",
+      "title": "Cloud Infrastructure Engineer",
+      "company": "Transaction Network Services (TNS)",
+      "location": "Greater Kolkata Area",
+      "posted_time": "2026-11-21",
+      "url": "https://in.linkedin.com/jobs/view/cloud-infrastructure-engineer-at-transaction-network-services-tns-4410189820",
+      "yoe_found": 3,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-21T22:05:06.728907+00:00"
+    },
+    {
+      "id": "4467549768",
+      "title": "MLOps Engineer",
+      "company": "Zimmer Biomet",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-21",
+      "url": "https://in.linkedin.com/jobs/view/mlops-engineer-at-zimmer-biomet-4467549768",
+      "yoe_found": 3,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-21T22:05:06.728907+00:00"
+    },
+    {
+      "id": "4440389147",
+      "title": "Senior Technology Specialist",
+      "company": "McDermott International, Ltd",
+      "location": "Gurgaon, Haryana, India",
+      "posted_time": "2026-11-21",
+      "url": "https://in.linkedin.com/jobs/view/senior-technology-specialist-at-mcdermott-international-ltd-4440389147",
+      "yoe_found": 3,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-21T22:05:06.728907+00:00"
+    },
+    {
+      "id": "4413450625",
+      "title": "Platform Engineer- Storage",
+      "company": "LPL Financial Global Capability Center",
+      "location": "Greater Hyderabad Area",
+      "posted_time": "2026-11-21",
+      "url": "https://in.linkedin.com/jobs/view/platform-engineer-storage-at-lpl-financial-global-capability-center-4413450625",
+      "yoe_found": 3,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-21T22:05:06.728907+00:00"
     },
     {
       "id": "4492146838",
@@ -3251,6 +3381,32 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-11-21T17:00:56.697227+00:00"
+    },
+    {
+      "id": "4491297128",
+      "title": "Production Support - AWS || 8-10 Years || Hyderabad Only",
+      "company": "A Client of Neerinfo Solutions",
+      "location": "Hyderabad, Telangana, India",
+      "posted_time": "2026-11-21",
+      "url": "https://in.linkedin.com/jobs/view/production-support-aws-8-10-years-hyderabad-only-4491297128",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-21T22:05:06.728907+00:00"
+    },
+    {
+      "id": "4492892770",
+      "title": "System Engineer",
+      "company": "VaaaN Infra Pvt. Ltd.",
+      "location": "Thoothukudi, Tamil Nadu, India",
+      "posted_time": "2026-11-21",
+      "url": "https://in.linkedin.com/jobs/view/system-engineer-at-vaaan-infra-pvt-ltd-4492892770",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-21T22:05:06.728907+00:00"
     }
   ]
 }
