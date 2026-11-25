@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-25T14:56:29.892396+00:00",
+  "last_updated": "2026-11-25T23:34:36.416604+00:00",
   "config": {
     "search_keywords": [
       "DevOps Engineer",
@@ -13,7 +13,7 @@
     "search_location": "India",
     "enable_discord": false
   },
-  "total_jobs": 140,
+  "total_jobs": 163,
   "jobs": [
     {
       "id": "4494333408",
@@ -92,6 +92,19 @@
       "is_priority": true,
       "is_duplicate": false,
       "found_at": "2026-11-24T21:35:18.591006+00:00"
+    },
+    {
+      "id": "4494672233",
+      "title": "DevOps CM-SE/SSE",
+      "company": "CGI",
+      "location": "Mumbai Metropolitan Region",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/devops-cm-se-sse-at-cgi-4494672233",
+      "yoe_found": 3,
+      "yoe_max": 7,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
     },
     {
       "id": "4493935990",
@@ -209,6 +222,123 @@
       "is_priority": true,
       "is_duplicate": false,
       "found_at": "2026-11-25T14:56:29.892258+00:00"
+    },
+    {
+      "id": "4494950883",
+      "title": "AWS DevOps Engineer",
+      "company": "Infosys",
+      "location": "Pune Division, Maharashtra, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/aws-devops-engineer-at-infosys-4494950883",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4478559092",
+      "title": "Site Reliability Engineer (SRE) \u2013 Cloud Platform & Kubernetes , Docker (4 to 8Years)",
+      "company": "Cisco",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/site-reliability-engineer-sre-%E2%80%93-cloud-platform-kubernetes-docker-4-to-8years-at-cisco-4478559092",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4478435517",
+      "title": "The Core Engineering-L2-Bengaluru-Associate-Software Engineering",
+      "company": "Goldman Sachs",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/the-core-engineering-l2-bengaluru-associate-software-engineering-at-goldman-sachs-4478435517",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4470686728",
+      "title": "Cloud Operations Engineer",
+      "company": "MongoDB",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/cloud-operations-engineer-at-mongodb-4470686728",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4494655859",
+      "title": "GoLang/L3 Support / SRE services",
+      "company": "CGI",
+      "location": "Chennai, Tamil Nadu, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/golang-l3-support-sre-services-at-cgi-4494655859",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4478713562",
+      "title": "Systems Development Engineer II, FO Support",
+      "company": "Amazon",
+      "location": "Hyderabad, Telangana, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/systems-development-engineer-ii-fo-support-at-amazon-4478713562",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4481450025",
+      "title": "Software Engineer II - Platform Engineering",
+      "company": "IBM",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/software-engineer-ii-platform-engineering-at-ibm-4481450025",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4487034267",
+      "title": "Systems Engineer, APAC Controls Deployment and Service Team",
+      "company": "Amazon Web Services (AWS)",
+      "location": "Mumbai Metropolitan Region",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/systems-engineer-apac-controls-deployment-and-service-team-at-amazon-web-services-aws-4487034267",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4486384013",
+      "title": "Azure L2/ L3 Support with IAAS/PAAS/ IaC",
+      "company": "Birlasoft",
+      "location": "Pune/Pimpri-Chinchwad Area",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/azure-l2-l3-support-with-iaas-paas-iac-at-birlasoft-4486384013",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
     },
     {
       "id": "4492667921",
@@ -846,6 +976,19 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-11-25T14:56:29.892258+00:00"
+    },
+    {
+      "id": "4478432955",
+      "title": "Senior Associate, DevOps",
+      "company": "GALE",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/senior-associate-devops-at-gale-4478432955",
+      "yoe_found": 4,
+      "yoe_max": 6,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
     },
     {
       "id": "4475443213",
@@ -1834,6 +1977,162 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-11-25T14:56:29.892258+00:00"
+    },
+    {
+      "id": "4493437350",
+      "title": "GCP Public Cloud DevOps Engineer - VOIS",
+      "company": "VOIS",
+      "location": "Pune Division, Maharashtra, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/gcp-public-cloud-devops-engineer-vois-at-vois-4493437350",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4494668190",
+      "title": "Production Engineer (SRE/Dev - Python)",
+      "company": "Zscaler",
+      "location": "Bengaluru East, Karnataka, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/production-engineer-sre-dev-python-at-zscaler-4494668190",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4494923647",
+      "title": "Site Reliability Engineer",
+      "company": "HighRadius",
+      "location": "Hyderabad, Telangana, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/site-reliability-engineer-at-highradius-4494923647",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4494684370",
+      "title": "Site Reliability Engineer \u2013 Personal",
+      "company": "HuntingCube",
+      "location": "Gurugram, Haryana, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/site-reliability-engineer-%E2%80%93-personal-at-huntingcube-4494684370",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4494648995",
+      "title": "Platform Infrastructure / Site Reliability Engineer",
+      "company": "SPAN",
+      "location": "Bengaluru East, Karnataka, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/platform-infrastructure-site-reliability-engineer-at-span-4494648995",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4493437519",
+      "title": "Platform Infrastructure / Site Reliability Engineer",
+      "company": "SPAN India",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/platform-infrastructure-site-reliability-engineer-at-span-india-4493437519",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4493449890",
+      "title": "Observability Engineer",
+      "company": "OP",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/observability-engineer-at-op-4493449890",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4404761286",
+      "title": "Backend Engineer- Kubernetes Infrastructure (India)",
+      "company": "Onehouse",
+      "location": "Greater Kolkata Area",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/backend-engineer-kubernetes-infrastructure-india-at-onehouse-4404761286",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4494695522",
+      "title": "Platform Engineer",
+      "company": "Uplers",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/platform-engineer-at-uplers-4494695522",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4494696543",
+      "title": "AI Development Platform Engineer",
+      "company": "Spore N Sprouts",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/ai-development-platform-engineer-at-spore-n-sprouts-4494696543",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4493424841",
+      "title": "Data Platform Engineer Specialist Information Technology",
+      "company": "Baxter International Inc.",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/data-platform-engineer-specialist-information-technology-at-baxter-international-inc-4493424841",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
+    },
+    {
+      "id": "4493445029",
+      "title": "Systems & Cloud Engineer",
+      "company": "Milestone Technologies, Inc.",
+      "location": "Kochi, Kerala, India",
+      "posted_time": "2026-11-25",
+      "url": "https://in.linkedin.com/jobs/view/systems-cloud-engineer-at-milestone-technologies-inc-4493445029",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-25T23:34:36.416516+00:00"
     }
   ]
 }
