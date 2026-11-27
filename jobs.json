@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-27T00:21:26.656777+00:00",
+  "last_updated": "2026-11-27T08:59:00.718512+00:00",
   "config": {
     "search_keywords": [
       "DevOps Engineer",
@@ -13,7 +13,7 @@
     "search_location": "India",
     "enable_discord": false
   },
-  "total_jobs": 133,
+  "total_jobs": 145,
   "jobs": [
     {
       "id": "4495521013",
@@ -92,6 +92,19 @@
       "is_priority": true,
       "is_duplicate": false,
       "found_at": "2026-11-26T15:42:23.989330+00:00"
+    },
+    {
+      "id": "4493865600",
+      "title": "Devops Engineer",
+      "company": "Cyient",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-27",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-cyient-4493865600",
+      "yoe_found": 3,
+      "yoe_max": 6,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-27T08:59:00.718431+00:00"
     },
     {
       "id": "4487736872",
@@ -287,6 +300,19 @@
       "is_priority": true,
       "is_duplicate": false,
       "found_at": "2026-11-27T00:21:26.656659+00:00"
+    },
+    {
+      "id": "4493881268",
+      "title": "DevOps Engineer",
+      "company": "Deloitte",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-27",
+      "url": "https://in.linkedin.com/jobs/view/devops-engineer-at-deloitte-4493881268",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-27T08:59:00.718431+00:00"
     },
     {
       "id": "4493098946",
@@ -718,17 +744,30 @@
       "found_at": "2026-11-27T00:21:26.656659+00:00"
     },
     {
-      "id": "4494194491",
-      "title": "Cloud Platform Engineer",
-      "company": "People Prime Worldwide",
-      "location": "Mumbai Metropolitan Region",
-      "posted_time": "2026-11-25",
-      "url": "https://in.linkedin.com/jobs/view/cloud-platform-engineer-at-people-prime-worldwide-4494194491",
-      "yoe_found": 4,
-      "yoe_max": 7,
+      "id": "4495577456",
+      "title": "Lead DevOps Engineer",
+      "company": "Optum India",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-27",
+      "url": "https://in.linkedin.com/jobs/view/lead-devops-engineer-at-optum-india-4495577456",
+      "yoe_found": 3,
+      "yoe_max": null,
       "is_priority": false,
       "is_duplicate": false,
-      "found_at": "2026-11-25T04:31:43.517589+00:00"
+      "found_at": "2026-11-27T08:59:00.718431+00:00"
+    },
+    {
+      "id": "4495592142",
+      "title": "Software Engineer II, Platforms",
+      "company": "Wayfair",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-27",
+      "url": "https://in.linkedin.com/jobs/view/software-engineer-ii-platforms-at-wayfair-4495592142",
+      "yoe_found": 3,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-27T08:59:00.718431+00:00"
     },
     {
       "id": "4493092293",
@@ -911,6 +950,19 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-11-27T00:21:26.656659+00:00"
+    },
+    {
+      "id": "4493862661",
+      "title": "Senior Software Engineer \u2013 Tooling & Platform (Terraform)",
+      "company": "Okta",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-27",
+      "url": "https://in.linkedin.com/jobs/view/senior-software-engineer-%E2%80%93-tooling-platform-terraform-at-okta-4493862661",
+      "yoe_found": 4,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-27T08:59:00.718431+00:00"
     },
     {
       "id": "4493407542",
@@ -1743,6 +1795,110 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-11-27T00:21:26.656659+00:00"
+    },
+    {
+      "id": "4495076430",
+      "title": "Engineer - DevOps",
+      "company": "RateGain",
+      "location": "Noida, Uttar Pradesh, India",
+      "posted_time": "2026-11-27",
+      "url": "https://in.linkedin.com/jobs/view/engineer-devops-at-rategain-4495076430",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-27T08:59:00.718431+00:00"
+    },
+    {
+      "id": "4495071943",
+      "title": "DevOps Platform Engineer",
+      "company": "ACURA SOLUTIONS LTD",
+      "location": "Kerala, India",
+      "posted_time": "2026-11-27",
+      "url": "https://in.linkedin.com/jobs/view/devops-platform-engineer-at-acura-solutions-ltd-4495071943",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-27T08:59:00.718431+00:00"
+    },
+    {
+      "id": "4495591408",
+      "title": "Site Reliability Engineer",
+      "company": "NexionPro Services",
+      "location": "Chennai, Tamil Nadu, India",
+      "posted_time": "2026-11-27",
+      "url": "https://in.linkedin.com/jobs/view/site-reliability-engineer-at-nexionpro-services-4495591408",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-27T08:59:00.718431+00:00"
+    },
+    {
+      "id": "4495068805",
+      "title": "PRODUCTION OPERATIONS (ProdOps) ENGINEER",
+      "company": "VOLTO Consulting",
+      "location": "Noida, Uttar Pradesh, India",
+      "posted_time": "2026-11-27",
+      "url": "https://in.linkedin.com/jobs/view/production-operations-prodops-engineer-at-volto-consulting-4495068805",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-27T08:59:00.718431+00:00"
+    },
+    {
+      "id": "4495085390",
+      "title": "Production Operation Engineer",
+      "company": "VOLTO Consulting",
+      "location": "Noida, Uttar Pradesh, India",
+      "posted_time": "2026-11-27",
+      "url": "https://in.linkedin.com/jobs/view/production-operation-engineer-at-volto-consulting-4495085390",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-27T08:59:00.718431+00:00"
+    },
+    {
+      "id": "4495072736",
+      "title": "Site Reliability Engineer (Azure, Kubernetes) | 6\u20139 Yrs",
+      "company": "AmagoPro Consulting Private Limited",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-27",
+      "url": "https://in.linkedin.com/jobs/view/site-reliability-engineer-azure-kubernetes-6%E2%80%939-yrs-at-amagopro-consulting-private-limited-4495072736",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-27T08:59:00.718431+00:00"
+    },
+    {
+      "id": "4435116079",
+      "title": "App Dev & Support Engineer II",
+      "company": "Conduent",
+      "location": "Bengaluru, Karnataka, India",
+      "posted_time": "2026-11-26",
+      "url": "https://in.linkedin.com/jobs/view/app-dev-support-engineer-ii-at-conduent-4435116079",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-27T08:59:00.718431+00:00"
+    },
+    {
+      "id": "4485345499",
+      "title": "System Engineer L2 - Linux Systems & Storage",
+      "company": "Neysa",
+      "location": "Noida, Uttar Pradesh, India",
+      "posted_time": "2026-11-27",
+      "url": "https://in.linkedin.com/jobs/view/system-engineer-l2-linux-systems-storage-at-neysa-4485345499",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-27T08:59:00.718431+00:00"
     }
   ]
 }
