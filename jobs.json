@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-28T01:54:24.487532+00:00",
+  "last_updated": "2026-11-28T09:46:28.053870+00:00",
   "config": {
     "search_keywords": [
       "DevOps Engineer",
@@ -13,7 +13,7 @@
     "search_location": "India",
     "enable_discord": false
   },
-  "total_jobs": 125,
+  "total_jobs": 124,
   "jobs": [
     {
       "id": "4495521013",
@@ -276,6 +276,19 @@
       "found_at": "2026-11-28T01:54:24.487433+00:00"
     },
     {
+      "id": "4494225877",
+      "title": "Software Engineer - AI",
+      "company": "Barclays",
+      "location": "Pune Division, Maharashtra, India",
+      "posted_time": "2026-11-28",
+      "url": "https://in.linkedin.com/jobs/view/software-engineer-ai-at-barclays-4494225877",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": true,
+      "is_duplicate": false,
+      "found_at": "2026-11-28T09:46:28.053809+00:00"
+    },
+    {
       "id": "4494986954",
       "title": "DevOps Engineer",
       "company": "HYrEzy Tech Solutions",
@@ -456,6 +469,19 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-11-27T18:47:03.446516+00:00"
+    },
+    {
+      "id": "4488140493",
+      "title": "AI engineer-Databricks Data Platform",
+      "company": "Ecolab",
+      "location": "Bengaluru East, Karnataka, India",
+      "posted_time": "2026-11-27",
+      "url": "https://in.linkedin.com/jobs/view/ai-engineer-databricks-data-platform-at-ecolab-4488140493",
+      "yoe_found": 2,
+      "yoe_max": 4,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-28T09:46:28.053809+00:00"
     },
     {
       "id": "4488857779",
@@ -885,84 +911,6 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-11-27T18:47:03.446516+00:00"
-    },
-    {
-      "id": "4494994049",
-      "title": "DevOps Engineer (AWS + GCP)",
-      "company": "FINAGG Technologies Private Limited",
-      "location": "Noida, Uttar Pradesh, India",
-      "posted_time": "2026-11-26",
-      "url": "https://in.linkedin.com/jobs/view/devops-engineer-aws-%2B-gcp-at-finagg-technologies-private-limited-4494994049",
-      "yoe_found": null,
-      "yoe_max": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-26T05:30:11.019086+00:00"
-    },
-    {
-      "id": "4494685795",
-      "title": "DevOps Engineer",
-      "company": "Open Metal India",
-      "location": "India",
-      "posted_time": "2026-11-25",
-      "url": "https://in.linkedin.com/jobs/view/devops-engineer-4494685795",
-      "yoe_found": null,
-      "yoe_max": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-26T05:30:11.019086+00:00"
-    },
-    {
-      "id": "4493477864",
-      "title": "AI Reliability Engineer (SRE/DevOps) --ML Engineer I",
-      "company": "UST",
-      "location": "Pune Division, Maharashtra, India",
-      "posted_time": "2026-11-26",
-      "url": "https://in.linkedin.com/jobs/view/ai-reliability-engineer-sre-devops-ml-engineer-i-at-ust-4493477864",
-      "yoe_found": null,
-      "yoe_max": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-26T05:30:11.019086+00:00"
-    },
-    {
-      "id": "4495242789",
-      "title": "Cloud AI Engineer",
-      "company": "Aventra.AI",
-      "location": "Mumbai, Maharashtra, India",
-      "posted_time": "2026-11-26",
-      "url": "https://in.linkedin.com/jobs/view/cloud-ai-engineer-at-aventra-ai-4495242789",
-      "yoe_found": null,
-      "yoe_max": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-26T05:30:11.019086+00:00"
-    },
-    {
-      "id": "4495252550",
-      "title": "AWS+Azure Cloud Engineer",
-      "company": "InfoSpeed Services, Inc.",
-      "location": "Mumbai, Maharashtra, India",
-      "posted_time": "2026-11-26",
-      "url": "https://in.linkedin.com/jobs/view/aws%2Bazure-cloud-engineer-at-infospeed-services-inc-4495252550",
-      "yoe_found": null,
-      "yoe_max": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-26T05:30:11.019086+00:00"
-    },
-    {
-      "id": "4495256328",
-      "title": "Cloud & System Administrator \u2013 Red Hat OpenStack",
-      "company": "GC Technologies Pvt Ltd",
-      "location": "Gurugram, Haryana, India",
-      "posted_time": "2026-11-26",
-      "url": "https://in.linkedin.com/jobs/view/cloud-system-administrator-%E2%80%93-red-hat-openstack-at-gc-technologies-pvt-ltd-4495256328",
-      "yoe_found": null,
-      "yoe_max": null,
-      "is_priority": false,
-      "is_duplicate": false,
-      "found_at": "2026-11-26T05:30:11.019086+00:00"
     },
     {
       "id": "4494925047",
@@ -1639,6 +1587,45 @@
       "is_priority": false,
       "is_duplicate": false,
       "found_at": "2026-11-28T01:54:24.487433+00:00"
+    },
+    {
+      "id": "4495895489",
+      "title": "CoffeeBeans - Site Reliability Engineer",
+      "company": "CoffeeBeans",
+      "location": "Mumbai, Maharashtra, India",
+      "posted_time": "2026-11-28",
+      "url": "https://in.linkedin.com/jobs/view/coffeebeans-site-reliability-engineer-at-coffeebeans-4495895489",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-28T09:46:28.053809+00:00"
+    },
+    {
+      "id": "4495098712",
+      "title": "Cloud Engineer",
+      "company": "Lorven Technologies Inc.",
+      "location": "Greater Bengaluru Area",
+      "posted_time": "2026-11-27",
+      "url": "https://in.linkedin.com/jobs/view/cloud-engineer-at-lorven-technologies-inc-4495098712",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-28T09:46:28.053809+00:00"
+    },
+    {
+      "id": "4494212199",
+      "title": "Associate engineer",
+      "company": "BT Group",
+      "location": "Bengaluru South, Karnataka, India",
+      "posted_time": "2026-11-27",
+      "url": "https://in.linkedin.com/jobs/view/associate-engineer-at-bt-group-4494212199",
+      "yoe_found": null,
+      "yoe_max": null,
+      "is_priority": false,
+      "is_duplicate": false,
+      "found_at": "2026-11-28T09:46:28.053809+00:00"
     }
   ]
 }
